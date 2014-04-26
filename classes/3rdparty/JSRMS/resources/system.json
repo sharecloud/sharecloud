@@ -1,0 +1,28 @@
+{
+    "location" : "/js/system.js",
+    "version": "1.0",
+    "requires" : [
+        {
+            "name" : "jQuery",
+            "minVersion": "1.9.1"
+        },
+        {
+            "name" : "jQuery-UI"
+        },
+		{
+			"name" : "unselectable"
+		},
+		{
+			"name" : "tooltip"
+		},
+		{
+			"name" : "history"
+		},
+		{
+			"name" : "upload"
+		},
+		{
+			"name" : "bootstrap"
+		}
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "location" : "/js/file.js",
+    "version": "1.0",
+    "requires" : [
+		{
+			"name" : "system"
+		},
+		{
+            "name" : "mediaelement"
+        },
+		{
+			"name" : "zeroclipboard"
+		}
+	],
+	"stylesheets": ["/css/file.css"]
+}

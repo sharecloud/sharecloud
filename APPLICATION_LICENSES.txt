@@ -1,0 +1,8 @@
+
+Licenses of all programms or application used in this file hoster.
+
+jQuery - MIT License
+ZeroClipboard - MIT License
+highlight.js - BSD License
+mediaelementjs - MIT License
+bootstrap - MIT License

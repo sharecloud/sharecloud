@@ -1,0 +1,6 @@
+{
+    "location" : "/js/highlight.pack.js",
+    "version": "7.3",
+    "requires" : [],
+    "stylesheets": ["/css/code.css"]
+}

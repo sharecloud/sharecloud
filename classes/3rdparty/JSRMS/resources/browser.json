@@ -1,0 +1,13 @@
+{
+    "location" : "/js/browser.js",
+    "version": "1.0",
+    "requires" : [
+		{
+			"name" : "system"
+		},
+		{
+			"name" : "upload"
+		}
+    ],
+    "stylesheets": ["/css/browser.css"]
+}

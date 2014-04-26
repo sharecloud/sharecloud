@@ -1,0 +1,28 @@
+<IfModule mod_mime.c>
+  AddType text/css .css
+  AddType application/x-javascript .js
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript application/json
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "now"
+  ExpiresByType image/gif "access plus 1 month 1 hour"
+  ExpiresByType image/jpg "access plus 1 month 1 hour"
+  ExpiresByType image/jpeg "access plus 1 month 1 hour"
+  ExpiresByType image/png "access plus 1 month 1 hour"
+  ExpiresByType text/css "access plus 7 day 1 hour"
+  ExpiresByType text/js "access plus 7 day 1 hour"
+  ExpiresByType application/x-javascript "access plus 7 days 1 hour"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule .* index.php [L]
+</IfModule>
