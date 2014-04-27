@@ -53,6 +53,7 @@ final class System {
 	 * @static
 	 */
 	public static function init() {
+		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
         self::$preferences = new Preferences();
@@ -199,6 +200,19 @@ final class System {
 		}
 		
 		self::displayError($msg);	
+	}
+	
+	/**
+	 * Redirects to HTTPS site if HTTPS is enabled
+	 * in config.php and the user visits this script
+	 * using HTTP
+	 */
+	public static function redirectHTTPS() {
+		if(defined('HTTPS') && HTTPS == true && !Utils::isSSL() && isset($_SERVER['REQUEST_URI'])) {
+			// HTTPS is enabled in config and currently not used by user -> redirect
+			header('Location: https://' . HOST_NAME . $_SERVER['REQUEST_URI']);
+			exit;
+		}
 	}
     
     /**

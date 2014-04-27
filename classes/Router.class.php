@@ -170,7 +170,7 @@ final class Router {
 	 */
 	private function routeExists($pattern) {
 		if(count($this->routes) == 0) {
-			return false;	
+			return false;
 		}
 		
 		// Remove / at the beginning
