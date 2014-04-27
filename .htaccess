@@ -26,6 +26,6 @@
   RewriteCond %{REQUEST_FILENAME} !-l
   RewriteRule .* index.php [L]
   
-  # Prevent the .git directory to be accessed
+  # Prevent the .git directory from being accessed
   RewriteRule ^.git/ index.php
 </IfModule>
