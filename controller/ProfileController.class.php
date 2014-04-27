@@ -1,6 +1,6 @@
 <?php
 final class ProfileController extends ControllerBase {	
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
 	}
 	

@@ -78,14 +78,14 @@ abstract class ControllerBase {
 	 * @param string Current action
 	 * @param string[] Parameters
 	 */
-	public function onBefore($action = '', array $params) { }
+	protected function onBefore($action = '') { }
 	
 	/**
 	 * Stuff to be executed after controller action was executed
 	 * @param string Current action
 	 * @param string[] Parameters
 	 */
-	public function onFinished($action = '', array $params) { }
+	protected function onFinished($action = '') { }
 	
 	/**
 	 * Run a specific controller
@@ -100,9 +100,9 @@ abstract class ControllerBase {
 			$c = new $controller;
 			$c->params = $params;
 			
-			call_user_func_array(array($c, 'onBefore'), array($action, $params));
+			call_user_func(array($c, 'onBefore'), $action);
 			call_user_func(array($c, $action));
-			call_user_func_array(array($c, 'onFinished'), array($action, $params));
+			call_user_func(array($c, 'onFinished'), $action);
 		} else {
 			// Show error message or redirect to home page
 			die('Controller not found');

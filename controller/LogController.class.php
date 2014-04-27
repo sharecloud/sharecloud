@@ -1,6 +1,6 @@
 <?php 
 class LogController extends ControllerBase {
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkIfAdmin();
 	}
 	
