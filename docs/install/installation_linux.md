@@ -5,8 +5,7 @@ You need to setup an Webserver environment first.
 ## Installation
 
 ### Note
-This installation guide was created on a Debian 7 machine. When you use another linux or a Windows/Mac,
-you have to apply some changes (like different paths) to this guide.
+This installation guide was created on a Debian 7 machine and should also work on Ubuntu servers.
 
 As we are logged in as root, we will perform all actions as `www-data` user, so we won't have any problems
 with access control when using Apache. If you want to perform all action in the context of the current
@@ -79,3 +78,10 @@ For security reasons, you should remove the `install` and `upgrade` folders:
 
 	$ sudo -u www-data -H rm -rf install/
 	$ sudo -u www-data -H rm -rf upgrade/
+
+### Install optional dependencies
+
+For best experience, you should install `imagick` and PHP's rar-extension:
+
+	$ apt-get install php5-imagick php5-dev
+	$ pecl -v install rar
