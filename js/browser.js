@@ -633,23 +633,7 @@ var Browser = {
 			return false;
 		});
 		
-		$('.button-upload').unbind('click').click(function(e) {
-			if($('#upload-type').length == 0) {
-				$('.input-file-upload').click();
-			} else {			
-				$('#upload-type').popup('init', {
-					'parent': this,
-					'marginTop': 7
-				});
-				
-				$('#upload-progress').popup('open');
-			}
-			
-			return false;
-		});
-		
 		$('a.button-upload-file').unbind('click').click(function(e) {
-			$('#upload-type').popup('close');		
 			$('.input-file-upload').click();
 			
 			return false;
