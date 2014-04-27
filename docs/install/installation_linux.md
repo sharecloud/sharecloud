@@ -13,6 +13,7 @@ with access control when using Apache. If you want to perform all action in the 
 user, simply remove `sudo -u www-data -H` from all shell commands.
 
 ### Get the source code
+
 	$ cd /var/www
 	$ sudo -u www-data -H git clone https://github.com/frostieDE/filehost.git filehost/
 	
@@ -24,9 +25,16 @@ the current developer branch:
 ### Database
 Now, we create a new database for your local Filehost instance.
 
+Make sure, you have secured your MySQL installation:
+
+	$ sudo mysql_secure_installation
+
 #### Database with own user
 
 	$ mysql -u root -p
+	
+Type the database root password
+	
 	mysql> CREATE USER filehost@localhost IDENTIFIED BY '{$password}';
 
 Where `{$password}` should be substituted with a proper password.
@@ -37,7 +45,10 @@ Where `{$password}` should be substituted with a proper password.
 
 	
 Let's test the connection:
-	$  mysql -u filehost -p -D filehost
+
+	$ mysql -u filehost -p -D filehost
+	
+Type the password you have set earlier
 
 You should see a 'mysql>' prompt now.
 
@@ -46,14 +57,16 @@ You should see a 'mysql>' prompt now.
 #### Database without own user
 Run:
 
-	mysql -u root -p
+	$ mysql -u root -p
 	mysql> CREATE DATABASE IF NOT EXISTS `filehost` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
 
 ### Setup Smarty
+
 	$ sudo -u www-data -H mkdir /var/www/filehost/classes/smarty/templates_c
 	$ sudo -u www-data -H chmod 700 /var/www/filehost/classes/smarty/templates_c
 	
 ### Setup config.php
+
 	$ sudo -u www-data -H cp system/config.php.example system/config.php
 	$ sudo -u www-data -H nano system/config.php
 
