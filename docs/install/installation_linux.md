@@ -62,7 +62,6 @@ Run:
 
 ### Setup Smarty
 
-	$ sudo -u www-data -H mkdir /var/www/filehost/classes/smarty/templates_c
 	$ sudo -u www-data -H chmod 700 /var/www/filehost/classes/smarty/templates_c
 	
 ### Setup config.php

@@ -1,5 +1,7 @@
-/classes/smarty/templates_c
-/classes/smarty/cache
+/classes/smarty/templates_c/*
+!/classes/smarty/templates_c/.gitkeep
+/classes/smarty/cache/*
+!/classes/smarty/cache/.gitkeep
 /system/config.php
 /uploads/*
 !/uploads/.htaccess

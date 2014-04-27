@@ -12,14 +12,12 @@ Either use `git` to clone the repository or download the source code [here](http
 Create a database for our local Filehost instance or use an existing one.
 
 ### Setup Smarty
-Create the following directory:
+Make sure PHP has read and write access to this directory (chmod 700)
 
 	{$ROOT_PATH}/classes/smarty/templates_c
 
 where `{$ROOT_PATH}` reffers to the path where you have the source code.
 
-Make sure, PHP has read and write access to this directory.
-	
 ### Setup config.php
 Create the `config.php` in the `system` directory and modifiy it to fit your needs.
 There is a template `config.php.example`.
