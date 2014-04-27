@@ -85,5 +85,5 @@ For security reasons, you should remove the `install` and `upgrade` folders:
 
 For best experience you should install `imagick` and the PHP-RAR-Extension.
 
-	pacman -S imagemagick php-pear
-	pecl install rar imagick
+	$ pacman -S imagemagick php-pear
+	$ pecl install rar imagick
