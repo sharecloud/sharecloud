@@ -145,6 +145,34 @@ final class Utils {
         }
     }
     
+	/**
+	 * Parses PHP style integer values like 1M, 2G, ...
+	 * @static
+	 * @param int PHP style integer
+	 * @return int Integer value in Bytes
+	 */
+	public static function parseInteger($input) {
+		if(is_numeric(substr($input, -1))) {
+			return $input;	
+		}
+		
+		$value = substr($input, 0, -1);
+		$suffix = substr($input, -1);
+		
+		switch($suffix) {
+			case 'G':
+				$value *= 1024;
+			
+			case 'M':
+				$value *= 1024;
+				
+			case 'K':
+				$value *= 1024;				
+		}
+		
+		return $value;
+	}
+	
     public static function isLocalhostServer() {
         return ($_SERVER['SERVER_ADDR'] == '127.0.0.1') || ($_SERVER['SERVER_ADDR'] == '::1');
     }
