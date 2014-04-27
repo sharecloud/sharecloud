@@ -1,6 +1,6 @@
 # Installation Guides
 
-We provide two types of installation guides:
+We provide three installation guides:
 
 * [General installation guide](installation_general.md): This guide is for Mac/Windows users as well as for users who only have a webspace.
 
