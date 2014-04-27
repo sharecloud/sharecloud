@@ -5,9 +5,9 @@ You need to setup an Webserver environment first.
 ## Installation
 
 ### Note
-This installation guide was created on a ArchLinux machine. This guide is only valid for ArchLinux installations.
+This installation guide was created on an ArchLinux machine. This guide is only valid for ArchLinux installations.
 
-We assume that the package `httpd`, `php`, `mysql` or `mariadb` is already installed and configured.
+We assume that the packages `httpd`, `php`, `mysql` or `mariadb` have already been installed and configured.
 
 As we are logged in as root, we will perform all actions as `http` user, so we won't have any problems
 with access control when using Apache. If you want to perform all action in the context of the current
