@@ -5,8 +5,6 @@
 <p><b>Error:</b> {$error}</p>
 
 <div class="buttons">
-	<label class="button">
-        <a href="{$url}">Try again</a>
-    </label>
+	<a href="{$url}" class="btn btn-default" role="button"><span class="glyphicon glyphicon-repeat"> </span> Try again</a>
 </div>
 {/block}
