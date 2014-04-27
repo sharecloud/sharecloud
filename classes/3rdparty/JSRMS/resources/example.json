@@ -1,0 +1,17 @@
+{
+    "location" : "exampleFolder/example.js",
+    "version": "1.1.2",
+    "requires" : [
+        {
+            "name" : "jQuery",
+            "minVersion": "1.9.1"
+        },
+        {
+            "name" : "examplejQPlugin"
+        }
+    ],
+    "stylesheets": [
+        "/css/browser.css",
+        "/css/browser2.css"
+    ]
+}

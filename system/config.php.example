@@ -1,0 +1,82 @@
+<?php
+/**                   **\
+ *   Global settings   *
+\**                   **/
+ 
+ 
+/**
+ * Your host name. Mostly your domain name.
+ * 
+ * e.g. 
+ * example.org
+ *  or
+ * filehoster.example.org
+ * 
+ * !!! Without trailing '/' and without http:// or https:// !!!
+ *
+ * !!! DO NOT use just 'localhost' while using Chrome! This will NOT work. Use 'localhost.tld' instead
+ * and add the entry '127.0.0.1 localhost.tld' in your hosts file !!!
+ */
+define('HOST_NAME', 'localhost.tld');
+
+/**
+ * Your host path. 
+ * You must set this like demonstrated down:
+ *  
+ * http://www.example.org/filehoster => /filhoster
+ * http://filehost.example.org => /
+ * http://www.example.org/files/hoster/ => /files/hoster
+ */
+define('HOST_PATH', '/filehost');
+
+/**
+ * Enable HTTPS
+ */
+define('HTTPS', false);
+
+/**
+ * if your apache supports mod_rewrite you should set this to true otherwise to false
+ */
+define('MOD_REWRITE', true);
+
+/**
+ * Your default language.
+ * Available Languages see in /languages
+ */
+define('LANGUAGE', 'de');
+
+/**                     **\
+ *   Database settings   *
+\**                     **/
+ 
+
+ 
+/**
+ * Should be self-explanatory
+ */
+define('DATABASE_HOST', '');
+define('DATABASE_USER', '');
+define('DATABASE_PASS', '');
+define('DATABASE_NAME', '');
+
+// sry we do not support this at this time :/
+// define('DATABASE_PREFIX', '');
+
+/**
+ * Where do you live?
+ * See available values here: http://www.php.net/manual/en/timezones.php
+ */
+define('SERVER_TIMEZONE', 'Europe/Berlin');
+
+/**
+ * Set your upload directory. There will the filehoster save all user-uploaded files. 
+ * If you want to save them on an external drive specify an absolute Path.
+ */
+define('FILE_STORAGE_DIR', '/uploads');
+
+/**
+ * Are you a developer? No? 
+ * Then set this to false. Please. :D
+ */
+define('DEV_MODE', false);
+?>

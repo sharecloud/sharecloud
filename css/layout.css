@@ -1,0 +1,133 @@
+/**
+ * CSS file for our layout
+ */
+
+/**
+ * Global stuff
+ */
+html, body {
+	margin:0px;
+	padding:0px;
+	height:100%;
+}
+
+.page {
+	min-height:100%;
+	height: auto !important;
+	height:100%;
+	margin:0px auto -101px;	
+}
+
+a {
+	color:#005798;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;	
+}
+
+img {
+	border:none;	
+}
+
+/**
+ * Header
+ */
+header {
+	display:block;
+	background:#f5f5f5;
+	min-height:70px;
+	padding:10px 0px;
+}
+
+nav.navbar #mainbar {
+	padding-left:0px;	
+}
+
+/**
+ * Footer
+ */
+.push {
+	height:100px;	
+}
+footer {
+	background:#efefef;
+	border-top:1px solid #ccc;
+	height:100px;
+	width:100%;
+}
+
+footer .wrapper {
+	text-align:center;
+	padding:10px;	
+}
+
+footer p {
+	margin:0px;
+	padding:0x;
+}
+
+/**
+ * Navigation
+ */
+.navbar {
+	border-radius:0px;
+	border-left:none;
+	border-right:none;	
+}
+
+.popup {
+	display:none;	
+}
+
+/**
+ * Tables
+ */
+.col-xs {
+	width: 80px;	
+}
+
+.col-sm {
+	width: 150px;	
+}
+
+.col-md {
+	width: 250px;	
+}
+
+.col-lg {
+	width: 300px;	
+}
+
+/**
+ * 
+ */
+.buttons {
+	margin:10px 0px;	
+}
+
+.clonable {
+	display:none;
+}
+
+/**
+ * Upload-Dropdown
+ */
+#upload-progress {
+	min-width:250px;	
+}
+#upload-progress > p {
+	padding:0px 10px;
+	padding-top:10px;
+}
+#upload-progress .entry {
+	padding:5px;	
+}
+
+#upload-progress .entry .progress {
+	margin-bottom:0px;	
+}
+#upload-progress .entry .progress-status {
+	font-size:12px;
+}

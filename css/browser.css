@@ -1,0 +1,111 @@
+/**
+ * CSS for the browser view
+ */
+
+.browser {
+	
+}
+
+.browser .row {
+	border-top: 1px solid #ddd;
+	margin: 0px !important;
+}
+
+.browser .row:not(.header):nth-child(odd) {
+	background-color: #f9f9f9;
+}
+
+.browser .row:not(.header):hover {
+	background-color: #f5f5f5 !important;	
+}
+
+.browser .row.header {
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	border-top:none;
+}
+
+.browser .column {
+	float:left;	
+	padding:7px;
+}
+
+.browser .column.input {
+	margin:0px;
+	width:30%;
+	min-width:180px;
+}
+
+.browser .column.input input {
+	width:100%;
+}
+
+.browser .column.filename {
+	text-overflow:ellipsis;
+	overflow:hidden;
+}
+
+.browser .column.num-downloads {
+	width:100px;
+	float:right;
+}
+
+.browser .column.size {
+	width:120px;
+	float:right;	
+}
+
+.browser .column.actions {
+	width:200px;	
+	float:right;
+}
+
+.browser a {
+	display:inline;	
+}
+
+.browser .row.create-folder {
+	display:none;	
+}
+
+.browser .row.create-folder .column.actions {
+	padding:14px 7px;	
+}
+
+.browser .row.selected {
+	background:rgb(240, 240, 240) !important;	
+}
+
+.browser .row .form-rename input {
+	width:400px;	
+	float:left;
+}
+
+.browser .row .form-rename .indicator {
+	display:none;
+	margin:6px 5px;
+	float:left;
+	padding-left:20px;
+	background:url('../images/ajax-loader.gif') 2px 50% no-repeat;
+}
+
+.browser p.no-files {
+	padding:7px;
+	margin:0px;	
+}
+
+.dragHelper {
+	padding:10px;
+	border:1px solid #ccc;
+	background:#fff;	
+}
+
+
+.drop-hover {
+	font-weight:bold;
+	background:#ffff99;	
+}
+
+.cloneable {
+	display:none;	
+}

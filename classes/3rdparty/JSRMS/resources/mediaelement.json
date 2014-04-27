@@ -1,0 +1,6 @@
+{
+    "location" : "/js/media/mediaelement-and-player.min.js",
+    "version": "1.9.1",
+    "requires" : [],
+    "stylesheets": ["/js/media/mediaelementplayer.min.css"]
+}

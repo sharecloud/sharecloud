@@ -1,0 +1,11 @@
+{
+    "location" : "/js/jquery/jquery.history.js",
+    "version": "1.0",
+    "requires" : [
+		{
+			"name" : "jQuery",
+			"minVersion": "1.9.1"
+		}
+    ],
+    "stylesheets": [ ]
+}

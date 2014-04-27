@@ -1,0 +1,75 @@
+/**
+ * CSS for the file view
+ */
+
+.filenav {
+	margin-bottom:0px;	
+}
+
+.main div.handler {
+	margin-bottom:10px;	
+}
+
+.main p.code {
+	display:block;
+	padding:10px;
+	background:#efefef;	
+	border-top:1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-family:"Courier New", Courier, monospace;
+	overflow:auto;
+}
+
+.main div.image {
+	text-align:center;
+	margin-top:10px;
+}
+
+.main div.image img {
+	margin:0 auto;	
+}
+
+.information {
+	background:#f9f9f9;
+	padding:10px;
+	border-bottom:1px solid #ccc;
+	margin-bottom:10px;
+}
+
+.information .row .form-group.clearfix {
+	margin-bottom:5px;	
+}
+
+.information .row .form-group label {
+	padding-left:0px;
+}
+
+.information .row .hashes .form-group {
+	margin-bottom:2px;	
+}
+
+.information .row .hashes .form-group label {
+	padding-top:7px;	
+}
+
+/**
+ * Previews
+ */
+.image {
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	background-color: #E8E8E8;
+	text-align: center;
+}
+
+.pdf {
+	width: 100%;
+	height: 100%;
+	min-height: 600px;	
+	border: none;
+}
+
+/**
+ * Handler
+ */
