@@ -132,7 +132,7 @@ final class Install {
 				} else {
 					$salt = md5(uniqid() . microtime());
 				
-					$sql = $db->prepare('INSERT INTO users (username, password, salt, last_login, lang) VALUES (:username, :password, :salt, :lastlogin, :language)');
+					$sql = $db->prepare('INSERT INTO users (username, password, salt, last_login, lang, admin) VALUES (:username, :password, :salt, :lastlogin, :language, :admin)');
 					
 					$sql->execute(array(
 						':username' => 'admin',
