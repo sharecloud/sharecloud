@@ -6,4 +6,4 @@ We provide two types of installation guides:
 
 * [Installation on a Linux server](installation_linux.md): This guide is for everyone running an own server powered by Linux. 
 
-* [Installation on a ArchLinux server](installation_linux.md): This guide is for everyone running an own server powered by ArchLinux. 
+* [Installation on a ArchLinux server](installation_arch.md): This guide is for everyone running an own server powered by ArchLinux. 
