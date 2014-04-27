@@ -121,7 +121,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://bitbucket.org/frostie/one-click-file-hosting" data-noajax="true">One-Click File Hosting</a>
+    	© {'Y'|date} | <a href="https://github.com/frostieDE/filehost" data-noajax="true">One-Click File Hosting</a>
     </div>
 </footer>
 
