@@ -1,7 +1,6 @@
 /classes/smarty/templates_c
 /classes/smarty/cache
 /system/config.php
-/system/settings.php
 /uploads/*
 !/uploads/.htaccess
 !/uploads/index.html
