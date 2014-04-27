@@ -6,7 +6,7 @@ by your Internet hosting service provider.
 ## Installation
 
 ### Get the source code
-Either use `git` to clone the repository or download the source code as a [ZIP archive](https://github.com/frostieDE/filehost/archive/master.zip).
+Either use `git` to clone the repository or download the source code [here](https://github.com/frostieDE/filehost/releases).
 	
 ### Database
 Create a database for our local Filehost instance or use an existing one.
