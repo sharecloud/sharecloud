@@ -131,7 +131,7 @@ final class System {
 	 * @return string URL
 	 */
 	public static function getBaseURL() {
-		if(defined('HTTPS') && HTTPS == true) {
+		if(Utils::isSSL() || (defined('HTTPS') && HTTPS == true)) {
 			$url = 'https://'; 
 		} else {
 			$url = 'http://';	
