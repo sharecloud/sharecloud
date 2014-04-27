@@ -6,7 +6,7 @@ final class UploadDirCheck extends Check {
 	
 	public function performCheck() {
 		if(!defined('FILE_STORAGE_DIR')) {
-            $this->message = 'Check if you set the \'FILE_STORAGE_DIR\' setting in yout config.php';
+            $this->message = 'Check if you set the \'FILE_STORAGE_DIR\' setting in your config.php';
 			$this->result = CheckResult::FAIL;
 			return;	
 		}
