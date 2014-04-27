@@ -1,6 +1,7 @@
 # Installation Guide
 
-You need to setup an Webserver environment first. 
+You need to setup an Webserver environment first. If you have a webspace, this was supposed to be done
+by your Internet hosting service provider.
 
 ## Installation
 
@@ -8,7 +9,7 @@ You need to setup an Webserver environment first.
 Either use `git` to clone the repository or download the source code as a [ZIP archive](https://github.com/frostieDE/filehost/archive/master.zip).
 	
 ### Database
-Create a database for our local Filehost instance.
+Create a database for our local Filehost instance or use an existing one.
 
 ### Setup Smarty
 Create the following directory:
