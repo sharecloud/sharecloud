@@ -168,7 +168,7 @@ final class File extends ModelBase {
 		
 		if($this->isNewRecord) {
 			if($this->permission == NULL) {
-				$this->permission = FilePermission::createNewFilePermission(DEFAULT_FILE_PERMISSION);	
+				$this->permission = FilePermission::getDefault();	
 			}
 			
 			if(System::getUser()->quota > 0 && $this->size > System::getUser()->getFreeSpace()) {
@@ -397,6 +397,20 @@ final class File extends ModelBase {
 		return file_get_contents($this->getAbsPath());	
 	}
 	
+	
+	/**
+	 * Set File content ONLY for WebDAV!
+	 * @param string Content
+	 * @return bool success
+	 */
+	public function setContent($content) {
+		if(defined("WEBDAV" && WEBDAV === TRUE)) {
+			return file_put_contents($this->getAbsPath(), $content);
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Moves a file
 	 * @param object Folder (target)
@@ -541,6 +555,38 @@ final class File extends ModelBase {
 		$obj->url	= Router::getInstance()->build('DownloadController', 'show', $this);
 		
 		return $obj;
+	}
+	
+	
+	/** create file with name and data
+	 * 
+	*/
+	
+	public static function create($name, $data, $folderid) {
+		$file = new File();
+			
+		if($file->file != NULL) {
+			throw new Exception();
+		}
+		
+		$file->file = File::createFilename();
+		$file->isNewRecord = true;
+		$file->filename = $name;
+		$file->time = time();
+		$file->uid	= System::getUser()->uid;
+		$file->permission = FilePermission::getDefault();
+		$file->folderid = $folderid;
+		
+		Log::sysLog("File", "create File ".file_put_contents($file->getAbsPath(), $data));
+		
+		$file->mime = File::determineMime($file->file, $file->filename);
+		$file->size = filesize($file->getAbsPath());
+		
+		// Generate hashes
+		foreach (explode(',', System::getPreference("SUPPORTED_FILE_HASHES")) as $value) {
+			$file->hashes[$value] = hash_file(trim($value), $file->getAbsPath());
+		}
+		$file->save();
 	}
 	
 	/**

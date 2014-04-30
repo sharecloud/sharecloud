@@ -53,7 +53,6 @@ final class System {
 	 * @static
 	 */
 	public static function init() {
-		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
         self::$preferences = new Preferences();
@@ -109,7 +108,17 @@ final class System {
 	public static function getUser() {
 		return self::$user;	
 	}
-	
+		 
+	 /** Sets USER. Only when WEBDAV is true **/
+	 
+	 public static function setUser($user) {
+	 	if(defined('WEBDAV') && WEBDAV === true) {
+	 		self::$user = $user;
+	 	} else  {
+			throw new Exception("Not allowed to change System::\$user");
+		}
+	}
+	 
 	/**
 	 * Gets Language
 	 * @return object
@@ -196,7 +205,9 @@ final class System {
 			
 			$msg = System::getLanguage()->_('UnknownError');	
 		} catch(Exception $e) {
-			$msg = 'An unknown error occured.';	
+			$msg = 'An unknown error occured.';
+			if(DEV_MODE)
+				$msg .= $e->toString;
 		}
 		
 		self::displayError($msg);	
