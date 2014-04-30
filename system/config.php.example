@@ -10,7 +10,7 @@
  * e.g. 
  * example.org
  *  or
- * filehoster.example.org
+ * sharecloud.example.org
  * 
  * !!! Without trailing '/' and without http:// or https:// !!!
  *
@@ -23,11 +23,11 @@ define('HOST_NAME', 'localhost.tld');
  * Your host path. 
  * You must set this like demonstrated down:
  *  
- * http://www.example.org/filehoster => /filhoster
- * http://filehost.example.org => /
- * http://www.example.org/files/hoster/ => /files/hoster
+ * http://www.example.org/sharecloud => /sharecloud
+ * http://sharecloud.example.org => /
+ * http://www.example.org/files/sharecloud/ => /files/sharecloud
  */
-define('HOST_PATH', '/filehost');
+define('HOST_PATH', '/sharecloud');
 
 /**
  * Enable HTTPS
@@ -69,7 +69,7 @@ define('DATABASE_NAME', '');
 define('SERVER_TIMEZONE', 'Europe/Berlin');
 
 /**
- * Set your upload directory. There will the filehoster save all user-uploaded files. 
+ * Set your upload directory. There will sharecloud save all user-uploaded files. 
  * If you want to save them on an external drive specify an absolute Path.
  */
 define('FILE_STORAGE_DIR', '/uploads');

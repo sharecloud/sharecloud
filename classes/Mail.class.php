@@ -38,7 +38,7 @@ final class Mail {
 	public function send() {
 		// Create headers
 		$headers = array();
-		$headers[] = 'From: One-Click Filehost <noreply@' . HOST_NAME . '>';
+		$headers[] = 'From: sharecloud <noreply@' . HOST_NAME . '>';
 		$headers[] = 'MIME-Version: 1.0';
 		$headers[] = 'Content-Type: text/html; Charset=utf-8';
 		

@@ -24,7 +24,7 @@ System.config.modRewrite = {$MOD_REWRITE};
     <header>
         <div class="container-fluid">
             <h1>
-            	<a href="{Router->build p1='BrowserController' p2='index'}">One-Click File Host</a>
+            	<a href="{Router->build p1='BrowserController' p2='index'}">sharecloud</a>
             </h1>
     </header>
     
@@ -121,7 +121,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://github.com/frostieDE/filehost" data-noajax="true">One-Click File Hosting</a>
+    	© {'Y'|date} | <a href="https://github.com/frostieDE/filehost" data-noajax="true">sharecloud</a>
     </div>
 </footer>
 
