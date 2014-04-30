@@ -5,7 +5,10 @@ var File = {
 			  moviePath: System.config.httpHost + "/js/ZeroClipboard.swf"
 			});
 			clip.on('complete', function(client, args) {
-				$("#"+$(this).attr("id")+" img").prop("src", System.config.httpHost + "/images/tick.png");
+				$(".copy span").each(function(index, value) {
+					$(value).removeClass("glyphicon-ok").addClass("glyphicon-paperclip");
+				});
+				$("#"+$(this).attr("id")+" span").removeClass("glyphicon-paperclip").addClass("glyphicon-ok");
 			});
 		});
 		
