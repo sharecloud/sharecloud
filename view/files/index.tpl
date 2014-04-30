@@ -1,16 +1,16 @@
 {extends 'main.tpl'}
 {block name=content}
 
-<ol class="breadcrumb">
-	<li><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
-{foreach $breadcrumb as $f}
-	<li><a href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a></li>
-{/foreach}    
-</ol>
-
 <div class="browser" data-id="{$folder->id}">
 	<div class="row header clearfix">
-    	<div class="column filename">{'Filename'|@lang}</div>
+    	<div class="column filename">
+    		<ol class="breadcrumb">
+				<li><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
+			{foreach $breadcrumb as $f}
+				<li><a href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a></li>
+			{/foreach}  
+			</ol>
+    	</div>
         <div class="column size">{'Size'|@lang}</div>
         <div class="column num-downloads">{'NumDownloads'|@lang}</div>
     </div>
