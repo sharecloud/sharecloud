@@ -32,7 +32,7 @@ final class ApiController extends ControllerBase {
 		$response->send();
 	}
 	
-	public function onBefore($action = '', array $params) {
+	public function onBefore($action = '') {
 		System::$isXHR = true;
 		
 		if($action != 'login') {
