@@ -20,15 +20,6 @@
 	overflow:auto;
 }
 
-.main div.image {
-	text-align:center;
-	margin-top:10px;
-}
-
-.main div.image img {
-	margin:0 auto;	
-}
-
 .information {
 	background:#f9f9f9;
 	padding:10px;
@@ -62,6 +53,10 @@
 	min-height: 200px;
 	background-color: #E8E8E8;
 	text-align: center;
+}
+
+.image img {
+	margin: 10px;
 }
 
 .pdf {
