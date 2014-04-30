@@ -53,6 +53,7 @@ final class System {
 	 * @static
 	 */
 	public static function init() {
+		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
         self::$preferences = new Preferences();
