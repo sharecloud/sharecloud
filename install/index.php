@@ -2,6 +2,13 @@
 error_reporting(E_ALL);
 define('SYSTEM_ROOT', realpath(dirname(__FILE__) . '/../'));
 
+if(!empty(ini_get('date.timezone'))) {
+	date_default_timezone_set(ini_get("date.timezone"));
+} else {
+	date_default_timezone_set("Europe/Berlin");
+}
+
+
 require_once SYSTEM_ROOT . '/classes/smarty/Smarty.class.php';
 require_once SYSTEM_ROOT . '/classes/AutoloadHelper.class.php';
 require_once SYSTEM_ROOT . '/install/ConfigurationChecks.class.php';
