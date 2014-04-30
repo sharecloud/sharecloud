@@ -6,8 +6,8 @@
 		{if $error}
 			<div class="form-group has-error has-feedback">
 		{/if}
-			<input type="text" name="username" class="form-control" placeholder="Email address" required autofocus>
-			<input type="password" name="password" class="form-control" placeholder="Password" required>
+			<input type="text" name="username" class="form-control" placeholder="{'Username'|@lang}" required autofocus>
+			<input type="password" name="password" class="form-control" placeholder="{'Password'|@lang}" required>
 		{if $error}
 			<label class="control-label" for="inputError2">{'LogInFailed'|@lang}</label>
 		</div>
