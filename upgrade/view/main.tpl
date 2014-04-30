@@ -17,7 +17,7 @@
     <header>
         <div class="container-fluid">
             <h1>
-            	One-Click File Host
+            	sharecloud
             </h1>
     </header>
     
@@ -41,7 +41,7 @@
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://bitbucket.org/frostie/one-click-file-hosting" data-noajax="true">One-Click File Hosting</a>
+    	© {'Y'|date} | <a href="https://github.com/frostieDE/sharecloud" data-noajax="true">sharecloud</a>
     </div>
 </footer>
 
