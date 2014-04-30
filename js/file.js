@@ -77,6 +77,17 @@ var File = {
 			
 			return false;
 		});
+		
+		$(".more-info").unbind("click").click(function(){
+			if($(".information").is(":visible")) {
+				$(".information").slideUp();
+				$(this).parent().removeClass("dropup");
+			} else {
+				$(".information").slideDown();
+				$(this).parent().addClass("dropup");				
+			}
+		});
+			
 	},
 	
 	unbindEvents: function() {
