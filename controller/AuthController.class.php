@@ -7,49 +7,32 @@ final class AuthController extends ControllerBase{
 			exit;	
 		}
 		
-		$form	= new Form('form-login');
-		$form->setAttribute('data-noajax', 'true');
-		$fieldset	= new Fieldset(System::getLanguage()->_('LogIn'));
-		
-		$username	= new Text('username', System::getLanguage()->_('Username'), true);
-		$username->autofocus = true;
-		
-		$password	= new Password('password', System::getLanguage()->_('Password'), true);
-		
-		$fieldset->addElements($username, $password);
-		$form->addElements($fieldset);
+		$username = Utils::getPOST('username');
+		$password = Utils::getPost('password');
+		$error	  = false;
 		
 		if(Utils::getPOST('submit', false) != false) {
-			if($form->validate()) {
-				$user = User::find('username', $username->value);
+			$user = User::find('username', $username);
 				
-				if($user != NULL && $user->login($password->value)) {
-					System::forwardToRoute( Router::getInstance()->build('HomeController', 'index'));
-					exit;	
-				} else {
-					$username->error = System::getLanguage()->_('LogInFailed');	
-				}
+			if($user != NULL && $user->login($password)) {
+				System::forwardToRoute( Router::getInstance()->build('HomeController', 'index'));
+				exit;	
+			} else {
+				$error = true;
 			}
+			
 		}
-		
-		$form->setSubmit(new Button(System::getLanguage()->_('LogIn')));
-		
-		$form->addButton(
-			new Button(
-				System::getLanguage()->_('LostPW'),
-				'',
-				Router::getInstance()->build('AuthController', 'lostpw')
-			)
-		);
 		
 		System::$bodyClass .= 'preventautosync';
 		
+		
 		$smarty	= new Template();
 		$smarty->assign('title', System::getLanguage()->_('LogIn'));
-		$smarty->assign('heading', System::getLanguage()->_('LogIn'));
-		$smarty->assign('form', $form->__toString());
+		$smarty->assign('error', $error);
 		
-		$smarty->display('form.tpl');
+		$smarty->requireResource('auth');
+		
+		$smarty->display('auth/auth.tpl');
 	}
 	
 	public function logout() {

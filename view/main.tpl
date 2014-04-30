@@ -97,8 +97,7 @@ System.config.modRewrite = {$MOD_REWRITE};
     </nav>
     
     <div class="container-fluid alerts">
-{assign var='successMsg' value=$successMsg|default:''}
-{if $successMsg neq ''}
+{if $successMsg|default:FALSE }
         <div class="alert alert-success alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {$successMsg}
@@ -111,8 +110,9 @@ System.config.modRewrite = {$MOD_REWRITE};
     </div>
     
     <div class="main container-fluid">
-        <h3>{$heading}</h3>
-        
+        {if $heading|default:FALSE}
+        	<h3>{$heading}</h3>
+        {/if}
         {block name=content}{/block}
     </div>
     
