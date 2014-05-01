@@ -164,6 +164,10 @@ var System = {
 	},
 	
 	syncSession: function() {
+		if($('body').hasClass('preventautosync')) {
+			return;	
+		}
+		
 		$.get(System.getHostname() + 'api', { }, function() {
 			setTimeout(System.syncSession, System.settings.syncIntervall * 1000);
 		});
