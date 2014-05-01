@@ -52,7 +52,7 @@ final class Session {
 	 * @return bool Success (true = session was restored, false = no session to restore)
 	 */
 	private function restoreSession() {
-		$cookie	= Utils::getCOOKIE(System::getPreference("SESSION_NAME"), false);
+		$cookie	= Utils::getCOOKIE(SESSION_NAME, false);
 		
 		/*
 		 * If we are using an API, we also have
@@ -101,7 +101,7 @@ final class Session {
 			':data'	=> serialize($this->data)
 		));
 		
-		setcookie(System::getPreference('SESSION_NAME'), $this->sid, 0, '/', $_SERVER['HTTP_HOST'], false, true); 
+		setcookie(SESSION_NAME, $this->sid, 0, '/', $_SERVER['HTTP_HOST'], false, true); 
 	}
 	
 	/**

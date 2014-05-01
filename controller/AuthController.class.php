@@ -114,8 +114,8 @@ final class AuthController extends ControllerBase{
 		$errorMsg = '';
 		
 		if(Utils::getPOST('submit', false) != false) {
-			if(strlen($password) < System::getPreference('PASSWORD_MIN_LENGTH')) {
-				$errorMsg = sprintf(System::getLanguage()->_('PasswordMinLength'), System::getPreference('PASSWORD_MIN_LENGTH'));
+			if(strlen($password) < PASSWORD_MIN_LENGTH) {
+				$errorMsg = sprintf(System::getLanguage()->_('PasswordMinLength'), PASSWORD_MIN_LENGTH);
 			} else if($password != $password2) {
 				$errorMsg = System::getLanguage()->_('ErrorInvalidPasswords');	
 			} else {

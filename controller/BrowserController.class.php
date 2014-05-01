@@ -66,7 +66,7 @@ final class BrowserController extends ControllerBase {
 		$smarty->assign('breadcrumb', $breadcrumb);
 		$smarty->assign('AvailableFolders', Folder::getAll());
 		
-		$smarty->assign('remoteDownloadSetting', System::getPreference('DOWNLOAD_VIA_SERVER'));
+		$smarty->assign('remoteDownloadSetting', DOWNLOAD_VIA_SERVER);
 		
         $smarty->requireResource('browser');
         
