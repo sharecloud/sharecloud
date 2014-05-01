@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{$title}</title>
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/main.css" type="text/css" />
 {$resources}
 
-<script>
+<script type="text/javascript">
 System.config.httpHost = "{$HTTP_BASEDIR}";
 System.config.modRewrite = {$MOD_REWRITE};
 </script>
-<script>
+<script type="text/javascript">
 {foreach $LangStrings as $key => $value}System.l10n.add('{$key}','{$value}');{/foreach}
 </script>
 
@@ -26,6 +26,7 @@ System.config.modRewrite = {$MOD_REWRITE};
             <h1>
             	sharecloud
             </h1>
+        </div>
     </header>
     
     <div class="container-fluid alerts">

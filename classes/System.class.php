@@ -43,12 +43,6 @@ final class System {
 	public static $isXHR = false;
 	
 	/**
-	 * Body class
-	 * @var string
-	 */
-	public static $bodyClass = '';
-	
-	/**
 	 * Initialises the system
 	 * @static
 	 */
@@ -58,12 +52,7 @@ final class System {
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
         self::$preferences = new Preferences();
 		self::$session = new Session();
-		self::$user = (System::getSession()->getUID() > 0 ? User::find('_id', System::getSession()->getUID()) : NULL);
-		
-		if(self::$user == NULL || self::$user->design == 'dynamic') {
-			self::$bodyClass .= 'dynamic ';	
-		}
-		
+		self::$user = (System::getSession()->getUID() > 0 ? User::find('_id', System::getSession()->getUID()) : NULL);		
 		self::$language = new L10N(System::getUser() != NULL ? System::getUser()->lang : LANGUAGE);
 		self::buildNavigation();
 	}
@@ -82,7 +71,7 @@ final class System {
                 
 			}
 		} else {
-			Navigation::addElement(new NavigationElement(System::getLanguage()->_('LogIn'), 'AuthController', 'login'));	
+			Navigation::addElement(new NavigationElement(System::getLanguage()->_('LogIn'), 'AuthController', 'login', false));	
 		}
 	}
 	

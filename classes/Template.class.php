@@ -35,8 +35,6 @@ final class Template extends Smarty {
 		$this->assign('HTTP_BASEDIR', System::getBaseURL());
 		$this->assign('MOD_REWRITE', MOD_REWRITE);
 		
-		$this->assign('BODY_CLASS', trim(System::$bodyClass));
-		
 		if(System::getSession()->getData('successMsg', '') != '') {
 			$this->assign('successMsg', System::getSession()->getData('successMsg', ''));
 			
