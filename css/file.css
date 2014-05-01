@@ -24,7 +24,6 @@
 	background:#f9f9f9;
 	padding:10px;
 	border-bottom:1px solid #ccc;
-	margin-bottom:10px;
 	display: none;
 }
 
@@ -69,3 +68,6 @@
 /**
  * Handler
  */
+.handler {
+	margin-top:10px;	
+}
