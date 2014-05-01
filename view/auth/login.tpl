@@ -7,10 +7,6 @@
 			<input type="password" name="password" class="form-control" placeholder="{'Password'|@lang}" required>
 		</div>
         
-		<label class="checkbox">
-			<input type="checkbox" value="remember-me">{'RememberMe'|@lang}
-		</label>
-        
         <div class="row">
         	<div class="col-md-6">
             	<button class="btn btn-lg btn-primary btn-block" name="submit" value="submit" type="submit">{'LogIn'|@lang}</button>
