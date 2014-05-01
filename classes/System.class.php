@@ -29,12 +29,6 @@ final class System {
 	 * @var object
 	 */
 	private static $language = NULL;
-	
-    /**
-     * Global Preferences
-     * @var object
-     */
-    private static $preferences = NULL;
     
 	/**
 	 * Is XHR/API request?
@@ -50,7 +44,6 @@ final class System {
 		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
-        self::$preferences = new Preferences();
 		self::$session = new Session();
 		self::$user = (System::getSession()->getUID() > 0 ? User::find('_id', System::getSession()->getUID()) : NULL);		
 		self::$language = new L10N(System::getUser() != NULL ? System::getUser()->lang : LANGUAGE);
@@ -66,7 +59,6 @@ final class System {
 			
 			if(self::getUser()->isAdmin) {
 				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Users'), 'UsersController', 'index'));
-                Navigation::addElement(new NavigationElement(System::getLanguage()->_('Preferences'), 'PreferencesController', 'index'));
                 Navigation::addElement(new NavigationElement(System::getLanguage()->_('Log'), 'LogController', 'index'));
                 
 			}
@@ -106,14 +98,6 @@ final class System {
 	public static function getLanguage() {
 		return self::$language;	
 	}
-	
-    /**
-     * Gets GlobalPreferences object
-     * @return object
-     */
-    public static function getPreferences() {
-        return self::$preferences;
-    }
     
 	/**
 	 * Gets base URL

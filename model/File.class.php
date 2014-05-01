@@ -446,7 +446,7 @@ final class File extends ModelBase {
 		$this->size = filesize($this->getAbsPath());
 		
 		// Generate hashes
-		foreach (explode(',', System::getPreference("SUPPORTED_FILE_HASHES")) as $value) {
+		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
 			$this->hashes[$value] = hash_file(trim($value), SYSTEM_ROOT . File::FILEDIR . $this->file);
 		}
 	}
@@ -514,7 +514,7 @@ final class File extends ModelBase {
 		$this->size = filesize($this->getAbsPath());
 		
 		// Generate hashes
-		foreach (explode(',', System::getPreference('SUPPORTED_FILE_HASHES')) as $value) {
+		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
 			$this->hashes[$value] = hash_file($value, SYSTEM_ROOT . File::FILEDIR . $this->file);
 		}
 	}

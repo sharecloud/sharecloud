@@ -29,7 +29,6 @@ $router->addRoute('/browser/folders/:id:/:path:', 'BrowserController', 'show');
 
 //Profile
 $router->addRoute('/profile', 'ProfileController', 'index');
-$router->addRoute('/preferences', 'PreferencesController', 'index');
 
 //Log
 $router->addRoute('/log', 'LogController', 'index');
