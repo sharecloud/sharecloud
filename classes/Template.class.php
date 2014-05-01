@@ -42,6 +42,12 @@ final class Template extends Smarty {
 			
 			System::getSession()->setData('successMsg', '');
 		}
+		
+		if(System::getSession()->getData('errorMsg', '') != '') {
+			$this->assign('errorMsg', System::getSession()->getData('errorMsg', ''));
+			
+			System::getSession()->setData('errorMsg', '');
+		}
 	}
 
     public function display($template = NULL, $cache_id = NULL, $compile_id = NULL, $parent = NULL) {

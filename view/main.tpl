@@ -103,6 +103,12 @@ System.config.modRewrite = {$MOD_REWRITE};
             {$successMsg}
         </div>
 {/if}
+{if $errorMsg|default:FALSE }
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {$errorMsg}
+        </div>
+{/if}
 		<div class="clonable alert alert-dismissable">
         	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <p class="msg"> </p>
