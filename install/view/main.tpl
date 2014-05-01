@@ -43,7 +43,7 @@
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://github.com/frostieDE/filehost" data-noajax="true">sharecloud</a>
+    	© {'Y'|date} | <a href="https://github.com/sharecloud/sharecloud" data-noajax="true">sharecloud</a>
     </div>
 </footer>
 
