@@ -25,7 +25,7 @@ the current developer branch:
 	
 Let's switch to the sharecloud directory:
 
-	$ cp sharecloud/
+	$ cd sharecloud/
 	
 ### Database
 Now, we create a new database for your local sharecloud instance.
