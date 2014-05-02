@@ -2,16 +2,16 @@
 /**                   **\
  *   Global settings   *
 \**                   **/
- 
- 
+
+
 /**
  * Your host name. Mostly your domain name.
- * 
- * e.g. 
+ *
+ * e.g.
  * example.org
  *  or
  * sharecloud.example.org
- * 
+ *
  * !!! Without trailing '/' and without http:// or https:// !!!
  *
  * !!! DO NOT use just 'localhost' while using Chrome! This will NOT work. Use 'localhost.tld' instead
@@ -20,9 +20,9 @@
 define('HOST_NAME', 'localhost.tld');
 
 /**
- * Your host path. 
+ * Your host path.
  * You must set this like demonstrated down:
- *  
+ *
  * http://www.example.org/sharecloud => /sharecloud
  * http://sharecloud.example.org => /
  * http://www.example.org/files/sharecloud/ => /files/sharecloud
@@ -48,6 +48,10 @@ define('LANGUAGE', 'de');
 /**                     **\
  *   Database settings   *
 \**                     **/
+
+/**
+ * Should be self-explanatory
+ */
 define('DATABASE_HOST', '');
 define('DATABASE_USER', '');
 define('DATABASE_PASS', '');
@@ -73,7 +77,7 @@ define('SERVER_TIMEZONE', 'Europe/Berlin');
 define('FILE_STORAGE_DIR', '/uploads');
 
 /**
- * Are you a developer? No? 
+ * Are you a developer? No?
  * Then set this to false. Please. :D
  */
 define('DEV_MODE', false);
