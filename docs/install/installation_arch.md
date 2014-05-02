@@ -23,6 +23,10 @@ the current developer branch:
 
 	$ sudo -u http -H git checkout dev
 	
+Let's switch to the sharecloud directory:
+
+	$ cp sharecloud/
+	
 ### Database
 Now, we create a new database for your local sharecloud instance.
 

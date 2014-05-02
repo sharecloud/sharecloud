@@ -20,6 +20,10 @@ You are then at the master-branch, which is supposed to have the latest stable c
 the current developer branch:
 
 	$ sudo -u www-data -H git checkout dev
+
+Let's switch to the sharecloud directory:
+
+	$ cp sharecloud/	
 	
 ### Database
 Now, we create a new database for your local sharecloud instance.
