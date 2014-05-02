@@ -6,7 +6,7 @@ by your Internet hosting service provider.
 ## Installation
 
 ### Get the source code
-Either use `git` to clone the repository or download the source code [here](https://github.com/frostieDE/filehost/releases).
+Either use `git` to clone the repository or download the source code [here](https://github.com/sharecloud/sharecloud/releases).
 	
 ### Database
 Create a database for our local sharecloud instance or use an existing one.
