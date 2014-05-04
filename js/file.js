@@ -5,7 +5,10 @@ var File = {
 			  moviePath: System.config.httpHost + "/js/ZeroClipboard.swf"
 			});
 			clip.on('complete', function(client, args) {
-				$("#"+$(this).attr("id")+" img").prop("src", System.config.httpHost + "/images/tick.png");
+				$(".copy span").each(function(index, value) {
+					$(value).removeClass("glyphicon-ok").addClass("glyphicon-paperclip");
+				});
+				$("#"+$(this).attr("id")+" span").removeClass("glyphicon-paperclip").addClass("glyphicon-ok");
 			});
 		});
 		
@@ -77,6 +80,17 @@ var File = {
 			
 			return false;
 		});
+		
+		$(".more-info").unbind("click").click(function(){
+			if($(".information").is(":visible")) {
+				$(".information").slideUp();
+				$(this).parent().removeClass("dropup");
+			} else {
+				$(".information").slideDown();
+				$(this).parent().addClass("dropup");				
+			}
+		});
+			
 	},
 	
 	unbindEvents: function() {

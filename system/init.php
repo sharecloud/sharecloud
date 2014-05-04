@@ -94,6 +94,14 @@ require_once SYSTEM_ROOT . '/handler/OfficeHandler.class.php';
 require_once SYSTEM_ROOT . '/handler/DefaultHandler.class.php';
 
 /**
+ * Include imagick imageresizer
+ * if imagick is available
+ */
+if(extension_loaded('imagick') && class_exists('Imagick')) {
+	require_once SYSTEM_ROOT . '/classes/ImageResize.Imagick.class.php';
+}
+
+/**
  * Load language files
  */
 foreach(Utils::getDirectorylist(SYSTEM_ROOT . '/languages/') as $lang) {

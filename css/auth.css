@@ -1,0 +1,53 @@
+body.auth {
+	background:#efefef;	
+}
+
+body.auth header {
+	background:#efefef;	
+	text-align:center;	
+	margin-bottom: 40px;
+}
+
+body.auth footer {
+	border:none;	
+}
+
+body.auth .page {
+	max-width:480px;
+	
+}
+
+body.auth .btn-block {
+	margin-bottom:5px;	
+}
+
+.form .checkbox {
+  margin-bottom: 10px;
+}
+.form .checkbox {
+  font-weight: normal;
+}
+.form .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"],
+.form-lostpw input[type="password"]:nth-child(odd) {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"],
+.form-lostpw input[type="password"]:nth-child(even) {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

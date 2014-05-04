@@ -41,15 +41,22 @@ final class NavigationElement {
 	private $action = '';
 	
 	/**
+	 * Ajax Request
+	 * @var boolean
+	 */
+	private $ajax = false;
+	
+	/**
 	 * Constructor
 	 * @param string Label
 	 * @param string Controller
 	 * @param string Action
 	 */
-	public function __construct($label, $controller = '', $action = '') {
+	public function __construct($label, $controller = '', $action = '', $ajax = true) {
 		$this->label = $label;
 		$this->controller = $controller;
-		$this->action = $action;	
+		$this->action = $action;
+		$this->ajax = $ajax;
 	}
 	
 	/**

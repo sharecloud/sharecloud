@@ -1,6 +1,6 @@
 <?php
 final class ProfileController extends ControllerBase {	
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
 	}
 	
@@ -50,7 +50,7 @@ final class ProfileController extends ControllerBase {
 		
 		$fieldset = new Fieldset(System::getLanguage()->_('Password'));
 		$password = new Password('password', System::getLanguage()->_('Password'));
-		$password->minlength = System::getPreference('PASSWORD_MIN_LENGTH');
+		$password->minlength = PASSWORD_MIN_LENGTH;
 		
 		$password->binding = new Databinding('password');
 		$password2 = new Password('password2', System::getLanguage()->_('ReenterPassword'));
@@ -69,10 +69,7 @@ final class ProfileController extends ControllerBase {
 		
 		$quota->readonly = true;
 		
-		$design = new RadioBox('design', System::getLanguage()->_('Design'), array('normal' => System::getLanguage()->_('NormalDesign'), 'dynamic' => System::getLanguage()->_('DynamicDesign')));
-		$design->binding = new Databinding('design');
-		
-		$fieldset->addElements($quota, $design);
+		$fieldset->addElements($quota);
 		$form->addElements($fieldset);
 		
 		if(Utils::getPOST('submit', false) !== false) {

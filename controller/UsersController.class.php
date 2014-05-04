@@ -1,6 +1,6 @@
 <?php
 final class UsersController extends ControllerBase {
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkIfAdmin();
 	}
 
@@ -68,7 +68,7 @@ final class UsersController extends ControllerBase {
 		$username->binding = new Databinding('username');
 		$username->blacklist = $this->getListOfUsernames();
 		$username->error_msg[4] = System::getLanguage()->_('ErrorUsernameAlreayExists');
-		$username->minlength = System::getPreference('USERNAME_MIN_LENGTH');
+		$username->minlength = USERNAME_MIN_LENGTH;
 		
 		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'), true);
 		$firstname->binding = new Databinding('firstname');
@@ -89,7 +89,7 @@ final class UsersController extends ControllerBase {
 		
 		$fieldset = new Fieldset(System::getLanguage()->_('Password'));
 		$password = new Password('password', System::getLanguage()->_('Password'), true);
-		$password->minlength = System::getPreference('PASSWORD_MIN_LENGTH');
+		$password->minlength = PASSWORD_MIN_LENGTH;
 		
 		$password->binding = new Databinding('password');
 		$password2 = new Password('password2', System::getLanguage()->_('ReenterPassword'), true);

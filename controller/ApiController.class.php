@@ -32,7 +32,7 @@ final class ApiController extends ControllerBase {
 		$response->send();
 	}
 	
-	public function onBefore($action = '', array $params) {
+	public function onBefore($action = '') {
 		System::$isXHR = true;
 		
 		if($action != 'login') {
@@ -149,7 +149,7 @@ final class ApiController extends ControllerBase {
 		
 		$response = new AjaxResponse();
 		
-		if(!System::getPreference("DOWNLOAD_VIA_SERVER")) {
+		if(!DOWNLOAD_VIA_SERVER) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorFeatureDisabled');
 			

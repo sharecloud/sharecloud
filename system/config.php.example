@@ -2,16 +2,16 @@
 /**                   **\
  *   Global settings   *
 \**                   **/
- 
- 
+
+
 /**
  * Your host name. Mostly your domain name.
- * 
- * e.g. 
+ *
+ * e.g.
  * example.org
  *  or
- * filehoster.example.org
- * 
+ * sharecloud.example.org
+ *
  * !!! Without trailing '/' and without http:// or https:// !!!
  *
  * !!! DO NOT use just 'localhost' while using Chrome! This will NOT work. Use 'localhost.tld' instead
@@ -20,14 +20,14 @@
 define('HOST_NAME', 'localhost.tld');
 
 /**
- * Your host path. 
+ * Your host path.
  * You must set this like demonstrated down:
- *  
- * http://www.example.org/filehoster => /filhoster
- * http://filehost.example.org => /
- * http://www.example.org/files/hoster/ => /files/hoster
+ *
+ * http://www.example.org/sharecloud => /sharecloud
+ * http://sharecloud.example.org => /
+ * http://www.example.org/files/sharecloud/ => /files/sharecloud
  */
-define('HOST_PATH', '/filehost');
+define('HOST_PATH', '/sharecloud');
 
 /**
  * Enable HTTPS
@@ -48,9 +48,7 @@ define('LANGUAGE', 'de');
 /**                     **\
  *   Database settings   *
 \**                     **/
- 
 
- 
 /**
  * Should be self-explanatory
  */
@@ -62,6 +60,10 @@ define('DATABASE_NAME', '');
 // sry we do not support this at this time :/
 // define('DATABASE_PREFIX', '');
 
+/**                     **\
+ * Application Settings  *
+\**                     **/
+
 /**
  * Where do you live?
  * See available values here: http://www.php.net/manual/en/timezones.php
@@ -69,14 +71,52 @@ define('DATABASE_NAME', '');
 define('SERVER_TIMEZONE', 'Europe/Berlin');
 
 /**
- * Set your upload directory. There will the filehoster save all user-uploaded files. 
+ * Set your upload directory. There will sharecloud save all user-uploaded files. 
  * If you want to save them on an external drive specify an absolute Path.
  */
 define('FILE_STORAGE_DIR', '/uploads');
 
 /**
- * Are you a developer? No? 
+ * Are you a developer? No?
  * Then set this to false. Please. :D
  */
 define('DEV_MODE', false);
+
+/**
+ * Enables/Disables remote download
+ * functionality
+ */
+define('DOWNLOAD_VIA_SERVER', true);
+
+/**
+ * Minimal amount of characters
+ * in a username
+ */
+define('USERNAME_MIN_LENGTH', 6);
+
+/**
+ * Minimal amount of charachters
+ * in a password
+ */
+define('PASSWORD_MIN_LENGTH', 6);
+
+/**
+ * Supported hash functions to
+ * generate check sums
+ */
+define('SUPPORTED_FILE_HASHES', 'md5,sha1,sha512,crc32');
+
+/**
+ * Default file permission if you 
+ * upload files via drag'n'drop
+ * or via WebDAV
+ */
+define('DEFAULT_FILE_PERMISSION', 3);
+
+/**
+ * Session name (which is equal
+ * to the name of the cookie that
+ * is used to store the session ID
+ */
+define('SESSION_NAME', 'SHARECLOUD_SID');
 ?>

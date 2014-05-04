@@ -3,18 +3,22 @@
 
 <nav class="navbar navbar-default filenav">
 	<div class="container-fluid">
-    	<a href="{Router->build p1='DownloadController' p2='force' p3=$file}" class="btn btn-default btn-sm navbar-btn" role="button" data-noajax="true">
-            <span class="glyphicon glyphicon-save"> </span> {'LinkDownload'|@lang}
-        </a>
-        <a href="{Router->build p1='DownloadController' p2='raw' p3=$file}" class="btn btn-default btn-sm navbar-btn" role="button" data-noajax="true">
-            <span class="glyphicon glyphicon-save"> </span> {'LinkRAW'|@lang}
-        </a>   
         {if $LoggedIn}
         <a href="{Router->build p1='BrowserController' p2='permissions' p3=$file}" class="btn btn-default btn-sm navbar-btn button-filepermissions" role="button"  data-noajax="true">
             <span class="glyphicon glyphicon-share"> </span> {'PermissionSetting'|@lang}
         </a>	
     	{/if}
-    </div>
+    	<a href="{Router->build p1='DownloadController' p2='force' p3=$file}" class="btn btn-danger btn-sm navbar-btn" role="button" data-noajax="true">
+            <span class="glyphicon glyphicon-save"> </span> {'LinkDownload'|@lang}
+        </a>
+        <a href="{Router->build p1='DownloadController' p2='raw' p3=$file}" class="btn btn-danger btn-sm navbar-btn" role="button" data-noajax="true">
+            <span class="glyphicon glyphicon-save"> </span> {'LinkRAW'|@lang}
+        </a>   
+    	<a href="#" class="btn btn-default btn-sm navbar-btn pull-right more-info">
+    		<span class="glyphicon glyphicon-more"> </span> {'MoreInfo'|@lang} &nbsp;
+			<span class="caret"></span>
+    	</a>
+	</div>
 </nav>
 
 <div class="information">

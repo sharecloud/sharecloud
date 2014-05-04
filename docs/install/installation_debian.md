@@ -14,15 +14,19 @@ user, simply remove `sudo -u www-data -H` from all shell commands.
 ### Get the source code
 
 	$ cd /var/www
-	$ sudo -u www-data -H git clone https://github.com/frostieDE/filehost.git filehost/
+	$ sudo -u www-data -H git clone https://github.com/sharecloud/sharecloud.git sharecloud/
 	
 You are then at the master-branch, which is supposed to have the latest stable code. If you want to use
 the current developer branch:
 
 	$ sudo -u www-data -H git checkout dev
+
+Let's switch to the sharecloud directory:
+
+	$ cd sharecloud/	
 	
 ### Database
-Now, we create a new database for your local Filehost instance.
+Now, we create a new database for your local sharecloud instance.
 
 Make sure, you have secured your MySQL installation:
 
@@ -34,18 +38,18 @@ Make sure, you have secured your MySQL installation:
 	
 Type the database root password
 	
-	mysql> CREATE USER filehost@localhost IDENTIFIED BY '{$password}';
+	mysql> CREATE USER sharecloud@localhost IDENTIFIED BY '{$password}';
 
 Where `{$password}` should be substituted with a proper password.
 
-	mysql> CREATE DATABASE IF NOT EXISTS `filehost` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
-	mysql> GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `filehost`.* TO filehost@localhost;
+	mysql> CREATE DATABASE IF NOT EXISTS `sharecloud` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
+	mysql> GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `sharecloud`.* TO sharecloud@localhost;
 	mysql> \q
 
 	
 Let's test the connection:
 
-	$ mysql -u filehost -p -D filehost
+	$ mysql -u sharecloud -p -D sharecloud
 	
 Type the password you have set earlier
 
@@ -57,11 +61,11 @@ You should see a 'mysql>' prompt now.
 Run:
 
 	$ mysql -u root -p
-	mysql> CREATE DATABASE IF NOT EXISTS `filehost` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
+	mysql> CREATE DATABASE IF NOT EXISTS `sharecloud` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
 
 ### Setup Smarty
 
-	$ sudo -u www-data -H chmod 700 /var/www/filehost/classes/smarty/templates_c
+	$ sudo -u www-data -H chmod 700 /var/www/sharecloud/classes/smarty/templates_c
 	
 ### Setup config.php
 
@@ -71,7 +75,7 @@ Run:
 Modify `config.php` to fit your needs!
 
 ### Run installation
-Now open a browser and navigate to `http://YOUR_HOST/filehost/install/` and follow the steps there.
+Now open a browser and navigate to `http://YOUR_HOST/sharecloud/install/` and follow the steps there.
 
 ### Post-installation clean-up
 For security reasons, you should remove the `install` and `upgrade` folders:

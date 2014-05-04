@@ -1,6 +1,6 @@
-# One-Click File Hoster
+# sharecloud
 
-One-Click File Hoster is a PHP project to provide filehosting features for private users and their friends.
+sharecloud is a PHP project to provide filehosting features for private users and their friends.
 
 # Requirements
 

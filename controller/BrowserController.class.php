@@ -1,6 +1,6 @@
 <?php
 final class BrowserController extends ControllerBase {
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
 	}
 	
@@ -45,7 +45,7 @@ final class BrowserController extends ControllerBase {
 			exit;
 		}
 		
-		// Breadcrump
+		// Breadcrumb
 		$f = $folder;
 		while($f != NULL && $f->id != 0) {
 			if($f->name != '') {
@@ -60,14 +60,13 @@ final class BrowserController extends ControllerBase {
 		$smarty = new Template();
 		$smarty->assign('files', $folder->files);
 		$smarty->assign('folders', $folder->folders);		
-		$smarty->assign('heading', ($folder_id > 0 ? $folder->name : System::getLanguage()->_('Files')));
 		$smarty->assign('title', System::getLanguage()->_('Files'));
 		
 		$smarty->assign('folder', $folder);
 		$smarty->assign('breadcrumb', $breadcrumb);
 		$smarty->assign('AvailableFolders', Folder::getAll());
 		
-		$smarty->assign('remoteDownloadSetting', System::getPreference('DOWNLOAD_VIA_SERVER'));
+		$smarty->assign('remoteDownloadSetting', DOWNLOAD_VIA_SERVER);
 		
         $smarty->requireResource('browser');
         
@@ -116,7 +115,6 @@ final class BrowserController extends ControllerBase {
 		$form->setSubmit(new Button(System::getLanguage()->_('Create'), 'icon icon-new-folder'));
 		
 		$smarty = new Template();
-		$smarty->assign('heading', System::getLanguage()->_('AddFolder'));
 		$smarty->assign('title', System::getLanguage()->_('AddFolder'));
 		
 		$smarty->assign('form', $form->__toString());
@@ -162,7 +160,6 @@ final class BrowserController extends ControllerBase {
 		
 		$smarty = new Template();
 		$smarty->assign('title', System::getLanguage()->_('PermissionSetting'));
-		$smarty->assign('heading', System::getLanguage()->_('PermissionSetting'));
 		
 		$smarty->assign('form', $form->__toString());
 		$smarty->display('form.tpl');	

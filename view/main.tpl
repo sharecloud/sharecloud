@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/main.css" type="text/css" />
 {$resources}
 
-<script>
+<script type="text/javascript">
 System.config.httpHost = "{$HTTP_BASEDIR}";
 System.config.modRewrite = {$MOD_REWRITE};
 </script>
-<script>
+<script type="text/javascript">
 {foreach $LangStrings as $key => $value}System.l10n.add('{$key}','{$value}');{/foreach}
 </script>
 
@@ -24,7 +24,7 @@ System.config.modRewrite = {$MOD_REWRITE};
     <header>
         <div class="container-fluid">
             <h1>
-            	<a href="{Router->build p1='BrowserController' p2='index'}">One-Click File Host</a>
+            	<a href="{Router->build p1='BrowserController' p2='index'}">sharecloud</a>
             </h1>
     </header>
     
@@ -38,12 +38,12 @@ System.config.modRewrite = {$MOD_REWRITE};
                     <span class="icon-bar"> </span>
                 </button>
             </div>
-            
+           
             <div class="collapse navbar-collapse" id="mainbar">
             	<ul class="nav navbar-nav">
 {foreach $Navigation as $elem}
 					<li{if $elem->isCurrent()} class="active"{/if}>
-                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="">{$elem->label}</a>
+                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{$elem->label}</a>
                     </li>
 {/foreach}                	
                 </ul>
@@ -97,11 +97,22 @@ System.config.modRewrite = {$MOD_REWRITE};
     </nav>
     
     <div class="container-fluid alerts">
-{assign var='successMsg' value=$successMsg|default:''}
-{if $successMsg neq ''}
+{if $infoMsg|default:FALSE }
+        <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {$infoMsg}
+        </div>
+{/if}
+{if $successMsg|default:FALSE }
         <div class="alert alert-success alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {$successMsg}
+        </div>
+{/if}
+{if $errorMsg|default:FALSE }
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {$errorMsg}
         </div>
 {/if}
 		<div class="clonable alert alert-dismissable">
@@ -111,8 +122,9 @@ System.config.modRewrite = {$MOD_REWRITE};
     </div>
     
     <div class="main container-fluid">
-        <h3>{$heading}</h3>
-        
+        {if $heading|default:FALSE}
+        	<h3>{$heading}</h3>
+        {/if}
         {block name=content}{/block}
     </div>
     
@@ -121,7 +133,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://bitbucket.org/frostie/one-click-file-hosting" data-noajax="true">One-Click File Hosting</a>
+    	© {'Y'|date} | <a href="https://github.com/sharecloud/sharecloud" data-noajax="true">sharecloud</a>
     </div>
 </footer>
 

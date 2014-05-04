@@ -1,6 +1,6 @@
 <?php
 final class UploadController extends ControllerBase {
-	public function onBefore($action = '', array $params) {
+	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
 	}
 	
@@ -23,7 +23,7 @@ final class UploadController extends ControllerBase {
 		$form->addElements($fieldset);
 		
         
-        if(System::getPreference("DOWNLOAD_VIA_SERVER")) {
+        if(DOWNLOAD_VIA_SERVER) {
          
         
     		$fieldset = new Fieldset(System::getLanguage()->_('UploadFromURL'));
@@ -38,7 +38,7 @@ final class UploadController extends ControllerBase {
 		$fieldset = new Fieldset(System::getLanguage()->_('PermissionSetting'));
 		
 		$permissionInput = new Select('permissions', System::getLanguage()->_('Permission'), FilePermissions::getAll());
-        $permissionInput->selected_value = System::getPreference("DEFAULT_FILE_PERMISSION");
+        $permissionInput->selected_value = DEFAULT_FILE_PERMISSION;
         
 		$password = new Password('password', System::getLanguage()->_('Password'), false);
 		

@@ -1,5 +1,5 @@
 
-Licenses of all programms or application used in this file hoster.
+Licenses of all programms or application used in sharecloud.
 
 jQuery - MIT License
 ZeroClipboard - MIT License
