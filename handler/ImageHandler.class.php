@@ -3,7 +3,7 @@ final class ImageHandler extends HandlerBase {
 	public function __construct() {
 		parent::__construct();
 		parent::registerExtension(array(
-			'jpg', 'jpeg', 'gif', 'png'
+			'jpg', 'jpeg', 'gif', 'png', 'svg'
 		));
 	}
 	

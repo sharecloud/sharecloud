@@ -20,6 +20,10 @@
 
 {block name=handler}
 <div class="image">
-	<img alt="" src="{Router->build p1='DownloadController' p2='resize' p3=$file}" />
+	{if $file->ext eq 'svg'}
+		<img alt="" src="{Router->build p1='DownloadController' p2='embed' p3=$file}" />
+	{else}
+		<img alt="" src="{Router->build p1='DownloadController' p2='resize' p3=$file}" />
+	{/if}
 </div>
 {/block}
