@@ -85,7 +85,7 @@
             </button>
             
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-upload-file">{'FileUpload'|@lang}</a></li>
+                <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-upload-file">{'UploadFromComputer'|@lang}</a></li>
                 <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-remote-download">{'UploadFromURL'|@lang}</a></li>
             </ul>
         </div>
