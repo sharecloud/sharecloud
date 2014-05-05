@@ -3,7 +3,7 @@
 
 <div class="browser" data-id="{$folder->id}">
 	<div class="row header clearfix">
-    	<div class="column filename">
+    	<div class="column">
     		<ol class="breadcrumb">
 				<li><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
 			{foreach $breadcrumb as $f}
@@ -25,7 +25,7 @@
 	<div class="row folder clearfix" data-id="{$folder->id}">
     	<div class="column filename">
         	<span class="glyphicon glyphicon-folder-close"> </span> 
-            <a href="{Router->build p1='BrowserController' p2='show' p3=$folder}">{$folder->name}</a>
+            <a class="folder" href="{Router->build p1='BrowserController' p2='show' p3=$folder}">{$folder->name}</a>
         </div>
         <div class="column size">{$folder->getContentSize()|@filesize}</div>
         <div class="column num-downloads">
@@ -41,7 +41,14 @@
 	<div class="row file clearfix" data-alias="{$file->alias}" data-id="{$file->id}">
     	<div class="column filename">
         	<span class="glyphicon glyphicon-file"> </span> 
-            <a href="{Router->build p1='DownloadController' p2='show' p3=$file}">{$file->filename}</a>
+            {assign "splittedFilename" $file->getSplittedFilename()}
+            {if is_array($splittedFilename)}
+                <a class="file" href="{Router->build p1='DownloadController' p2='show' p3=$file}"><span class="filename">{$splittedFilename.0}</span><span class="ext">.{$splittedFilename.1}</span></a>
+            {else}
+                <a class="file" href="{Router->build p1='DownloadController' p2='show' p3=$file}"><span class="filename">{$file->filename}<span class="filename"></a>
+            {/if}
+                
+
         </div>
         
         <div class="column size">{$file->size|@filesize}</div>
@@ -63,7 +70,7 @@
         </a>
         
         <a href="#" class="btn btn-default btn-sm navbar-btn button-delete disabled">
-            <span class="glyphicon glyphicon-trash"> </span>{'Delete'|@lang}
+            <span class="glyphicon glyphicon-trash"> </span> {'Delete'|@lang}
         </a>
         
         <a href="#" class="btn btn-default btn-sm navbar-btn button-invert-selection">{'InvertSelection'|@lang}</a>
@@ -78,7 +85,7 @@
             </button>
             
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-upload-file">{'FileUpload'|@lang}</a></li>
+                <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-upload-file">{'UploadFromComputer'|@lang}</a></li>
                 <li><a href="{Router->build p1='UploadController' p2='upload'}?parent={$folder->id}" class="button-remote-download">{'UploadFromURL'|@lang}</a></li>
             </ul>
         </div>

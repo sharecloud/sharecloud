@@ -166,7 +166,14 @@ var Browser = {
 						var response = $.parseJSON(data);
 					
 						if(response.success == true) {
-							row.find('.filename a').html(input.val());	
+							var index = input.val().lastIndexOf('.');
+							if(index != -1) {
+								row.find('.filename a .filename').html(input.val().substring(0, index));
+								row.find('.filename a .ext').html(input.val().substring(index));
+							} else {
+								row.find('.filename a').html(input.val());
+							}
+								
 						} else {
 							System.showError(response.message);	
 						}
@@ -577,7 +584,20 @@ var Browser = {
 				console.log($(this).data('id'));
 				Browser.Selection.moveSelected($(this).data('id'));
 				
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
+				
 				return false;
+			},
+			over: function(event, ui) {
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-close");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-open");
+				
+			}, 
+			out: function(event, ui) {
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
+				
 			}
 		});
 		

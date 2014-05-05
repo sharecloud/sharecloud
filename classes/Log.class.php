@@ -101,18 +101,33 @@ final class Log {
      * @static
      * @param object Exception
      */
-    public static function handleException(Exception $e) {
+    public static function handleException(Exception $e, $uncaught = true) {
         $traceline  = "#%s %s@%s: %s(%s)";
         $trace      = array();
-        
+
         foreach($e->getTrace() as $key => $value) {
-            $trace[]    = sprintf($traceline, $key, $value['file'], $value['line'], $value['function'], implode(', ', $value['args']));
+        	
+            $trace[]    = sprintf($traceline, $key, empty($value['file']) ? '' : $value['file'], empty($value['line']) ? '' : $value['line'], $value['function'], implode(', ', array_map("Log::var2string", $value['args'])));
         }
         
         Log::log('EXCEPTION', get_class($e) . ': '. $e->getMessage() . "\n\tTRACE: ".implode("\n\t\t", $trace), $e->getFile(), $e->getLine());
-        
-		System::displayError('Uncaught exception.');
+        if($uncaught)
+			System::displayError('Uncaught exception.');
     }
+	
+	private static function var2string($var) {
+		if(is_object($var)) {
+			if(method_exists($var, "__toString")) {
+				return (string)$var;
+			} else {
+				return get_class($var);
+			}
+		} else if(is_array($var)) {
+			$var = array_map("Log::var2string", $var);
+		} else {
+			(string)$var;
+		}
+	} 
 }
 
 if(!DEV_MODE) {

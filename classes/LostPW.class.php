@@ -21,7 +21,11 @@ final class LostPW {
 	public static function createRequest($mail) {
 		LostPW::cleanUp();
 		
-		$user = User::getByEMail($mail);
+		$user = User::find('email', $mail);
+		
+		if($user == NULL) {
+			throw new UserNotFoundException();	
+		}
 		
 		// Delete old requests
 		$sql = System::getDatabase()->prepare('DELETE FROM lostpw WHERE user_ID = :uid');
@@ -77,7 +81,7 @@ final class LostPW {
 		
 		// Change password
 		$user->password = $password;
-		$user->submitChanges();
+		$user->save();
 		
 		// Delete hash
 		$sql = System::getDatabase()->prepare('DELETE FROM lostpw WHERE hash = :hash');

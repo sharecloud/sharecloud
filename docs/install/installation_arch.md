@@ -16,12 +16,16 @@ user, simply remove `sudo -u http -H` from all shell commands.
 ### Get the source code
 
 	$ cd /srv/http
-	$ sudo -u http -H git clone https://github.com/frostieDE/filehost.git sharecloud/
+	$ sudo -u http -H git clone https://github.com/sharecloud/sharecloud.git sharecloud/
 	
 You are then at the master-branch, which is supposed to have the latest stable code. If you want to use
 the current developer branch:
 
 	$ sudo -u http -H git checkout dev
+	
+Let's switch to the sharecloud directory:
+
+	$ cd sharecloud/
 	
 ### Database
 Now, we create a new database for your local sharecloud instance.

@@ -36,16 +36,6 @@ CREATE TABLE `folders` (
   PRIMARY KEY (`_id`,`user_ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-DROP TABLE IF EXISTS `globalpreferences`;
-CREATE TABLE `globalpreferences` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`_id`),
-  UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
   `_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -96,14 +86,3 @@ CREATE TABLE `users` (
   PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/*
- * INSERT
- */
-
-INSERT INTO `globalpreferences` (`_id`, `key`, `value`, `type`) VALUES
-(1, 'DOWNLOAD_VIA_SERVER', 'true', 'bool'),
-(2, 'PASSWORD_MIN_LENGTH', '6', 'numeric'),
-(3, 'USERNAME_MIN_LENGTH', '6', 'numeric'),
-(4, 'SUPPORTED_FILE_HASHES', 'md5,sha1,sha512,crc32', 'string'),
-(5, 'DEFAULT_FILE_PERMISSION', '3', 'numeric'),
-(6, 'SESSION_NAME', 'SESSIONID', 'string');

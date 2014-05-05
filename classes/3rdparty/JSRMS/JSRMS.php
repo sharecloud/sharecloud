@@ -86,7 +86,9 @@ class JSRMS {
             }
         }
 		
-        $this->requiredSource[] = $resource['location'];
+		if(!empty($resource['location'])) {
+			$this->requiredSource[] = $resource['location'];
+		}
         
         return true; 
     }
@@ -96,14 +98,14 @@ class JSRMS {
          
        
         foreach($this->requiredStylesheets as $key => $value) {
-            $html .= "<link rel='stylesheet' href='".System::getBaseURL().$value."' type='text/css'>";
+            $html .= '<link rel="stylesheet" href="'.System::getBaseURL().$value.'" type="text/css" />';
             
         }
         
         $html .= "\n";
         
         foreach ($this->requiredSource as $key => $value) {
-            $html .= "<script data-name='".$this->required[$key]."' src='".System::getBaseURL().$value."'></script>\n";
+            $html .= '<script data-name="'.$this->required[$key].'" src="'.System::getBaseURL().$value.'" type="text/javascript"></script>' . "\n";
         }
        
         return $html;

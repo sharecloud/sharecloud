@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/main.css" type="text/css" />
 {$resources}
 
-<script>
+<script type="text/javascript">
 System.config.httpHost = "{$HTTP_BASEDIR}";
 System.config.modRewrite = {$MOD_REWRITE};
 </script>
-<script>
+<script type="text/javascript">
 {foreach $LangStrings as $key => $value}System.l10n.add('{$key}','{$value}');{/foreach}
 </script>
 
@@ -38,12 +38,12 @@ System.config.modRewrite = {$MOD_REWRITE};
                     <span class="icon-bar"> </span>
                 </button>
             </div>
-            
+           
             <div class="collapse navbar-collapse" id="mainbar">
             	<ul class="nav navbar-nav">
 {foreach $Navigation as $elem}
 					<li{if $elem->isCurrent()} class="active"{/if}>
-                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="">{$elem->label}</a>
+                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{$elem->label}</a>
                     </li>
 {/foreach}                	
                 </ul>
@@ -97,10 +97,22 @@ System.config.modRewrite = {$MOD_REWRITE};
     </nav>
     
     <div class="container-fluid alerts">
+{if $infoMsg|default:FALSE }
+        <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {$infoMsg}
+        </div>
+{/if}
 {if $successMsg|default:FALSE }
         <div class="alert alert-success alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {$successMsg}
+        </div>
+{/if}
+{if $errorMsg|default:FALSE }
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {$errorMsg}
         </div>
 {/if}
 		<div class="clonable alert alert-dismissable">
@@ -121,7 +133,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 
 <footer>
 	<div class="wrapper">
-    	© {'Y'|date} | <a href="https://github.com/frostieDE/filehost" data-noajax="true">sharecloud</a>
+    	© {'Y'|date} | <a href="https://github.com/sharecloud/sharecloud" data-noajax="true">sharecloud</a>
     </div>
 </footer>
 

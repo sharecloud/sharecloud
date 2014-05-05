@@ -123,7 +123,11 @@ var Uploads = {
 					var file = Uploads.currentUploads[id];
 					
 					var html = $('.cloneable .row.file').clone().removeClass('cloneable').attr('data-alias', data.alias).attr('data-id', data.id);
-					html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a href="' + data.url + '">' + data.filename + '</a>');
+					if(data.ext != '.') {
+						html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename.substring(0, data.filename.lastIndexOf('.')) + '</span><span class="ext">.' + data.ext + '</span></a>');
+					} else {
+						html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename + '</span></a>');
+					}
 					html.find('.' + Browser.Settings.File.SizeClass).html(System.formatBytes(data.size));
 					html.find('.' + Browser.Settings.File.NumDownloadsClass).html(data.downloads);
 					
