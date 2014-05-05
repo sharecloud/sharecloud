@@ -532,6 +532,7 @@ final class File extends ModelBase {
 		$obj->alias		= $this->alias;
 		
 		$obj->filename	= $this->filename;
+		$obj->ext		= $this->ext;
 		$obj->mime		= $this->mime;
 		$obj->size		= $this->size;
 		
@@ -542,6 +543,41 @@ final class File extends ModelBase {
 		
 		return $obj;
 	}
+	
+	    
+    /**
+     * Returns an array. 0 => filename 1 => extension
+	 * If no extension avaiable it returns the filename as string
+     * @return mixed The Array with two indexes (name & extenstion) or a string containing the filename
+     */
+	public function getSplittedFilename() {
+	    
+        $splittedName = explode(".", $this->filename);
+        $splittedName = array_map("trim", $splittedName);
+		
+        switch(count($splittedName)) {
+            
+            case 0: 
+                return $this->filename;
+                break;
+            
+            case 1:
+                return $this->filename;
+                break;
+                
+            case 2:
+                return $splittedName;
+                break;
+            
+            default:
+                $ext = array_pop($splittedName);
+                return array(implode(".", $splittedName), $ext);
+        }
+        
+        
+	}
+	
+	
 	
 	/**
 	 * Determines MIME type

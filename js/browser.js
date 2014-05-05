@@ -166,7 +166,14 @@ var Browser = {
 						var response = $.parseJSON(data);
 					
 						if(response.success == true) {
-							row.find('.filename a').html(input.val());	
+							var index = input.val().lastIndexOf('.');
+							if(index != -1) {
+								row.find('.filename a .filename').html(input.val().substring(0, index));
+								row.find('.filename a .ext').html(input.val().substring(index));
+							} else {
+								row.find('.filename a').html(input.val());
+							}
+								
 						} else {
 							System.showError(response.message);	
 						}
