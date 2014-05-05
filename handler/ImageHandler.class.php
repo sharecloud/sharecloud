@@ -18,7 +18,14 @@ final class ImageHandler extends HandlerBase {
 		}
 		
 		if(extension_loaded('imagick') && class_exists('Imagick')) {
-			$i = new Imagick($this->file->getAbsPath());
+			try {
+				$i = new Imagick($this->file->getAbsPath());
+			} catch(Exception $e) {
+				if($this->file->ext == "svg") {
+					Log::sysLog('ImageHandler', '"librsvg" is not installed. Without it Imagick could not handle .svg files!');
+				}
+			}
+			
 			$specific['format'] = $i->getimageformat();
 		} else {
 			$specific['format'] = System::getLanguage()->_('Unknown');	
