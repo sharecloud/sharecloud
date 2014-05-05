@@ -584,7 +584,20 @@ var Browser = {
 				console.log($(this).data('id'));
 				Browser.Selection.moveSelected($(this).data('id'));
 				
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
+				
 				return false;
+			},
+			over: function(event, ui) {
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-close");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-open");
+				
+			}, 
+			out: function(event, ui) {
+				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
+				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
+				
 			}
 		});
 		
