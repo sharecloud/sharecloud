@@ -6,7 +6,7 @@ sharecloud is a PHP project to provide filehosting features for private users an
 
 Currently we support all webspace servers, virtual servers (vServer) and all root servers. There should be no problems if you can fulfil following requirements:
 
-* PHP 5.2+
+* PHP 5.3+
 * MySQL 5+ (or MariaDB)
 * Apache 2 Webserver (other servers are not officially supported but should work with some tweaks)
 
