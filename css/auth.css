@@ -5,7 +5,7 @@ body.auth {
 body.auth header {
 	background:#efefef;	
 	text-align:center;	
-	margin-bottom: 40px;
+	margin: 40px 0px;
 }
 
 body.auth footer {

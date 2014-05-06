@@ -9,8 +9,6 @@ html, body {
 	margin:0px;
 	padding:0px;
 	height:100%;
-	font-family: 'Open Sans', sans-serif;    
-
 }
 
 .page {
@@ -36,15 +34,10 @@ img {
 /**
  * Header
  */
-header {
-	display:block;
-	background:#f5f5f5;
-	min-height:70px;
-	padding:10px 0px;
-}
-
-nav.navbar #mainbar {
-	padding-left:0px;	
+nav .navbar-brand {
+	background:url('../images/logo.svg') 15px 50% no-repeat;
+	background-size:40px 40px;
+	padding-left:60px;	
 }
 
 /**

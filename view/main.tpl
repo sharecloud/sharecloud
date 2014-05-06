@@ -20,14 +20,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 </head>
 
 <body>
-<div class="page">
-    <header>
-        <div class="container-fluid">
-            <h1>
-            	<a href="{Router->build p1='BrowserController' p2='index'}">sharecloud</a>
-            </h1>
-    </header>
-    
+<div class="page">    
     <nav class="navbar navbar-default" role="navigation">
     	<div class="container-fluid">
         	<div class="navbar-header">
@@ -37,6 +30,10 @@ System.config.modRewrite = {$MOD_REWRITE};
                     <span class="icon-bar"> </span>
                     <span class="icon-bar"> </span>
                 </button>
+                
+                <a class="navbar-brand" href="{Router->build p1='BrowserController' p2='index'}">
+                    sharecloud
+                </a>
             </div>
            
             <div class="collapse navbar-collapse" id="mainbar">
