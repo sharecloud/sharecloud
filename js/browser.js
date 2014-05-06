@@ -601,6 +601,22 @@ var Browser = {
 			}
 		});
 		
+		$('.breadcrumb li').droppable({
+			hoverClass: 'drop-hover',
+			tolerance: 'pointer',
+			accept: function() {
+				return !$(this).is(":last-child");
+			},
+			drop: function(event, ui) {
+				console.log($(this).data('folder-id'));
+				Browser.Selection.moveSelected($(this).data('folder-id'));
+				
+				return false;
+			}
+		});
+		
+		
+		
 		/**
 		 * Buttons
 		 */

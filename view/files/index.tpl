@@ -5,10 +5,10 @@
 	<div class="row header clearfix">
     	<div class="column">
     		<ol class="breadcrumb">
-				<li><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
+				<li data-folder-id='0'><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
 			{foreach $breadcrumb as $f}
-				<li><a href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a></li>
-			{/foreach}  
+				<li data-folder-id='{$f->id}'><a href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a></li>
+			{/foreach}
 			</ol>
     	</div>
         <div class="column size">{'Size'|@lang}</div>

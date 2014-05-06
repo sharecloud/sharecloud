@@ -112,6 +112,11 @@
 	background:url('../images/ajax-loader.gif') 2px 50% no-repeat;
 }
 
+.browser .row.folder.drop-hover {
+	font-weight:bold;
+	background:#ffff99;	
+}
+
 .browser p.no-files {
 	padding:7px;
 	margin:0px;	
@@ -124,17 +129,21 @@
 	z-index:9999;
 }
 
-
-.drop-hover {
-	font-weight:bold;
-	background:#ffff99;	
-}
-
 .breadcrumb {
 	padding: 0;
 	margin: 0;
 	background-color:inherit;
 	border-radius: 0;
+}
+
+.breadcrumb li a {
+	padding: .1em .3em .15em;
+}
+
+.breadcrumb li.drop-hover a {
+	color: #fff;
+	border-radius: .25em;
+	background-color: #428bca;
 }
 
 .cloneable {
