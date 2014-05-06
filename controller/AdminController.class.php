@@ -9,7 +9,12 @@ final class AdminController extends ControllerBase {
 	
 	public function index() {
 		// Get users
-		$users = User::find('*', NULL, array('orderby' => '_id', 'sort' => 'DESC'));		
+		$users = User::find('*', NULL, array('orderby' => '_id', 'sort' => 'DESC'));
+		
+		// If there is only one user		
+		if(!is_array($users)) {
+			$users = array($users);
+		}
 		
 		// Get files
 		$files = File::find('*');
