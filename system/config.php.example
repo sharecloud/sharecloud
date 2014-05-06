@@ -21,11 +21,11 @@ define('HOST_NAME', 'localhost.tld');
 
 /**
  * Your host path.
- * You must set this like demonstrated down:
+ * You must set this like demonstrated down and WITHOUT trailing '/':
  *
- * http://www.example.org/sharecloud => /sharecloud
- * http://sharecloud.example.org => /
- * http://www.example.org/files/sharecloud/ => /files/sharecloud
+ * http://www.example.org/sharecloud => '/sharecloud'
+ * http://sharecloud.example.org => ''
+ * http://www.example.org/files/sharecloud/ => '/files/sharecloud'
  */
 define('HOST_PATH', '/sharecloud');
 
