@@ -41,7 +41,7 @@
                 <span class="counter">{$version}</span>
                 <p>
                 	<a href="#" class="btn btn-primary check-for-updates" role="button" data-loading-text="{'CheckingForUpdates'|@lang}">{'CheckForUpdates'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
-                    <a href="#" class="btn btn-danger update-system hidden" role="button">{'UpdateAvailable'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
+                    <a href="https://github.com/sharecloud/sharecloud/blob/master/docs/upgrade/upgrade.md" class="btn btn-danger update-system hidden" role="button">{'UpdateAvailable'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
                     
                     <span class="check-for-update-error hidden">{'ErrorWhileCheckingForUpdates'|@lang}</span>
                 </p>
