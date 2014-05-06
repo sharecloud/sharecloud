@@ -196,6 +196,38 @@ final class Utils {
 		
 		return false;
 	}
+	
+	/**
+	 * Performs an HTTP GET request to
+	 * a given URL
+	 * @param string URL
+	 * @return string Result
+	 */
+	public static function getRequest($url) {
+		if(!function_exists('curl_init')) {
+			// Very simple fallback
+			$result = @file_get_contents($url);
+			
+			if($result === false) {
+				throw new RequestException();
+			}
+			
+			return $result;
+		} else {
+			$curl = curl_init($url);
+			
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER , true);
+			
+			$result = curl_exec($curl);
+			
+			if($result === false) {
+				throw new RequestException();
+			}
+			
+			return $result;
+		}
+	}
 }
 
 ?>

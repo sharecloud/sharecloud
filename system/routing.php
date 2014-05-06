@@ -41,6 +41,10 @@ $router->addRoute('/users/add', 'UsersController', 'add');
 $router->addRoute('/users/edit/:uid:', 'UsersController', 'edit');
 $router->addRoute('/users/delete/:uid:', 'UsersController', 'delete');
 
+// Admin panel
+$router->addRoute('/admin', 'AdminController', 'index');
+$router->addRoute('/admin/updateCheck', 'AdminController', 'updateCheck');
+
 //Ajax
 $router->addRoute('/api', 'ApiController', 'index');
 
