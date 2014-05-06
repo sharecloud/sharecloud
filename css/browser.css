@@ -120,7 +120,8 @@
 .dragHelper {
 	padding:10px;
 	border:1px solid #ccc;
-	background:#fff;	
+	background:#fff;
+	z-index:9999;
 }
 
 
