@@ -584,7 +584,7 @@ final class File extends ModelBase {
 		$file->size = filesize($file->getAbsPath());
 		
 		// Generate hashes
-		foreach (explode(',', System::getPreference("SUPPORTED_FILE_HASHES")) as $value) {
+		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
 			$file->hashes[$value] = hash_file(trim($value), $file->getAbsPath());
 		}
 		$file->save();
