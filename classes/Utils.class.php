@@ -219,10 +219,18 @@ final class Utils {
 			curl_setopt($curl, CURLOPT_HEADER, 0);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER , true);
 			
+			/**
+			 * Ignore all SSL security - we cannot care
+			 * about MITM attacks here or we have to ship
+			 * certs for curl :/
+			 */
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+			
 			$result = curl_exec($curl);
 			
 			if($result === false) {
-				throw new RequestException();
+				throw new RequestException(curl_error($curl), curl_errno($curl));
 			}
 			
 			return $result;

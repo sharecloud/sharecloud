@@ -1,6 +1,6 @@
 <?php
 final class AdminController extends ControllerBase {
-	const UPDATE_CHECK = 'https://github.com/sharecloud/sharecloud/blob/master/VERSION';
+	const UPDATE_CHECK = 'https://raw.githubusercontent.com/sharecloud/sharecloud/master/VERSION';
 	
 	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
@@ -111,7 +111,7 @@ final class AdminController extends ControllerBase {
 			$currentVersion = file_get_contents(SYSTEM_ROOT . '/VERSION');
 			
 			$rVersion = (int)str_replace('.', '', $remoteVersion);
-			$cVersion = (int)str_replace('.', '', $cVersion);
+			$cVersion = (int)str_replace('.', '', $currentVersion);
 			
 			$result = new Object();
 			$result->isUpdateAvailable = ($rVersion > $cVersion);

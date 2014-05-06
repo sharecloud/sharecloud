@@ -42,5 +42,9 @@ class MailFailureException extends Exception { }
 // Lost PW
 class HashNotFoundException extends Exception { }
 
-class RequestException extends Exception { }
+class RequestException extends Exception {
+	public function __construct($message, $code) {
+		parent::__construct($message, $code);	
+	}
+}
 ?>
