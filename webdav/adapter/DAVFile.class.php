@@ -54,5 +54,29 @@ class DAVFile extends DAV\File implements DAV\IFile {
 		return $this->file->size;
 	}
 	
+	public function moveTo($path) {
+		$root = new DAVFolder('/');
+
+		if($path == '') {
+			$parentid = $root->getId();
+		} else {
+			$foldernames = explode('/', $path);
+			
+			$parent = $root;
+			foreach ($foldernames as $name) {
+				$child = $parent->getChild($name);
+				$parent = $child;
+			}
+			
+			$parentid = $child->getID();
+		}
+
+		if(is_numeric($parentid)) {
+			$this->file->folderid = $parentid;
+			$this->file->save();
+		}
+		
+	}
+	
 	
 }

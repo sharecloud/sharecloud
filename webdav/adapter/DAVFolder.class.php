@@ -103,6 +103,33 @@ class DAVFolder extends DAV\Collection implements DAV\INode {
 		return key_exists($child, $this->children);
 	}
 	
+	public function moveTo($path) {
+		if($this->folder->id == 0) {
+			return;
+		}
+		
+		$root = new DAVFolder('/');
+
+		if($path == '') {
+			$parentid = $root->getId();
+		} else {
+			$foldernames = explode('/', $path);
+			$parent = $root;
+			foreach ($foldernames as $name) {
+				$child = $parent->getChild($name);
+				$parent = $child;
+			}
+			$parentid = $child->getID();
+		}
+
+		if(is_numeric($parentid)) {
+			$this->folder->pid = $parentid;
+			$this->folder->save();
+		}
+	}
 	
+	public function getID() {
+		return $this->folder->id;
+	}
 	
 }

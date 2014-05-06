@@ -77,7 +77,15 @@ abstract class Tree {
 
         list($sourceDir, $sourceName) = URLUtil::splitPath($sourcePath);
         list($destinationDir, $destinationName) = URLUtil::splitPath($destinationPath);
-
+		
+		if ($sourceDir===$destinationDir) {
+            $renameable = $this->getNodeForPath($sourcePath);
+            $renameable->setName($destinationName);
+        } else {
+        	var_dump(array($sourceDir, $sourcePath, $destinationDir, $destinationPath));
+			$this->getNodeForPath($sourcePath)->moveTo($destinationDir);
+		}
+		/*
         if ($sourceDir===$destinationDir) {
             $renameable = $this->getNodeForPath($sourcePath);
             $renameable->setName($destinationName);
@@ -85,6 +93,7 @@ abstract class Tree {
             $this->copy($sourcePath,$destinationPath);
             $this->getNodeForPath($sourcePath)->delete();
         }
+		*/
         $this->markDirty($sourceDir);
         $this->markDirty($destinationDir);
 
