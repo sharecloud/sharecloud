@@ -111,12 +111,12 @@ final class UsersController extends ControllerBase {
 		
 		$form->setSubmit(new Button(
 			System::getLanguage()->_('Save'),
-			'icon icon-save'
+			'floppy-disk'
 		));
 		
 		$form->addButton(new Button(
 			System::getLanguage()->_('Cancel'),
-			'icon icon-cancel',
+			'remove',
 			Router::getInstance()->build('UsersController', 'index')
 		));
 		
@@ -205,20 +205,20 @@ final class UsersController extends ControllerBase {
 		
 		$form->setSubmit(new Button(
 			System::getLanguage()->_('Save'),
-			'icon icon-save'
+			'floppy-disk'
 		));
 		
 		if($user->uid != System::getUser()->uid) {
 			$form->addButton(new Button(
 				System::getLanguage()->_('DeleteUser'),
-				'icon icon-delete',
+				'trash',
 				Router::getInstance()->build('UsersController', 'delete', $user)
 			));
 		}
 		
 		$form->addButton(new Button(
 			System::getLanguage()->_('Cancel'),
-			'icon icon-cancel',
+			'remove',
 			Router::getInstance()->build('UsersController', 'index')
 		));
 		
