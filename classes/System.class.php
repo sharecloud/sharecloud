@@ -201,18 +201,9 @@ final class System {
 	}
     
     /**
-     * Get Global Preference by Key
-     * @param string the key
-     * @return mixed the value
+	 * @param string a Route created by Router::getInstance()->build()
+     * @return void will exit Application and forward to Route
      */
-     public static function getPreference($key) {
-         return System::getPreferences()->getValue($key);
-     }
-     
-     /**
-      * @param string a Route created by Router::getInstance()->build()
-      * @return void will exit Application and forward to Route
-      */
       public static function forwardToRoute($route) {
           header('Location: '.$route);
           exit;
