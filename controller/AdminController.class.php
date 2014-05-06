@@ -27,17 +27,11 @@ final class AdminController extends ControllerBase {
 		}
 		
 		// MIME statistics
-		$sql = System::getDatabase()->query('SELECT COUNT(*) AS num, mime FROM files GROUP BY mime');
+		$sql = System::getDatabase()->query('SELECT COUNT(*) AS num, mime FROM files GROUP BY mime ORDER BY num DESC LIMIT 6');
 		$mimes = array();
-		
 		while($mime = $sql->fetch(PDO::FETCH_OBJ)) {
-			$mimes[] = $mime;	
+			$mimes[] = $mime;
 		}
-		
-		usort($mimes, function($a, $b) {
-			if($a->num == $b->num) return 0;
-			return ($a->num >= $b->num ? -1 : 1);
-		});
 		
 		// Quota
 		$used_space = 0;
