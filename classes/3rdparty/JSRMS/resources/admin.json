@@ -1,0 +1,6 @@
+{
+    "location" : "/js/admin.js",
+    "version": "1.0",
+    "requires" : [],
+    "stylesheets": ["/css/admin.css"]
+}

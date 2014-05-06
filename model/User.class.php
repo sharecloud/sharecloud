@@ -318,12 +318,12 @@ final class User extends ModelBase {
 			$list = array();
 			
 			while($row = $sql->fetch()) {
+
 				$user = new User();
 				$user->assign($row);
 				
 				$list[] = $user;	
 			}
-			
 			return $list;
 		}
 	}
