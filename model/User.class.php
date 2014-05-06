@@ -294,7 +294,7 @@ final class User extends ModelBase {
 		if(isset($options['limit'])) {
 			$query .= ' LIMIT ' . $options['limit'];
 		}
-			
+		
 		$sql = System::getDatabase()->prepare($query);
 		$sql->execute($params);
 		
@@ -309,12 +309,12 @@ final class User extends ModelBase {
 			$list = array();
 			
 			while($row = $sql->fetch()) {
+
 				$user = new User();
 				$user->assign($row);
 				
 				$list[] = $user;	
 			}
-			
 			return $list;
 		}
 	}

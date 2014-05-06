@@ -8,23 +8,51 @@ final class AdminController extends ControllerBase {
 	}
 	
 	public function index() {
-		// Get users
-		$users = User::find('*', NULL, array('orderby' => '_id', 'sort' => 'DESC'));
-		
-		// If there is only one user		
-		if(!is_array($users)) {
-			$users = array($users);
-		}
 		
 		// Get files
-		$files = File::find('*');
-		$num_users = count($users);
+
+		$sql = System::getDatabase()->query('SELECT users.username, users.firstname, users.lastname, users._id, user_ID, SUM(size) as totalUserSize FROM files INNER JOIN users ON users._id = files.user_ID GROUP BY user_ID ORDER BY SUM(size) DESC');
+		
+		$quotaByUser = array();
+		$used_space = 0;
+		$num_users = 0;
+		
+		while($user = $sql->fetch(PDO::FETCH_OBJ)) {
+			
+			$used_space += $user->totalUserSize;
+			
+			
+			$obj = new Object();
+			$obj->username = $user->username;
+			$obj->firstname = $user->firstname;
+			$obj->lastname = $user->lastname;
+			
+			$obj->used = $user->totalUserSize;
+			
+			$userByQutoa[] = $obj;
+			$num_users++;
+		}
+		
+		$sql = System::getDatabase()->query('SELECT count(*) as num_files from files');
+		
+		$num_files = $sql->fetch(PDO::FETCH_OBJ);
+		$num_files = $num_files->num_files;
+		
 		
 		if($num_users == 0) {
 			$files_per_user = 0;
 		} else {
-			$files_per_user = round(count($files) / $num_users , 1);
+			$files_per_user = round($num_files / $num_users , 1);
 		}
+		
+		// Newest User
+		$newUsers = User::find('*', NULL, array('orderby' => '_id', 'sort' => 'DESC'));
+
+		
+		if(!is_array($newUsers)) {
+			$newUsers = array($newUsers);
+		}
+		
 		
 		// MIME statistics
 		$sql = System::getDatabase()->query('SELECT COUNT(*) AS num, mime FROM files GROUP BY mime ORDER BY num DESC LIMIT 6');
@@ -34,26 +62,7 @@ final class AdminController extends ControllerBase {
 		}
 		
 		// Quota
-		$used_space = 0;
 		$available_space = disk_free_space(SYSTEM_ROOT . FILE_STORAGE_DIR);
-		
-		$userByQutoa = array();
-		
-		foreach($users as $user) {
-			$used = $user->getUsedSpace();
-			$used_space += $used;
-			
-			$obj = new Object();
-			$obj->user = $user;
-			$obj->used = $used;
-			
-			$userByQutoa[] = $obj;
-		}
-		
-		usort($userByQutoa, function($a, $b) {
-			if($a->used == $b->used) return 0;
-			return ($a->used >= $b->used ? -1 : 1);
-		});
 		
 		// Version
 		$version = file_get_contents(SYSTEM_ROOT . '/VERSION');
@@ -79,8 +88,11 @@ final class AdminController extends ControllerBase {
         $smarty->assign('title', System::getLanguage()->_('Admin'));
 		$smarty->assign('heading', System::getLanguage()->_('Admin'));
 		
-		$smarty->assign('users', $users);
-		$smarty->assign('files', $files);
+		$smarty->assign('num_users', $num_users);
+		$smarty->assign('num_files', $num_files);
+		
+		
+		$smarty->assign('newUsers', $newUsers);		
 		$smarty->assign('userByQutoa', $userByQutoa);		
 		$smarty->assign('mimes', $mimes);
 		

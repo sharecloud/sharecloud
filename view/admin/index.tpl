@@ -6,7 +6,7 @@
     	<div class="thumbnail">
             <div class="caption">
 	            <h4>{'Users'|@lang}</h3>
-                <span class="counter">{$users|count}</span>
+                <span class="counter">{$num_users}</span>
                 <p>
                 	<a href="{Router->build p1='UsersController' p2='index'}" class="btn btn-primary" role="button">{'AllUsers'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
                 </p>
@@ -18,7 +18,7 @@
     	<div class="thumbnail">
             <div class="caption">
 	            <h4>{'Files'|@lang}</h3>
-                <span class="counter">{$files|@count}</span>
+                <span class="counter">{$num_files}</span>
                 <p class="lead">{'FilesPerUser'|@lang:$filesPerUser}</p>
             </div>
         </div>
@@ -57,15 +57,14 @@
         	<div class="panel-heading">{'LatestUsers'|@lang}</div>
             
             <div class="list-group">
-{foreach $users as $user}
-{if $user@index < 6}
+{foreach $newUsers as $user}
+
 				<a href="{Router->build p1='UsersController' p2='edit' p3=$user}" class="list-group-item">
                 	<span class="str-truncated">
-                    	{$user->username} ({$user->getFullname()})
+                    	{$user->username} ({$user->getFullName()})
                     </span>
                     <span class="glyphicon glyphicon-chevron-right pull-right"> </span>
                 </a>
-{/if}					
 {/foreach}
             </div>
         </div>
@@ -77,14 +76,14 @@
             
             <ul class="list-group">
 {foreach $mimes as $mime}
-{if $mime@index < 6}
+
 				<li class="list-group-item">
                 	<span class="str-truncated">
                     	{$mime->mime}
                     </span>
                     <span class="pull-right">{$mime->num}</span>
                 </li>
-{/if}					
+			
 {/foreach}
             </ul>
         </div>
@@ -96,16 +95,16 @@
             
             <ul class="list-group">
 {foreach $userByQutoa as $obj}
-{if $user@index < 6}
+
 				<li class="list-group-item">
                 	<span class="str-truncated">
-                    	{$obj->user->username} ({$obj->user->getFullname()})
+                    	{$obj->username} ({$obj->firstname} {$obj->lastname})
                     </span>
                     <span class="pull-right">
                     	{$obj->used|@filesize}
                     </span>
                 </li>
-{/if}					
+			
 {/foreach}
             </ul>
         </div>
