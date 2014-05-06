@@ -47,16 +47,23 @@ final class NavigationElement {
 	private $ajax = false;
 	
 	/**
+	 * Bootstrap glyphicon
+	 * @var string
+	 */
+	private $glyphicon = '';
+	
+	/**
 	 * Constructor
 	 * @param string Label
 	 * @param string Controller
 	 * @param string Action
 	 */
-	public function __construct($label, $controller = '', $action = '', $ajax = true) {
+	public function __construct($label, $controller = '', $action = '', $ajax = true, $glyphicon = '') {
 		$this->label = $label;
 		$this->controller = $controller;
 		$this->action = $action;
 		$this->ajax = $ajax;
+		$this->glyphicon = $glyphicon;
 	}
 	
 	/**

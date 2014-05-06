@@ -40,7 +40,7 @@ System.config.modRewrite = {$MOD_REWRITE};
             	<ul class="nav navbar-nav">
 {foreach $Navigation as $elem}
 					<li{if $elem->isCurrent()} class="active"{/if}>
-                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{$elem->label}</a>
+                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{if $elem->glyphicon neq ''}<span class="glyphicon glyphicon-{$elem->glyphicon}"> </span> {/if}{$elem->label}</a>
                     </li>
 {/foreach}                	
                 </ul>
