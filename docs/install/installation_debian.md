@@ -85,7 +85,23 @@ For security reasons, you should remove the `install` and `upgrade` folders:
 
 ### Install optional dependencies
 
-For best experience, you should install `imagick` and PHP's rar-extension:
+For best experience you should install `imagick`, the PHP-RAR-Extension, and the PHP-exif-Extension.
 
-	$ apt-get install php5-imagick php5-dev
+	$ apt-get install php5-imagick php5-dev librsvg2-2
 	$ pecl -v install rar
+
+Now ensure following extensions are enabled (=uncommented (=without ';')) in your `php.ini`
+
+	extension=exif.so
+	extension=zip.so
+	extension=pdo_mysql.so
+
+if not already done.
+Additional add following lines to you `php.ini`:
+
+	extension=rar.so
+	extension=imagick.so
+	
+Now you have to restart httpd with following lines:
+	
+	systemctl restart httpd.service
