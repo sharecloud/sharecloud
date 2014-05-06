@@ -116,17 +116,26 @@ final class LogEntry extends ModelBase {
 	}
 	
 	public static function find($column = '*', $value = NULL, array $options = array()) {
+		$columns = parent::getColumns('log');
+		
 		$query = 'SELECT * FROM log';
 		$params = array();
 		
 		if($column != '*' && strlen($column) > 0 && $value != NULL) {
-			$query .= ' WHERE '.$column.' = :value';
+			if(!in_array($column, $columns)) {
+				throw new InvalidArgumentException('The column `'.$column.'` was not found');	
+			}
+			
+			$query .= ' WHERE `'.$column.'` = :value';
 			$params[':value'] = $value;
 		}
 		
 		if(isset($options['orderby']) && isset($options['sort'])) {
-			$query .= ' ORDER BY :column ' . strtoupper($options['sort']);
-			$params[':column'] = $options['orderby'];
+			if(!in_array($options['orderby'], $columns)) {
+				throw new InvalidArgumentException('The column `'.$options['orderby'].'` was not found');	
+			}
+			
+			$query .= ' ORDER BY `'. $options['orderby'] .'` ' . strtoupper($options['sort']);
 		}
 		
 		if(isset($options['limit'])) {
