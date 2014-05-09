@@ -398,28 +398,18 @@ final class Folder extends ModelBase {
 	}
 	
 	public static function find($column = '*', $value = NULL, array $options = array()) {
-		$columns = parent::getColumns('folders');
-		
 		$query = 'SELECT * FROM folders';
 		$params = array(':uid' => System::getUser()->uid);
 
 		if($column != '*' && strlen($column) > 0 && $value !== NULL) {
-			if(!in_array($column, $columns)) {
-				throw new InvalidArgumentException('The column `'.$column.'` was not found');	
-			}
-			
-			$query .= ' WHERE `'.$column.'` = :value AND `user_ID` = :uid';
+			$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value AND user_ID = :uid';
 			$params[':value'] = $value;
 		} else {
-			$query .= ' WHERE `user_ID` = :uid';	
+			$query .= ' WHERE user_ID = :uid';	
 		}
 
 		if(isset($options['orderby']) && isset($options['sort'])) {
-			if(!in_array($options['orderby'], $columns)) {
-				throw new InvalidArgumentException('The column `'.$options['orderby'].'` was not found');	
-			}
-			
-			$query .= ' ORDER BY `'. $options['orderby'] .'` ' . strtoupper($options['sort']);
+			$query .= ' ORDER BY '.Database::makeTableOrColumnName($options['orderby']).' ' . strtoupper($options['sort']);
 		}
 		
 		if(isset($options['limit'])) {

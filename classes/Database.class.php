@@ -80,6 +80,10 @@ final class Database extends PDO {
 		
 		return parent::query($statement);	
 	}
+	
+	public static function makeTableOrColumnName($name) {
+		return preg_replace("~[^A-Za-z0-9-_]*~", '', $name);
+	}
 }
 
 final class DBStatement extends PDOStatement {
