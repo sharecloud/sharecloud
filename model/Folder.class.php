@@ -155,6 +155,8 @@ final class Folder extends ModelBase {
 			
 			if($this->folders != NULL) {
 				usort($this->folders, array('Folder', 'compare'));
+			} else {
+				$this->folders = array();
 			}
 		}
 	}
@@ -172,6 +174,8 @@ final class Folder extends ModelBase {
 			
 			if($this->files != NULL) {
 				usort($this->files, array('File', 'compare'));
+			} else {
+				$this->files = array();
 			}
 		}
 	}

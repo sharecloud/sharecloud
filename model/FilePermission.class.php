@@ -102,7 +102,8 @@ final class FilePermission extends ModelBase {
 	public static function getDefault() {
 		$permission = new FilePermission();
 		$permission->level = DEFAULT_FILE_PERMISSION;
-		
+		$permission->save();
+
 		return $permission;	
 	}
 	
