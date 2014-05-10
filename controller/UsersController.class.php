@@ -70,10 +70,10 @@ final class UsersController extends ControllerBase {
 		$username->error_msg[4] = System::getLanguage()->_('ErrorUsernameAlreayExists');
 		$username->minlength = USERNAME_MIN_LENGTH;
 		
-		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'), true);
+		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'));
 		$firstname->binding = new Databinding('firstname');
 		
-		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'), true);
+		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'));
 		$lastname->binding = new Databinding('lastname');
 		
 		$email = new Text('email', System::getLanguage()->_('EMail'), true);
@@ -164,10 +164,10 @@ final class UsersController extends ControllerBase {
 		$username->blacklist = $this->getListOfUsernames($user);
 		$username->error_msg[4] = System::getLanguage()->_('ErrorUsernameAlreayExists');
 		
-		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'), true);
+		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'));
 		$firstname->binding = new Databinding('firstname');
 		
-		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'), true);
+		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'));
 		$lastname->binding = new Databinding('lastname');
 		
 		$email = new Text('email', System::getLanguage()->_('EMail'), true);
