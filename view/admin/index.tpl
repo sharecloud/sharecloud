@@ -98,7 +98,15 @@
 
 				<li class="list-group-item">
                 	<span class="str-truncated">
-                    	{$obj->username} ({$obj->firstname} {$obj->lastname})
+                		{if $obj->lastname eq ''}
+                			{if $obj->firstname eq ''}
+                				{$obj->username}
+                			{else}
+                				{$obj->username} ({$obj->firstname})
+                			{/if}
+                		{else}
+	                    	{$obj->username} ({$obj->firstname} {$obj->lastname})
+                		{/if}
                     </span>
                     <span class="pull-right">
                     	{$obj->used|@filesize}

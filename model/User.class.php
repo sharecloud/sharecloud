@@ -226,6 +226,13 @@ final class User extends ModelBase {
 	 * @return string Fullname
 	 */
 	public function getFullname() {
+		if(empty($this->lastname)) {
+			if(empty($this->firstname)) {
+				return '';
+			} else {
+				return trim($this->firstname);
+			}
+		}
 		return trim($this->firstname . ' ' . $this->lastname);	
 	}
 	
