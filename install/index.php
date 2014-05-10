@@ -137,10 +137,10 @@ final class Install {
 				if(empty($password)) {
 					$error = 'Password must not be empty.';
 				} else {
-					$salt = md5(uniqid() . microtime());
 				
 					$sql = $db->prepare('INSERT INTO users (username, password, salt, last_login, lang, admin) VALUES (:username, :password, :salt, :lastlogin, :language, :admin)');
 					
+					$salt = Utils::createPasswordSalt();
 					$sql->execute(array(
 						':username' => 'admin',
 						':password' => Utils::createPasswordhash($password, $salt),
@@ -149,6 +149,7 @@ final class Install {
 						':admin' => '1',
 						':language'	=> LANGUAGE
 					));
+					unset($salt);
 					
 					header('Location: index.php?action=success');
 					exit;

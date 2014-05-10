@@ -1,14 +1,6 @@
 <?php
 final class User extends ModelBase {
     
-    
-    /**
-     * DO NOT CHANGE ON A RUNNING SYSTEM!
-     * If you really want to change TRANCATE ALL tables before.
-     * Available algorithms you can see in your PHP configuration.
-     */
-    const HASH_ALGO = 'sha512';
-    
 	/**
 	 * User ID
 	 * @var int
@@ -151,8 +143,9 @@ final class User extends ModelBase {
 		if($this->isNewRecord) {
 			// TODO: Check Password!	
 			$data[':pswd'] = $this->password;
+			$data[':salt'] = $this->salt;
 			
-			$sql = System::getDatabase()->prepare('INSERT INTO users (username, firstname, lastname, email, admin, lang, quota, password, last_login, design) VALUES(:username, :firstname, :lastname, :email, :admin, :lang, :quota, :pswd, :last_login, :design)');
+			$sql = System::getDatabase()->prepare('INSERT INTO users (username, firstname, lastname, email, admin, lang, quota, password, salt, last_login, design) VALUES(:username, :firstname, :lastname, :email, :admin, :lang, :quota, :pswd, :salt, :last_login, :design)');
 			$sql->execute($data);
 			
 			$this->uid = System::getDatabase()->lastInsertId();
@@ -160,8 +153,9 @@ final class User extends ModelBase {
 			$data[':uid']	= $this->uid;
 			
 			if($this->password != NULL) {
-				$data[':pswd'] = $this->password;	
-				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, password = :pswd, last_login = :last_login, design = :design WHERE _id = :uid');
+				$data[':pswd'] = $this->password;
+				$data[':salt'] = $this->salt;	
+				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, password = :pswd, salt = :salt, last_login = :last_login, design = :design WHERE _id = :uid');
 			} else {
 				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, last_login = :last_login, design = :design WHERE _id = :uid');
 			}
@@ -199,6 +193,7 @@ final class User extends ModelBase {
 		}
 		
 		if($property == 'password' && !empty($value)) {
+			$this->salt = Utils::createPasswordSalt();
 			$value = Utils::createPasswordhash($value, $this->salt);
 		}
 		
