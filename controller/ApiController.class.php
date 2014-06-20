@@ -134,6 +134,7 @@ final class ApiController extends ControllerBase {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorFolderNotFound');
 		} catch(Exception $e) {
+			Log::sysLog('ApiController::upload', 'Upload Error! Folder was not set or file is invalid');
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
 		}
