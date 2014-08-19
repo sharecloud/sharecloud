@@ -2,7 +2,7 @@
 {block name=specific}
 {foreach $specific as $info}
 <div class="form-group clearfix">
-    <label class="col-sm-4 control-label">{$info@key}:</label>
+    <label class="col-sm-4 control-label">{$info@key|@lang}:</label>
     <div class="col-sm-8">
         <p class="form-control-static">{$info|@lang}</p>
     </div>
