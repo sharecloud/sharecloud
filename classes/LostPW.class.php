@@ -77,15 +77,17 @@ final class LostPW {
 		
 		$row = $sql->fetch();
 		
-		$user = new User($row['user_ID']);
+		$user = User::find('_id', $row['user_ID']);
 		
-		// Change password
-		$user->password = $password;
-		$user->save();
-		
-		// Delete hash
-		$sql = System::getDatabase()->prepare('DELETE FROM lostpw WHERE hash = :hash');
-		$sql->execute(array(':hash' => $hash));
+		if($user != NULL) {
+			// Change password
+			$user->password = $password;
+			$user->save();
+			
+			// Delete hash
+			$sql = System::getDatabase()->prepare('DELETE FROM lostpw WHERE hash = :hash');
+			$sql->execute(array(':hash' => $hash));
+		}
 	}
 	
 	/**
