@@ -35,28 +35,28 @@
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Size'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->size|@filesize}</p>
                 </div>
             </div>
                 
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Mime'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->mime}</p>
                 </div>
             </div>
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'NumDownloads'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->downloads}</p>
                 </div>
             </div>
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Date'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->time|@dateformat}</p>
                 </div>
             </div>
@@ -68,7 +68,7 @@
             {foreach $file->hashes as $algo => $hash}
             <div class="form-group clearfix">
             	<label class="col-sm-4 control-label">{$algo|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <div class="input-group">
                         <input type="text" class="form-control" value="{$hash}" readonly="readonly">
                         

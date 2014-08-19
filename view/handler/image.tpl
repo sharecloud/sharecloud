@@ -3,7 +3,7 @@
 {block name=specific}
 <div class="form-group clearfix">
     <label class="col-sm-4 control-label">{'ImageSize'|@lang}:</label>
-    <div class="col-sm-8">
+    <div class="col-sm-8 no-padding">
         <p class="form-control-static">{$specific.imagesize}</p>
     </div>
 </div>
@@ -11,7 +11,7 @@
 {if !empty($specific.format)}
 <div class="form-group clearfix">
     <label class="col-sm-4 control-label">{'Format'|@lang}:</label>
-    <div class="col-sm-8">
+    <div class="col-sm-8 no-padding">
         <p class="form-control-static">{$specific.format}</p>
     </div>
 </div>

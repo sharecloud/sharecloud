@@ -3,7 +3,7 @@
 {foreach $specific as $info}
 <div class="form-group clearfix">
     <label class="col-sm-4 control-label">{$info@key|@lang}:</label>
-    <div class="col-sm-8">
+    <div class="col-sm-8 no-padding">
         <p class="form-control-static">{$info|@lang}</p>
     </div>
 </div>

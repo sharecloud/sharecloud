@@ -31,6 +31,10 @@ img {
 	border:none;	
 }
 
+.no-padding {
+	padding:0px !important;	
+}
+
 /**
  * Header
  */
