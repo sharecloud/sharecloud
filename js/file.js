@@ -89,6 +89,8 @@ var File = {
 				$(".information").slideDown();
 				$(this).parent().addClass("dropup");				
 			}
+			
+			return false;
 		});
 			
 	},
