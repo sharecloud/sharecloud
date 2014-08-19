@@ -112,7 +112,7 @@ final class User extends ModelBase {
 	 * @return bool Success
 	 */
 	public function login($clearPswd) {
-		if(Utils::createPasswordhash($clearPswd, $this->salt) == $this->curPassword) {
+		if(Utils::createPasswordHash($clearPswd, $this->salt) == $this->curPassword) {
 			System::getSession()->setUID($this->uid);
 				
 			$this->last_login = time();
@@ -194,7 +194,7 @@ final class User extends ModelBase {
 		
 		if($property == 'password' && !empty($value)) {
 			$this->salt = Utils::createPasswordSalt();
-			$value = Utils::createPasswordhash($value, $this->salt);
+			$value = Utils::createPasswordHash($value, $this->salt);
 		}
 		
 		if(property_exists($this, $property)) {

@@ -143,7 +143,7 @@ final class Install {
 					$salt = Utils::createPasswordSalt();
 					$sql->execute(array(
 						':username' => 'admin',
-						':password' => Utils::createPasswordhash($password, $salt),
+						':password' => Utils::createPasswordHash($password, $salt),
 						':salt'		=> $salt,
 						':lastlogin'	=> time(),
 						':admin' => '1',

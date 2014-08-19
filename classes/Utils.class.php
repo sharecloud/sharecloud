@@ -120,7 +120,7 @@ final class Utils {
 	 * @param string Salt
 	 * @return string Hash
 	 */
-	public static function createPasswordhash($clearPswd, $salt) {
+	public static function createPasswordHash($clearPswd, $salt) {
 		return crypt($clearPswd, '$6$' . $salt); // '$6$' is the sha512 trigger
 	}
 	
