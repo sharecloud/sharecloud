@@ -469,6 +469,34 @@ final class File extends ModelBase {
 		}
 	}
 	
+	public function put() {
+		if($this->file != NULL) {
+			throw new Exception();	
+		}
+		
+		$this->file = File::createFilename();
+		$this->time = time();
+		$this->uid	= System::getUser()->uid;
+		
+		$putdata = fopen('php://input', 'r');
+		$handle = fopen(SYSTEM_ROOT . File::FILEDIR . $this->file, 'w');
+		
+		while($data = fread($putdata, 1024)) {
+			fwrite($handle, $data);	
+		}
+		
+		fclose($handle);
+		fclose($putdata);
+		
+		$this->mime = File::determineMime($this->file, $this->filename);
+		$this->size = filesize($this->getAbsPath());
+		
+		// Generate hashes
+		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
+			$this->hashes[$value] = hash_file(trim($value), SYSTEM_ROOT . File::FILEDIR . $this->file);
+		}
+	}
+	
 	public function remote($source) {
 		if($this->file != NULL) {
 			throw new Exception();	

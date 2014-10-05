@@ -60,7 +60,8 @@ $router->addRoute('/api/browser/delete', 'ApiController', 'delete');
 $router->addRoute('/api/browser/move', 'ApiController', 'move');
 $router->addRoute('/api/browser/rename', 'ApiController', 'rename');
 
-$router->addRoute('/api/upload', 'ApiController', 'upload');
+$router->addRoute('/api/upload/:filename:', 'ApiController', 'upload');
+$router->addRoute('/api/upload/:folder:/:filename:', 'ApiController', 'upload');
 $router->addRoute('/api/remote', 'ApiController', 'remote');
 
 $router->addRoute('/api/auth', 'ApiController', 'login');

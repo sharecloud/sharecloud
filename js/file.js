@@ -45,19 +45,17 @@ var File = {
 				var password = $('#modal-permissions #password input').val();
 				var file_alias = $('#modal-permissions #filealias').val();
 				
-				$.post(
-					System.getHostname() + 'api/file/permission',
+				System.api(
+					'api/file/permission',
 					{
 						'file_alias': file_alias,
 						'permission': permission,
 						'password' : password
 					},
-					function(data) {
+					function(response) {
 						$button.button('reset');
 						$('#modal-permissions').modal('hide'),
 						System.escStack.remove('modal');
-						
-						var response = $.parseJSON(data);
 						
 						if(response.success == true) {
 							if(permission == "3") {

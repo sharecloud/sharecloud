@@ -84,9 +84,7 @@ var Uploads = {
 				System.showError(System.l10n._('ErrorQuotaExceeded'));
 				Uploads.currentUploads[id] = null;
 			} else {
-				var form = new FormData();
-				form.append('file', file);
-				form.append('folder', (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null));
+				var folder  =(typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null);
 				
 				fileObj.xhr = new XMLHttpRequest();
 				
@@ -101,8 +99,11 @@ var Uploads = {
 					}
 				};
 				
-				fileObj.xhr.open('POST', System.getHostname() + 'api/upload', true);
-				fileObj.xhr.send(form);
+				var endpoint = 'api/upload' + (folder != null ? '/' + folder  : '') + '/' + file.name;
+				
+				fileObj.xhr.open('PUT', System.getHostname() + endpoint, true);
+				fileObj.xhr.setRequestHeader('Content-Type', file.type);
+				fileObj.xhr.send(file);				
 				
 				Uploads.currentUploads[id] = fileObj;
 				
@@ -116,8 +117,7 @@ var Uploads = {
 			var data = $.parseJSON(data);
 			
 			if(data.success == true) {
-				// Page reload?
-				if(typeof(Browser) != null && $('.browser').attr('data-id') == data.data.folderid) {
+				if(typeof(Browser) != null) {
 					data = data.data;
 					
 					var file = Uploads.currentUploads[id];
@@ -131,36 +131,28 @@ var Uploads = {
 					html.find('.' + Browser.Settings.File.SizeClass).html(System.formatBytes(data.size));
 					html.find('.' + Browser.Settings.File.NumDownloadsClass).html(data.downloads);
 					
+					var folderid = (data.folderid == null ? '' : data.folderid);
+					
 					// Insert new entry
-					if($('.browser').data('id') == data.folderid) {
-						if($('.browser .row.file:not(.upload)').length == 0) {
-							html.insertAfter('.browser .create-folder').hide().show('highlight', 1000);
-						} else {
-							var insert = null;
-							
-							if($('.browser .row.folder').length == 0) {
-								insert = $('.browser .create-folder');
-							} else {
-								insert = $('.browser .row.folder').last();	
-							}
-										
-							$('.browser .row.file:not(.upload)').each(function(index, element) {
-								if($(this).find('.' + Browser.Settings.File.NameClass + ' a').html() <= data.filename) {
-									insert = $(this);
-								}
-							});
-							
-							$('.browser .no-files').remove();
-							html.insertAfter(insert).hide().show('highlight', 1000);
-						}
+					var insert = null;
+					
+					if($('.browser[data-id=' + folderid + '] .row.folder').length == 0) {
+						insert = $('.browser[data-id=' + folderid + '] .create-folder');
+					} else {
+						insert = $('.browser[data-id=' + folderid + '] .row.folder').last();	
 					}
+								
+					$('.browser[data-id=' + folderid + '] .row.file:not(.upload)').each(function(index, element) {
+						if($(this).find('.' + Browser.Settings.File.NameClass + ' a').html() <= data.filename) {
+							insert = $(this);
+						}
+					});
+					
+					$('.browser[data-id=' + folderid + '] .no-files').remove();
+					html.insertAfter(insert).hide().show('highlight', 1000);
 					
 					System.unbindEvents();
 					System.bindEvents();
-					
-					$('.browser .no-files').hide('blind', 400, function() {
-						$(this).remove();
-					});
 				}
 			} else {
 				System.showError(data.message);	
