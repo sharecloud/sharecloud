@@ -443,7 +443,7 @@ var Browser = {
 	},
 	
 	CurrentFolderId: function() {
-		return $('.browser').data('id');	
+		return ($('.browser').data('id') != "" ? $('.browser').data('id') : null);
 	},
 	
 	ShowNoFilesInfo: function() {
@@ -581,8 +581,8 @@ var Browser = {
 				return !$(this).hasClass('selected');
 			},
 			drop: function(event, ui) {
-				console.log($(this).data('id'));
-				Browser.Selection.moveSelected($(this).data('id'));
+				var target = $(this).data('id');
+				Browser.Selection.moveSelected(target == "" ? null : target);
 				
 				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
 				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
@@ -608,8 +608,8 @@ var Browser = {
 				return !$(this).is(":last-child");
 			},
 			drop: function(event, ui) {
-				console.log($(this).data('folder-id'));
-				Browser.Selection.moveSelected($(this).data('folder-id'));
+				var target = $(this).data('folder-id');
+				Browser.Selection.moveSelected(target == "" ? null : target);
 				
 				return false;
 			}
@@ -638,8 +638,10 @@ var Browser = {
 			$('#modal-move .button-confirm').unbind('click').click(function(e) {
                 $button = $(this);
 				$button.button('loading');
-					
-				Browser.Selection.moveSelected($('.select-move').val(), function() {
+				
+				var target = $('.select-move').val();
+				
+				Browser.Selection.moveSelected(target == "" ? null : target, function() {
 					$button.button('reset');
 					System.escStack.remove('modal');					
 					$('#modal-move').modal('hide');

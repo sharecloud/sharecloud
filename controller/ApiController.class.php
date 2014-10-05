@@ -48,7 +48,7 @@ final class ApiController extends ControllerBase {
 		$response->data = $folder;
 		
 		try {
-			$folder = Folder::find('_id', intval($folder)); // do not remove intval() here!
+			$folder = Folder::find('_id', $folder);
 			
 			if($folder == NULL) {
 				throw new FolderNotFoundException();	
@@ -98,16 +98,18 @@ final class ApiController extends ControllerBase {
 	
 	public function upload() {
 		$fileInput = new FileUpload('file', '', true);
-		$folder = Utils::getPOST('folder', false);
+		$folder = Utils::getPOST('folder', NULL);
+		
+		if($folder == "null") {
+			// very bad workaround...
+			$folder = NULL;	
+		}
 		
 		$response = new AjaxResponse();
 		
 		try {
-			if($fileInput->validate('') && $folder !== false) {
-				$permission = FilePermission::getDefault();
-				$permission->save();
-				
-				$folder = Folder::find('_id', intval($folder));
+			if($fileInput->validate('')) {				
+				$folder = Folder::find('_id', $folder);
 				
 				if($folder == NULL) {
 					throw new FolderNotFoundException();	
@@ -116,7 +118,6 @@ final class ApiController extends ControllerBase {
 				$file = new File();
 				$file->filename = $fileInput->filename;
 				$file->folder = $folder;
-				$file->permission = $permission;
 				
 				$file->upload($fileInput->uploaded_file);
 				
@@ -134,6 +135,7 @@ final class ApiController extends ControllerBase {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorFolderNotFound');
 		} catch(Exception $e) {
+			var_dump($e);
 			Log::sysLog('ApiController::upload', 'Upload Error! Folder was not set or file is invalid');
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
@@ -148,6 +150,11 @@ final class ApiController extends ControllerBase {
 		
 		$folder = Utils::getPOST('folder', false);
 		
+		if($folder == "null") {
+			// very bad workaround...
+			$folder = NULL;	
+		}
+		
 		$response = new AjaxResponse();
 		
 		if(!DOWNLOAD_VIA_SERVER) {
@@ -159,11 +166,8 @@ final class ApiController extends ControllerBase {
 		}
 		
 		try {
-			if(!empty($url) && !empty($filename) && $folder !== false) {
-				$permission = FilePermission::getDefault();
-				$permission->save();
-				
-				$folder = Folder::find('_id', intval($folder));
+			if(!empty($url) && !empty($filename)) {
+				$folder = Folder::find('_id', $folder);
 				
 				if($folder == NULL) {
 					throw new FolderNotFoundException();	
@@ -172,7 +176,6 @@ final class ApiController extends ControllerBase {
 				$file = new File();
 				$file->filename = $filename;
 				$file->folder = $folder;
-				$file->permission = $permission;
 				
 				$file->remote($url);
 				
@@ -200,13 +203,13 @@ final class ApiController extends ControllerBase {
 	public function rename() {
 		$response = new AjaxResponse();
 		
-		$folder = Utils::getPOST('folder_id', 0);
+		$folder = Utils::getPOST('folder_id', NULL);
 		$file	= Utils::getPOST('file_id', 0);
 		$name	= Utils::getPOST('name', '');		
 		
 		try {
 			if($folder > 0) {
-				$folder = Folder::find('_id', intval($folder));
+				$folder = Folder::find('_id', $folder);
 				
 				if($folder != NULL) {
 					$folder->name = $name;
@@ -254,13 +257,17 @@ final class ApiController extends ControllerBase {
 		$folders = Utils::getPOST('folders', '');
 		$files = Utils::getPOST('files', '');
 		
-		$target = Utils::getPOST('target', false);
+		$target = Utils::getPOST('target', NULL);
+		
+		if($target == "null" || $target == "") {
+			$target = NULL;	
+		}
 		
 		$response = new AjaxResponse();
 		
-		if($target !== false && ($folders != '' || $files != '')) {
+		if($folders != '' || $files != '') {
 			try {
-				$target = Folder::find('_id', intval($target)); // do not remove intval() here!
+				$target = Folder::find('_id', $target);
 				
 				if($folders != '') {
 					foreach(explode(',', $folders) as $folder) {
@@ -334,7 +341,7 @@ final class ApiController extends ControllerBase {
 	}
 	
 	public function addFolder() {
-		$parent = Utils::getPOST('parent_id', -1);
+		$parent = Utils::getPOST('parent_id', NULL);
 		$name = Utils::getPOST('name', '');
 		
 		$response = new AjaxResponse();
@@ -343,7 +350,7 @@ final class ApiController extends ControllerBase {
 			try {
 				$folder = new Folder();
 				$folder->name = $name;
-				$folder->parent = Folder::find('_id', intval($parent)); // do not remove intval() here!
+				$folder->parent = Folder::find('_id', $parent);
 				
 				$folder->save();
 				
@@ -389,10 +396,10 @@ final class ApiController extends ControllerBase {
 				throw new Exception();	
 			}
 			
-			$file->permission->level = $permission;
-			$file->permission->password = $password;
+			$file->permission = $permission;
+			$file->password = $password;
 			
-			$file->permission->save();
+			$file->save();
 			
 			$response->success = true;
 		} catch(InvalidArgumentException $e) {
@@ -433,11 +440,8 @@ final class ApiController extends ControllerBase {
 	
 	public function getFolderSize() {
 		
-		$folder_id = Utils::getPOST('folder_id', false);
-		
-		if($folder_id != false) {
-			$folder  = Folder::find('_id', $folder_id);
-		}
+		$folder_id = Utils::getPOST('folder_id', NULL);
+		$folder  = Folder::find('_id', $folder_id);
 		
 		$response = new AjaxResponse();
 		

@@ -11,7 +11,7 @@ final class UploadController extends ControllerBase {
 		
 		$fieldset = new Fieldset(System::getLanguage()->_('General'));
 		$folderInput = new Select('folder', System::getLanguage()->_('ChooseFolder'), Folder::getAll());
-		$folderInput->selected_value = Utils::getGET('parent', 0);
+		$folderInput->selected_value = Utils::getGET('parent', NULL);
 		
 		$fieldset->addElements($folderInput);		
 		$form->addElements($fieldset);
@@ -49,21 +49,16 @@ final class UploadController extends ControllerBase {
 			if($permissionInput->selected_value == 2 && empty($password->value)) {
 				$password->error = System::getLanguage()->_('ErrorEmptyTextfield');
 			} else if($form->validate() && (!empty($url->value) || !empty($fileInput->uploaded_file))) {
-				$permission = new FilePermission();
-				$permission->level = $permissionInput->selected_value;
-				$permission->password = $password->value;
-				
-				$permission->save();				
-				
 				// Specify input control for error display
 				$err = (empty($url->value) ? $fileInput : $url);
 				
 				try {
-					$folder = Folder::find('_id', intval($folderInput->selected_value)); // do not remove intval() here
+					$folder = Folder::find('_id', $folderInput->selected_value);
 					$file = new File();
 
-					$file->folder= $folder;
-					$file->permission = $permission;
+					$file->folder = $folder;
+					$file->permission = $permissionInput->selected_value;
+					$file->password = $password->value;
 					
 					if(empty($url->value)) {
 						$file->filename = $fileInput->filename;

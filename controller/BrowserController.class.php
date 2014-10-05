@@ -5,14 +5,14 @@ final class BrowserController extends ControllerBase {
 	}
 	
 	public function index() {
-		$folder_id = 0;
+		$folder_id = NULL;
 		
-		if(is_numeric($this->getParam('id', 0))) {
-			$folder_id = $this->getParam('id', 0);
+		if(is_numeric($this->getParam('id', NULL))) {
+			$folder_id = $this->getParam('id', NULL);
 		}
 		
 		try {
-			$folder = Folder::find('_id', intval($folder_id)); // do not remove intval() here
+			$folder = Folder::find('_id', $folder_id);
 		} catch(FolderNotFoundException $e) {
 			System::displayError(System::getLanguage()->_('ErrorFolderNotFound') , '404 Not Found');
 		}

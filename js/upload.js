@@ -64,7 +64,7 @@ var Uploads = {
 		fileObj.xhr = $.post(System.getHostname() + 'api/remote', {
 			'url': url,
 			'filename': filename,
-			'folder': (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : 0)
+			'folder': (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null)
 		}, function(response) {
 			Uploads.uploadCompleted(id, response);
 		});
@@ -86,7 +86,7 @@ var Uploads = {
 			} else {
 				var form = new FormData();
 				form.append('file', file);
-				form.append('folder', (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : 0));
+				form.append('folder', (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null));
 				
 				fileObj.xhr = new XMLHttpRequest();
 				
