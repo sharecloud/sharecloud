@@ -2,12 +2,17 @@
 error_reporting(E_ALL);
 define('SYSTEM_ROOT', realpath(dirname(__FILE__) . '/../'));
 
-if(!empty(ini_get('date.timezone'))) {
-	date_default_timezone_set(ini_get("date.timezone"));
+if(defined('SERVER_TIMEZONE')) {
+	date_default_timezone_set(SERVER_TIMEZONE);	
 } else {
-	date_default_timezone_set("Europe/Berlin");
+	$timezone = ini_get('date.timezone');
+	
+	if(!empty($timezone)) {
+		date_default_timezone_set($timezone);
+	} else {
+		date_default_timezone_set('UTC');	
+	}
 }
-
 
 require_once SYSTEM_ROOT . '/classes/smarty/Smarty.class.php';
 require_once SYSTEM_ROOT . '/classes/AutoloadHelper.class.php';
