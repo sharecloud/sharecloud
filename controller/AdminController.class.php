@@ -10,8 +10,8 @@ final class AdminController extends ControllerBase {
 	public function index() {
 		
 		// Get files
-
-		$sql = System::getDatabase()->query('SELECT users.username, users.firstname, users.lastname, users._id, user_ID, SUM(size) as totalUserSize FROM files INNER JOIN users ON users._id = files.user_ID GROUP BY user_ID ORDER BY SUM(size) DESC');
+		
+		$sql = System::getDatabase()->query('SELECT u._id, u.username, u.firstname, u.lastname, IFNULL(SUM(f.size), 0) AS totalUserSize FROM users u LEFT JOIN files f ON u._id = f.user_ID GROUP BY u._id');
 		
 		$quotaByUser = array();
 		$used_space = 0;
@@ -33,7 +33,7 @@ final class AdminController extends ControllerBase {
 			$num_users++;
 		}
 		
-		$sql = System::getDatabase()->query('SELECT count(*) as num_files from files');
+		$sql = System::getDatabase()->query('SELECT count(*) AS num_files from files');
 		
 		$num_files = $sql->fetch(PDO::FETCH_OBJ);
 		$num_files = $num_files->num_files;
@@ -68,7 +68,7 @@ final class AdminController extends ControllerBase {
 		$version = file_get_contents(SYSTEM_ROOT . '/VERSION');
 		$phpversion = phpversion();
 		
-		$res = System::getDatabase()->query('SELECT VERSION() as mysql_version');
+		$res = System::getDatabase()->query('SELECT VERSION() AS mysql_version');
 		$row = $res->fetch(PDO::FETCH_ASSOC);
 		
 		if(!isset($row['mysql_version'])) {
