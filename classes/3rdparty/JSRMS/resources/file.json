@@ -6,8 +6,11 @@
 			"name" : "system"
 		},
 		{
-            "name" : "mediaelement"
-        },
+		  "name" : "mediaelement"
+		},
+		{
+		  "name" : "highlight"
+		},
 		{
 			"name" : "zeroclipboard"
 		}

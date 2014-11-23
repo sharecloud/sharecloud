@@ -337,9 +337,12 @@ var System = {
 		System.unbindEvents();
 		
 		var html = $(data);
-		
+
+		// Load content
+		$('.main').html(html.find('.main').html());
+
 		$('title').html(html.filter('title').html());
-		
+
 		html.filter('script').each(function(index, element) {
 			// Test if script file must be loaded
 			var src = $(this).attr('src');
@@ -357,10 +360,14 @@ var System = {
 				$('head').append($(this));	
 			}
 		});
-		
-		// Load content
-		$('.main').html(html.find('.main').html());
-		
+
+		// bind File events on every preview
+		if(typeof (File) !== 'undefinied') {
+			File.unbindEvents();
+			File.bindEvents();
+			console.log("ajax un/bind events");
+		}
+
 		// Load navigation
 		$('.nav.navbar-nav:first()').html(html.find('.nav.navbar-nav:first()').html());
 		

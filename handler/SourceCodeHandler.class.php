@@ -101,7 +101,6 @@ class SourceCodeHandler extends HandlerBase {
         
 		$this->smarty->assign('extension', $htmlClass);
         $this->smarty->assign('content', htmlentities($this->content));
-        $this->smarty->requireResource('highlight');
         
         $this->smarty->display('handler/sourcecode.tpl');
 	}
