@@ -14,6 +14,7 @@ class SourceCodeHandler extends HandlerBase {
         'cs' => 'cs', // C#
         'xaml' => '', // K.A.
         'xml' => 'xml', // XML
+        'mobileconfig' => 'xml', // Apple mobileconfig
         'patch' => 'diff', 'diff' => 'diff', // git
         'vb' => 'vbscript', // VisualBasic
         'csv' => '', // CSV
