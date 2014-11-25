@@ -1,28 +1,3 @@
-CREATE TABLE `users` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `salt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` text COLLATE utf8_unicode_ci,
-  `admin` varchar(1) COLLATE utf8_unicode_ci DEFAULT '0',
-  `quota` bigint(20) DEFAULT '0',
-  `design` varchar(45) COLLATE utf8_unicode_ci DEFAULT 'dynamic',
-  `last_login` int(11) DEFAULT NULL,
-  `lang` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `firstname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lastname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE TABLE `folders` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent` int(11) DEFAULT NULL,
-  `user_ID` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`_id`),
-  KEY `folders_userID_idx` (`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 CREATE TABLE `files` (
   `_id` int(11) NOT NULL AUTO_INCREMENT,
   `folder_ID` int(11) DEFAULT NULL,
@@ -43,7 +18,16 @@ CREATE TABLE `files` (
   KEY `files_userID_idx` (`user_ID`),
   CONSTRAINT `files_folderID` FOREIGN KEY (`folder_ID`) REFERENCES `folders` (`_id`) ON UPDATE NO ACTION,
   CONSTRAINT `files_userID` FOREIGN KEY (`user_ID`) REFERENCES `users` (`_id`) ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `folders` (
+  `_id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent` int(11) DEFAULT NULL,
+  `user_ID` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`_id`),
+  KEY `folders_userID_idx` (`user_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `log` (
   `_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -64,7 +48,7 @@ CREATE TABLE `lostpw` (
   `hash` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
   PRIMARY KEY (`_id`,`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `sessions` (
   `sid` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -73,4 +57,20 @@ CREATE TABLE `sessions` (
   `uid` int(11) DEFAULT '0',
   `data` text COLLATE utf8_unicode_ci,
   UNIQUE KEY `sid_UNIQUE` (`sid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `users` (
+  `_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `salt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` text COLLATE utf8_unicode_ci,
+  `admin` varchar(1) COLLATE utf8_unicode_ci DEFAULT '0',
+  `quota` bigint(20) DEFAULT '0',
+  `design` varchar(45) COLLATE utf8_unicode_ci DEFAULT 'dynamic',
+  `last_login` int(11) DEFAULT NULL,
+  `lang` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `firstname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lastname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
