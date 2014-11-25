@@ -361,8 +361,8 @@ var System = {
 			}
 		});
 
-		// bind File events on every preview
-		if(typeof (File) !== 'undefinied') {
+		// bind File events on every preview and check if File is "our" Object
+		if(typeof (File) !== 'undefinied' && File.unbindEvents === 'function' && File.bindEvents === 'function') {
 			File.unbindEvents();
 			File.bindEvents();
 			console.log("ajax un/bind events");
