@@ -365,7 +365,6 @@ var System = {
 		if(typeof (File) !== 'undefinied' && File.unbindEvents === 'function' && File.bindEvents === 'function') {
 			File.unbindEvents();
 			File.bindEvents();
-			console.log("ajax un/bind events");
 		}
 
 		// Load navigation
