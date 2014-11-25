@@ -61,7 +61,11 @@
 
 				<a href="{Router->build p1='UsersController' p2='edit' p3=$user}" class="list-group-item">
                 	<span class="str-truncated">
-                    	{$user->username} ({$user->getFullName()})
+                        {if empty($user->getFullName())}
+                    	    {$user->username}
+                        {else}
+                            {$user->username} ({$user->getFullName()})
+                        {/if}
                     </span>
                     <span class="glyphicon glyphicon-chevron-right pull-right"> </span>
                 </a>

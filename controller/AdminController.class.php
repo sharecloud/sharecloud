@@ -13,7 +13,6 @@ final class AdminController extends ControllerBase {
 		
 		$sql = System::getDatabase()->query('SELECT u._id, u.username, u.firstname, u.lastname, IFNULL(SUM(f.size), 0) AS totalUserSize FROM users u LEFT JOIN files f ON u._id = f.user_ID GROUP BY u._id');
 		
-		$quotaByUser = array();
 		$used_space = 0;
 		$num_users = 0;
 		
@@ -29,7 +28,7 @@ final class AdminController extends ControllerBase {
 			
 			$obj->used = $user->totalUserSize;
 			
-			$userByQutoa[] = $obj;
+			$users[] = $obj;
 			$num_users++;
 		}
 		
@@ -93,7 +92,7 @@ final class AdminController extends ControllerBase {
 		
 		
 		$smarty->assign('newUsers', $newUsers);		
-		$smarty->assign('userByQutoa', $userByQutoa);		
+		$smarty->assign('userByQutoa', $users);
 		$smarty->assign('mimes', $mimes);
 		
 		$smarty->assign('filesPerUser', $files_per_user);
