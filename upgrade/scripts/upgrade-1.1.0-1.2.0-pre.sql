@@ -1,4 +1,4 @@
-DROP TABLE `globalpreferences`;
+DROP TABLE IF EXISTS `globalpreferences`;
 
 ALTER TABLE `files`
 	ADD COLUMN password TEXT,
