@@ -50,7 +50,7 @@ final class AuthController extends ControllerBase{
 		$errorMsg = '';
         
         if(Utils::getPOST('submit', false) != false) {
-			if($file->permission->verify($password)) {
+			if($file->verifyPassword($password)) {
 				System::getSession()->setData('authenticatedFiles',
 					array_merge(
 						array($file->alias), 

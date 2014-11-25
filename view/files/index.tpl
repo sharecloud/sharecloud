@@ -5,7 +5,7 @@
 	<div class="row header clearfix">
     	<div class="column">
     		<ol class="breadcrumb">
-				<li data-folder-id='0'><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
+				<li data-folder-id=''><a href="{Router->build p1='BrowserController' p2='index'}">{'Start'|@lang}</a></li>
 			{foreach $breadcrumb as $f}
 				<li data-folder-id='{$f->id}'><a href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a></li>
 			{/foreach}
@@ -21,15 +21,15 @@
         </div>
     </div>
     
-{foreach $folders as $folder}
-	<div class="row folder clearfix" data-id="{$folder->id}">
+{foreach $folders as $f}
+	<div class="row folder clearfix" data-id="{$f->id}">
     	<div class="column filename">
         	<span class="glyphicon glyphicon-folder-close"> </span> 
-            <a class="folder" href="{Router->build p1='BrowserController' p2='show' p3=$folder}">{$folder->name}</a>
+            <a class="folder" href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a>
         </div>
-        <div class="column size">{$folder->getContentSize()|@filesize}</div>
+        <div class="column size">{$f->getContentSize()|@filesize}</div>
         <div class="column num-downloads">
-        	<a href="{Router->build p1='DownloadController' p2='folder' p3=$folder}" title="{'DownloadAsZip'|@lang}" data-noajax="true" class="btn btn-default btn-sm">
+        	<a href="{Router->build p1='DownloadController' p2='folder' p3=$f}" title="{'DownloadAsZip'|@lang}" data-noajax="true" class="btn btn-default btn-sm">
             	<span class="glyphicon glyphicon-save"> </span>
             </a>
         </div>

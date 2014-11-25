@@ -43,16 +43,14 @@ var Browser = {
 		},
 		
 		submit: function() {
-			$.post(
-				System.getHostname() + 'api/folders/add', 
+			System.api(
+				'api/folders/add', 
 				{
 					'name': $('#create-folder-input').val(),
 					'parent_id': $('#create-folder-input').data('parent')	
 				},
-				function(data) {
+				function(response) {
 					try {
-						var response = $.parseJSON(data);
-					
 						if(response.success == true) {
 							var copy = $('.cloneable .row.folder').clone(false);
 								
@@ -154,17 +152,15 @@ var Browser = {
 			
 			System.preventEvents = true;
 			
-			$.post(
-				System.getHostname() + 'api/browser/rename',
+			System.api(
+				'api/browser/rename',
 				{
-					'folder_id': (row.hasClass('folder') ? row.data('id') : 0),
-					'file_id': (row.hasClass('file') ? row.data('id') : 0),
+					'folder_id': (row.hasClass('folder') ? row.data('id') : null),
+					'file_id': (row.hasClass('file') ? row.data('id') : null),
 					'name': input.val()
 				},
-				function(data) {
+				function(response) {
 					try {
-						var response = $.parseJSON(data);
-					
 						if(response.success == true) {
 							var index = input.val().lastIndexOf('.');
 							if(index != -1) {
@@ -353,31 +349,33 @@ var Browser = {
 				var $button = $(this);
 				$button.button('loading');
 				
-				$.post(System.getHostname() + 'api/browser/delete', {
-					'folders': folders.join(','),
-					'files': files.join(',')	
-				}, function(data) {
-					$button.button('reset');
-					$('#modal-delete').modal('hide');
-					System.escStack.remove('modal');
-					
-					try {
-						var response = $.parseJSON(data);
+				System.api(
+					'api/browser/delete',
+					{
+						'folders': folders,
+						'files': files	
+					}, 
+					function(response) {
+						$button.button('reset');
+						$('#modal-delete').modal('hide');
+						System.escStack.remove('modal');
 						
-						if(response.success == true) {
-							$('.browser .row.selected').hide('blind', { }, 400, function() {
-								$(this).remove();
-								Browser.Selection.updateMenu();
-								Browser.ShowNoFilesInfo();
-							});
-						} else {
-							System.showError(response.message);	
+						try {
+							if(response.success == true) {
+								$('.browser .row.selected').hide('blind', { }, 400, function() {
+									$(this).remove();
+									Browser.Selection.updateMenu();
+									Browser.ShowNoFilesInfo();
+								});
+							} else {
+								System.showError(response.message);	
+							}
+						} catch(e) {
+							console.debug("Exception: " + e);
+							System.showError(System.l10n._('UnknownError'));
 						}
-					} catch(e) {
-						console.debug("Exception: " + e);
-						System.showError(System.l10n._('UnknownError'));
 					}
-				});
+				);
 			});
 			
 			$('#modal-delete').modal({
@@ -403,47 +401,52 @@ var Browser = {
 				}
             });
 			
-			$.post(System.getHostname() + 'api/browser/move', {
-				'folders': folders.join(','),
-				'files': files.join(','),
-				'target': target
-			}, function(data) {
-				try {
-					var response = $.parseJSON(data);
-				
-					if(typeof(callback) == "function") {
-						callback(response);	
-					}
-					
-					if(response.success == true) {
-						$('.browser .row.selected').hide('blind', { }, 400, function() {
-							$(this).remove();
-							Browser.Selection.updateMenu();
-							Browser.ShowNoFilesInfo();
-						});
+			System.api(
+				'api/browser/move', 
+				{
+					'folders': folders,
+					'files': files,
+					'target': target
+				},
+				function(response) {
+					try {
+						if(typeof(callback) == "function") {
+							callback(response);	
+						}
 						
-						$.post(System.getHostname() + 'api/folders/folderSize',{
-							'folder_id': target
-						}, function(data){
-							var response = $.parseJSON(data);
-							if(response.success == true) {
-								$('.row.folder[data-id='+target+'] .column.size').text(response.message);
-							}
-						});
-						
-					} else {
-						System.showError(response.message);	
+						if(response.success == true) {
+							$('.browser .row.selected').hide('blind', { }, 400, function() {
+								$(this).remove();
+								Browser.Selection.updateMenu();
+								Browser.ShowNoFilesInfo();
+							});
+							
+							System.api(
+								'api/folders/folderSize', 
+								{
+									'folder_id': target
+								}, 
+								function(response){
+									if(response.success == true) {
+										$('.row.folder[data-id='+target+'] .column.size').text(response.message);
+									}
+								}
+							);
+							
+						} else {
+							System.showError(response.message);	
+						}
+					} catch(e) {
+						console.debug("Exception: " + e);
+						System.showError(System.l10n._('UnknownError'));	
 					}
-				} catch(e) {
-					console.debug("Exception: " + e);
-					System.showError(System.l10n._('UnknownError'));	
 				}
-			});
+			);
 		}
 	},
 	
 	CurrentFolderId: function() {
-		return $('.browser').data('id');	
+		return ($('.browser').data('id') != "" ? $('.browser').data('id') : null);
 	},
 	
 	ShowNoFilesInfo: function() {
@@ -581,8 +584,8 @@ var Browser = {
 				return !$(this).hasClass('selected');
 			},
 			drop: function(event, ui) {
-				console.log($(this).data('id'));
-				Browser.Selection.moveSelected($(this).data('id'));
+				var target = $(this).data('id');
+				Browser.Selection.moveSelected(target == "" ? null : target);
 				
 				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
 				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
@@ -608,8 +611,8 @@ var Browser = {
 				return !$(this).is(":last-child");
 			},
 			drop: function(event, ui) {
-				console.log($(this).data('folder-id'));
-				Browser.Selection.moveSelected($(this).data('folder-id'));
+				var target = $(this).data('folder-id');
+				Browser.Selection.moveSelected(target == "" ? null : target);
 				
 				return false;
 			}
@@ -638,8 +641,10 @@ var Browser = {
 			$('#modal-move .button-confirm').unbind('click').click(function(e) {
                 $button = $(this);
 				$button.button('loading');
-					
-				Browser.Selection.moveSelected($('.select-move').val(), function() {
+				
+				var target = $('.select-move').val();
+				
+				Browser.Selection.moveSelected(target == "" ? null : target, function() {
 					$button.button('reset');
 					System.escStack.remove('modal');					
 					$('#modal-move').modal('hide');

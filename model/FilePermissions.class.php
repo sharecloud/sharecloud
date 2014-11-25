@@ -20,6 +20,15 @@ final class FilePermissions {
 		}
 	}
 	
+	public static function tryParse($input) {
+		try {
+			$result = self::parse($input);			
+			return true;
+		} catch(InvalidArgumentException $e) {
+			return false;	
+		}
+	}
+	
 	public static function getAll() {
 		return array(
 			FilePermissions::PUBLIC_ACCESS => System::getLanguage()->_('PermissionPublic'),

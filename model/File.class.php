@@ -24,7 +24,7 @@ final class File extends ModelBase {
 	 * Folder ID
 	 * @var int
 	 */
-	private $folderid = 0;
+	private $folderid = NULL;
 	
 	/**
 	 * Alias used for URLs
@@ -69,17 +69,29 @@ final class File extends ModelBase {
 	private $hashes = array();
 	
 	/**
-	 * Permission Object
-	 * @var FilePermission
-	 */
-	
-	private $permission = NULL;
-	
-	/**
 	 * Number of downloads
 	 * @var int
 	 */
 	private $downloads = 0;
+	
+	/**
+	 * Permission
+	 * @var int
+	 */
+	private $permission;
+	
+	/**
+	 * Password for authentification
+	 * (encrypted)
+	 * @var string
+	 */
+	private $password;
+	
+	/**
+	 * Salt for password encryption
+	 * @var string
+	 */
+	private $salt;
 	
 	/**
 	 * Upload time
@@ -104,7 +116,9 @@ final class File extends ModelBase {
 	 * @param int File-ID
 	 * @throws InvalidArgumentException, Exception
 	 */
-	public function __construct() { }
+	public function __construct() {
+		$this->permission = DEFAULT_FILE_PERMISSION;	
+	}
 	
 	public function __destruct() {
 		if($this->id == 0 && !empty($this->file)) {
@@ -133,7 +147,9 @@ final class File extends ModelBase {
 		$this->downloads = $row['downloads'];
 		$this->time 	= $row['time'];
 		
-		$this->permission = FilePermission::find('_id', $row['file_permissions_ID']);
+		$this->permission = FilePermissions::parse($row['permission']);
+		$this->password = $row['password'];
+		$this->salt = $row['salt'];	
 		
 		$this->ext 		= File::getExtension($this->filename);
 		
@@ -142,8 +158,6 @@ final class File extends ModelBase {
 		}
 		
 		if(!file_exists($this->getAbsPath())) {
-			$this->permission->delete();
-			
 			$sql = System::getDatabase()->prepare('DELETE FROM files WHERE _id = :id');
 			$sql->execute(array(':id' => $this->id));
 			
@@ -156,21 +170,26 @@ final class File extends ModelBase {
 			throw new NotAuthorisedException();
 		}
 		
+		if($this->permission == FilePermissions::RESTRICTED_ACCESS && strlen($this->password) < PASSWORD_MIN_LENGTH) {
+			throw new InvalidPasswordException();	
+		} else if($this->permission != FilePermissions::RESTRICTED_ACCESS) {
+			$this->password = $this->salt = '';
+		}
+		
 		$data = array(
 			':folderid'	=> $this->folderid,
 			':filename'	=> $this->filename,
-			':downloads'=> $this->downloads
+			':downloads'=> $this->downloads,
+			':permission' => $this->permission,
+			':password' => $this->password,
+			':salt' => $this->salt
 		);
 		
 		if($this->filename == '') {
 			throw new InvalidFilenameException();	
 		}
 		
-		if($this->isNewRecord) {
-			if($this->permission == NULL) {
-				$this->permission = FilePermission::createNewFilePermission(DEFAULT_FILE_PERMISSION);	
-			}
-			
+		if($this->isNewRecord) {			
 			if(System::getUser()->quota > 0 && $this->size > System::getUser()->getFreeSpace()) {
 			    Log::sysLog("File", "Quota of User with id ".System::getUser()->id." exceeded");
 				throw new QuotaExceededException();
@@ -185,16 +204,15 @@ final class File extends ModelBase {
 			$data[':file']	= $this->file;
 			$data[':hashes']= json_encode($this->hashes);
 			$data[':time']	= time();
-			$data[':permission']	= $this->permission->id;
 			
-			$sql = System::getDatabase()->prepare('INSERT INTO files (folder_ID, alias, user_ID, filename, mime, size, file, hashes, downloads, time, file_permissions_ID) VALUES (:folderid, :alias, :uid, :filename, :mime, :size, :file, :hashes, :downloads, :time, :permission)');
+			$sql = System::getDatabase()->prepare('INSERT INTO files (folder_ID, alias, user_ID, filename, mime, size, file, hashes, downloads, time, permission, password, salt) VALUES (:folderid, :alias, :uid, :filename, :mime, :size, :file, :hashes, :downloads, :time, :permission, :password, :salt)');
 			$sql->execute($data);
 			
 			$this->id	= System::getDatabase()->lastInsertId();
 		} else {
 			$data[':id']	= $this->id;
 			
-			$sql = System::getDatabase()->prepare('UPDATE files SET folder_id = :folderid, filename = :filename, downloads = :downloads WHERE _id = :id');
+			$sql = System::getDatabase()->prepare('UPDATE files SET folder_id = :folderid, filename = :filename, downloads = :downloads, permission = :permission, password = :password, salt = :salt WHERE _id = :id');
 			$sql->execute($data);
 		}
 	}
@@ -212,8 +230,6 @@ final class File extends ModelBase {
 		if($success == true) {		
 			$sql = System::getDatabase()->prepare('DELETE FROM files WHERE _id = :id');
 			$sql->execute(array(':id' => $this->id));
-			
-			$this->permission->delete();
 		} else {
 			throw new FilesystemException();
 		}
@@ -233,17 +249,19 @@ final class File extends ModelBase {
 	 */
 	public function __set($property, $value) {
 		if(!in_array($property, explode(',', File::READONLY))) {
-			if($property == 'folder' && $value instanceof Folder) {
+			if($property == 'password') {
+				$this->salt		= hash('sha512', uniqid());
+				$this->password	= Utils::createPasswordHash($value, $this->salt);
+				return;
+			} else if($property == 'permission') {
+				$this->permission = FilePermissions::parse($value);
+				return;
+			} else if($property == 'folder' && $value === NULL) {
+				$this->folderid = NULL;
+				return;
+			} else if($property == 'folder' && $value instanceof Folder) {
 				$this->folderid = $value->id;
 				return;
-			}
-			
-			if($property == 'permission') {
-				if($this->permission == NULL && $value instanceof FilePermission) {
-					$this->permission = $value;
-				} else {
-					throw new InvalidArgumentException('Property '.$property.' is readonly');	
-				}
 			}
 			
 			$this->$property = $value;
@@ -441,6 +459,34 @@ final class File extends ModelBase {
 		    Log::sysLog("File", "Move error.");
 			throw new UploadException('MoveFileError');
 		}
+		
+		$this->mime = File::determineMime($this->file, $this->filename);
+		$this->size = filesize($this->getAbsPath());
+		
+		// Generate hashes
+		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
+			$this->hashes[$value] = hash_file(trim($value), SYSTEM_ROOT . File::FILEDIR . $this->file);
+		}
+	}
+	
+	public function put() {
+		if($this->file != NULL) {
+			throw new Exception();	
+		}
+		
+		$this->file = File::createFilename();
+		$this->time = time();
+		$this->uid	= System::getUser()->uid;
+		
+		$putdata = fopen('php://input', 'r');
+		$handle = fopen(SYSTEM_ROOT . File::FILEDIR . $this->file, 'w');
+		
+		while($data = fread($putdata, 1024)) {
+			fwrite($handle, $data);	
+		}
+		
+		fclose($handle);
+		fclose($putdata);
 		
 		$this->mime = File::determineMime($this->file, $this->filename);
 		$this->size = filesize($this->getAbsPath());
@@ -653,9 +699,13 @@ final class File extends ModelBase {
 	public static function find($column = '*', $value = NULL, array $options = array()) {
 		$query = 'SELECT * FROM files';
 		
-		if($column != '*' && strlen($column) > 0 && $value !== NULL) {
-			$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value';
-			$params[':value'] = $value;
+		if($column != '*' && strlen($column) > 0) {
+			if($value == NULL) {
+				$query .= ' WHERE '.Database::makeTableOrColumnName($column).' IS NULL';
+			} else {
+				$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value';
+				$params[':value'] = $value;
+			}
 			
 			if(System::getUser() != NULL) {
 				$query .= ' AND user_ID = :uid';
@@ -682,7 +732,7 @@ final class File extends ModelBase {
 		$sql->execute($params);
 		
 		if($sql->rowCount() == 0) {
-			return NULL;	
+			return NULL;
 		} else if($sql->rowCount() == 1) {
 			$file = new File();
 			$file->assign($sql->fetch());

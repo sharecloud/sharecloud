@@ -376,7 +376,28 @@ var System = {
 		$('body').css('cursor', 'auto');
 		
 		System.bindEvents();
-	}	
+	},
+	
+	api: function(endpoint, data, success) {
+		if(typeof(data) === 'undefined') {
+			data = { };	
+		}
+		
+		if(typeof(success) !== 'function') {
+			success = function() { };
+		}
+		
+		$.ajax({
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			url: System.getHostname() + endpoint,
+			data: JSON.stringify(data),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
 };
 
 $(document).ready(function(e) {

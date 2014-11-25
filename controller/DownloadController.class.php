@@ -20,10 +20,10 @@ final class DownloadController extends ControllerBase {
         }
 
         if($user_id != $this->file->uid) {
-            if($this->file->permission->level == FilePermissions::PRIVATE_ACCESS) {
+            if($this->file->permission == FilePermissions::PRIVATE_ACCESS) {
 				System::displayError(System::getLanguage()->_('PermissionDenied'), '403 Forbidden');
                 exit;
-            } elseif ($this->file->permission->level == FilePermissions::RESTRICTED_ACCESS) {
+            } elseif ($this->file->permission == FilePermissions::RESTRICTED_ACCESS) {
                 if(is_array(System::getSession()->getData("authenticatedFiles"))) {
                     if(!in_array($this->file->alias, System::getSession()->getData("authenticatedFiles"))) {
                         System::forwardToRoute(Router::getInstance()->build('AuthController', 'authenticateFile', $this->file));

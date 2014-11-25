@@ -50,34 +50,17 @@ final class Upgrade {
 	private static function selectUpgrade(Smarty $smarty) {
 		$upgrades = array();
 		
-		foreach(Utils::getFilelist(SYSTEM_ROOT . '/upgrade/') as $file) {
-			if(preg_match('~upgrade-(.*?)-(.*?).sql~', $file)) {
-				$upgrades[$file] = $file;	
+		foreach(Utils::getFilelist(SYSTEM_ROOT . '/upgrade/scripts/') as $file) {
+			if(preg_match('~upgrade-(.*?)-(.*?).php~', $file, $matches)) {
+				$upgrades[$file] = "Version " . $matches[1] . " -> " . $matches[2];	
 			}
 		}
 		
 		if(Utils::getPOST('submit', false) !== false) {
 			$upgrade = Utils::getPOST('upgrade', '');
 			
-			if(array_key_exists($upgrade, $upgrades) && file_exists(SYSTEM_ROOT . '/upgrade/'.$upgrade)) {
-				// Run upgrade
-				$sql = file_get_contents(SYSTEM_ROOT . '/upgrade/'.$upgrade);
-				
-				try {
-					$db = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
-					$db->exec($sql);	
-					
-					header('Location: index.php?action=success');
-					exit;
-				} catch(PDOException $e) {
-					$smarty->assign('heading', 'Database tables');
-					$smarty->assign('error', $e->getMessage());
-					$smarty->assign('url', 'index.php');
-					$smarty->assign('curStep', 1);
-					
-					$smarty->display('error.tpl');
-					exit;
-				}
+			if(array_key_exists($upgrade, $upgrades) && file_exists(SYSTEM_ROOT . '/upgrade/scripts/' . $upgrade)) {
+				include_once SYSTEM_ROOT . '/upgrade/scripts/' . $upgrade;
 			}
 		}
 		

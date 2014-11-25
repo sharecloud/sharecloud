@@ -10,7 +10,7 @@ final class Session {
 	 * Holds current User ID
 	 * @var int
 	 */
-	private $uid;
+	private $uid = NULL;
 	
 	/**
 	 * Holds current UAS
@@ -108,7 +108,7 @@ final class Session {
 	 * Log-Out
 	 */
 	public function logout() {
-		$this->uid = 0;
+		$this->uid = NULL;
 		$this->saveSession();
 	}
 	
