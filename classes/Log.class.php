@@ -46,6 +46,10 @@ final class Log {
 		$entry->log		= 'php';
 		
 		$entry->save();
+
+        if(DEV_MODE) {
+            echo $message."\n".$file.":".line;
+        }
     }
     
     /**
@@ -113,6 +117,9 @@ final class Log {
         Log::log('EXCEPTION', get_class($e) . ': '. $e->getMessage() . "\n\tTRACE: ".implode("\n\t\t", $trace), $e->getFile(), $e->getLine());
         if($uncaught)
 			System::displayError('Uncaught exception.');
+        if(DEV_MODE) {
+
+        }
     }
 	
 	private static function var2string($var) {
