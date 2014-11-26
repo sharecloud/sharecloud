@@ -245,6 +245,11 @@ var System = {
 					for(var i = 0; i < files.length; i++) {
 						Uploads.uploadFile(files[i]);
 					}
+
+					// Visual feedback while uploading file
+					if(!$('.button-status').parent().is('.open')) {
+						$('.button-status').dropdown('toggle');
+					}
 				}
 			}
 			
