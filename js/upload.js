@@ -193,7 +193,7 @@ var Uploads = {
 			
 			if(!file.inDOM) {
 				// Insert Upload
-				var html = $('#upload-progress .clonable.entry').clone().removeClass('clonable').show();
+				var html = $('#upload-progress .cloneable.entry').clone().removeClass('cloneable').show();
 				html.attr('data-upload-id', id);			
 				html.appendTo($('#upload-progress')).show();
 				

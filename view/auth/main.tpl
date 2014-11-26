@@ -48,7 +48,7 @@ System.config.modRewrite = {$MOD_REWRITE};
             {$errorMsg}
         </div>
 {/if}
-		<div class="clonable alert alert-dismissable">
+		<div class="cloneable alert alert-dismissable">
         	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <p class="msg"> </p>
         </div>

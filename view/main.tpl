@@ -51,7 +51,7 @@ System.config.modRewrite = {$MOD_REWRITE};
                     	<a href="#" class="button-status" data-toggle="dropdown">{'NoUploads'|@lang}</a>
                         
                         <div id="upload-progress" class="dropdown-menu">
-                            <div class="clonable entry clearfix">
+                            <div class="cloneable entry clearfix">
                                 <p class="filename"></p>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemax="100" aria-valuemin="0" style="width:0%;">
@@ -112,7 +112,7 @@ System.config.modRewrite = {$MOD_REWRITE};
             {$errorMsg}
         </div>
 {/if}
-		<div class="clonable alert alert-dismissable">
+		<div class="cloneable alert alert-dismissable">
         	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <p class="msg"> </p>
         </div>

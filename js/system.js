@@ -147,7 +147,7 @@ var System = {
 		}
 
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-danger').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-danger').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
@@ -158,7 +158,7 @@ var System = {
 		}
 		
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-success').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-success').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
