@@ -59,7 +59,7 @@
             </span>
             <span>
                 {if $file->permission neq 3}
-                    <i class="glyphicon glyphicon-globe permission-icon"></i>
+                    <i data-toggle="tooltip" title="{'Public'|@lang}" class="glyphicon glyphicon-globe"></i>
                 {/if}
             </span>
             <span>

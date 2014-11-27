@@ -304,6 +304,7 @@ var System = {
 
 		// Tooltips
 		$('a[title]').tooltip();
+		$('i[title]').tooltip();
 		
 		// Autofocus
 		$('input[data-autofocus]').focus();
