@@ -58,12 +58,14 @@
                 {$file->downloads}
             </span>
             <span>
-                {if $file->permission neq 3}
+                {if $file->permission eq 1}
                     <i data-toggle="tooltip" title="{'Public'|@lang}" class="glyphicon glyphicon-globe"></i>
+                {elseif $file->permission eq 2}
+                    <i data-toggle="tooltip" title="{'Protected'|@lang}" class="glyphicon glyphicon-lock"></i>
                 {/if}
             </span>
             <span>
-                <a href="{Router->build p1='DownloadController' p2='force' p3=$file}" title="{'Download'|@lang}" data-toggle="tooltip" data-placement="left" data-noajax="true" class="btn btn-default btn-sm">
+                <a href="{Router->build p1='DownloadController' p2='force' p3=$file}" data-noajax="true" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-save"> </span>
                 </a>
             </span>
