@@ -12,6 +12,7 @@
 <script type="text/javascript">
 System.config.httpHost = "{$HTTP_BASEDIR}";
 System.config.modRewrite = {$MOD_REWRITE};
+System.config.maxUploadSize = {$MAX_UPLOAD_SIZE};
 </script>
 <script type="text/javascript">
 {foreach $LangStrings as $key => $value}System.l10n.add('{$key}','{$value}');{/foreach}

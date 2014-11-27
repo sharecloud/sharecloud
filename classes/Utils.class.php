@@ -160,7 +160,7 @@ final class Utils {
 	/**
 	 * Parses PHP style integer values like 1M, 2G, ...
 	 * @static
-	 * @param int PHP style integer
+	 * @param mixed PHP style integer
 	 * @return int Integer value in Bytes
 	 */
 	public static function parseInteger($input) {
@@ -179,7 +179,7 @@ final class Utils {
 				$value *= 1024;
 				
 			case 'K':
-				$value *= 1024;				
+				$value *= 1024;
 		}
 		
 		return $value;
@@ -208,7 +208,14 @@ final class Utils {
 		
 		return false;
 	}
-	
+
+	/**
+	 * @return int the maximal upload size in bytes
+	 */
+	public static function maxUploadSize() {
+		return min(Utils::parseInteger(ini_get('post_max_size')), Utils::parseInteger(ini_get('upload_max_filesize')));
+	}
+
 	/**
 	 * Performs an HTTP GET request to
 	 * a given URL

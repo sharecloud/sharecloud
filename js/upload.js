@@ -77,6 +77,12 @@ var Uploads = {
 		fileObj.id = id;
 		fileObj.filename = file.name;
 		fileObj.size = file.size;
+
+		if(fileObj.size > System.config.maxUploadSize) {
+			System.showError(System.l10n._('ErrorFileTooBig'));
+			Uploads.currentUploads[id] = null;
+			return;
+		}
 		
 		// Check quota and then upload
 		$.getJSON(System.getHostname() + 'api/quota', { }, function(response) {

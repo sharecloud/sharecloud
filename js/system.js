@@ -51,7 +51,8 @@ var System = {
 	 */
 	config: {
 		httpHost: '',
-		modRewrite: true
+		modRewrite: true,
+		maxUploadSize: 0
 	},
 	
 	/**
