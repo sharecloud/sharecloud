@@ -21,16 +21,16 @@
         </div>
     </div>
     
-{foreach $folders as $f}
-	<div class="row folder clearfix" data-id="{$f->id}">
+{foreach $folders as $folder}
+	<div class="row folder clearfix" data-id="{$folder->id}">
     	<div class="column filename">
         	<span class="glyphicon glyphicon-folder-close"> </span> 
-            <a class="folder" href="{Router->build p1='BrowserController' p2='show' p3=$f}">{$f->name}</a>
+            <a class="folder" href="{Router->build p1='BrowserController' p2='show' p3=$folder}">{$folder->name}</a>
         </div>
-        <div class="column size">{$f->getContentSize()|@filesize}</div>
+        <div class="column size">{$folder->getContentSize()|@filesize}</div>
         <div class="column num-downloads">
-        	<a href="{Router->build p1='DownloadController' p2='folder' p3=$f}" title="{'DownloadAsZip'|@lang}" data-noajax="true" class="btn btn-default btn-sm">
-            	<span class="glyphicon glyphicon-save"> </span>
+            <a href="{Router->build p1='DownloadController' p2='folder' p3=$folder}" title="{'DownloadAsZip'|@lang}" data-noajax="true" data-placement="left" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-save"> </span>
             </a>
         </div>
 
@@ -52,7 +52,23 @@
         </div>
         
         <div class="column size">{$file->size|@filesize}</div>
-        <div class="column num-downloads">{$file->downloads}</div>
+        <div class="column num-downloads">
+
+            <span>
+                {$file->downloads}
+            </span>
+            <span>
+                {if $file->permission neq 3}
+                    <i class="glyphicon glyphicon-globe permission-icon"></i>
+                {/if}
+            </span>
+            <span>
+                <a href="{Router->build p1='DownloadController' p2='force' p3=$file}" title="{'Download'|@lang}" data-toggle="tooltip" data-placement="left" data-noajax="true" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-save"> </span>
+                </a>
+            </span>
+
+        </div>
     </div>
 {foreachelse}
 	<p class="no-files">{'NoFiles'|@lang}</p>
