@@ -6,9 +6,9 @@ var File = {
 			});
 			clip.on('complete', function(client, args) {
 				$(".copy span").each(function(index, value) {
-					$(value).removeClass("glyphicon-ok").addClass("glyphicon-paperclip");
+					$(value).removeClass("fa-check").addClass("fa-paperclip");
 				});
-				$("#"+$(this).attr("id")+" span").removeClass("glyphicon-paperclip").addClass("glyphicon-ok");
+				$("#"+$(this).attr("id")+" i").removeClass("fa-paperclip").addClass("fa-check");
 			});
 		});
 		

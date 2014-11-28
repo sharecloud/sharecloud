@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{$title}</title>
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="{$HTTP_BASEDIR}/css/font-awesome.min.css" type="text/css" />
 <link rel="stylesheet" href="{$HTTP_BASEDIR}/css/main.css" type="text/css" />
 {$resources}
 
@@ -41,7 +42,7 @@ System.config.maxUploadSize = {$MAX_UPLOAD_SIZE};
             	<ul class="nav navbar-nav">
 {foreach $Navigation as $elem}
 					<li{if $elem->isCurrent()} class="active"{/if}>
-                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{if $elem->glyphicon neq ''}<span class="glyphicon glyphicon-{$elem->glyphicon}"> </span> {/if}{$elem->label}</a>
+                    	<a href="{Router->build p1={$elem->controller} p2={$elem->action}}" class="" {if $elem->ajax neq true} data-noajax="true"{/if}>{if $elem->fontawesome neq ''}<i class="fa fa-lg fa-{$elem->fontawesome}"></i> {/if}{$elem->label}</a>
                     </li>
 {/foreach}                	
                 </ul>
@@ -61,7 +62,7 @@ System.config.maxUploadSize = {$MAX_UPLOAD_SIZE};
                                 </div>
                                 
                                 <p class="progress-status"></p>
-                                <a href="#" class="btn btn-default btn-sm cancel-upload pull-right"><span class="glyphicon glyphicon-remove"> </span> {'Cancel'|@lang}</a>
+                                <a href="#" class="btn btn-default btn-sm cancel-upload pull-right"><i class="fa fa-lg fa-remove"></i> {'Cancel'|@lang}</a>
                             </div>
                             
                             <p class="no-uploads">
@@ -72,18 +73,18 @@ System.config.maxUploadSize = {$MAX_UPLOAD_SIZE};
                     
                     <li class="dropdown">
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        	<span class="glyphicon glyphicon-user"> </span> {$User->username} <b class="caret"></b>
+                        	<i class="fa fa-lg fa-user"></i> {$User->username} <b class="caret"></b>
                         </a>
                         
                         <ul class="dropdown-menu">
                         	<li>
                             	<a href="{Router->build p1='ProfileController' p2='index'}">
-                            		<span class="glyphicon glyphicon-cog"> </span> {'MyProfile'|@lang}
+                            		<i class="fa fa-lg fa-cog"></i> {'MyProfile'|@lang}
                              	</a>
                             </li>
                             <li>
                                 <a href="{Router->build p1='AuthController' p2='logout'}" data-noajax="true">
-                                	<span class="glyphicon glyphicon-off"> </span> {'LogOut'|@lang}
+                                	<i class="fa fa-lg fa-sign-out"></i> {'LogOut'|@lang}
                                 </a>
                             </li>
                         </ul>

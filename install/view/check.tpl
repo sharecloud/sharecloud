@@ -60,6 +60,6 @@
 
 
 <div class="buttons">
-	<a href="{if $canProceed eq true}index.php?action=tables{else}#{/if}" class="btn btn-default" role="button" {if $canProceed neq true}disabled="disabled"{/if}>Proceed <span class="glyphicon glyphicon-chevron-right"> </span></a>
+	<a href="{if $canProceed eq true}index.php?action=tables{else}#{/if}" class="btn btn-default" role="button" {if $canProceed neq true}disabled="disabled"{/if}>Proceed <span class="fa fa-chevron-right"> </span></a>
 </div>
 {/block}

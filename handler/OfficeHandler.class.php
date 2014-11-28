@@ -13,7 +13,7 @@ final class OfficeHandler extends HandlerBase {
             $error[] = System::getLanguage()->_('NoLocalhost');
         } 
         
-        if($this->file->permission->level != FilePermissions::PUBLIC_ACCESS) {
+        if($this->file->permission != FilePermissions::PUBLIC_ACCESS) {
             $error[] = System::getLanguage()->_('OnlyPublicFiles');
         }
         

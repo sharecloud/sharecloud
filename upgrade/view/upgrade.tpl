@@ -19,7 +19,7 @@
     
     <div class="buttons">
     	<input type="hidden" name="submit" value="submit" />
-    	<button type="submit" class="btn btn-default">Start upgrade <span class="glyphicon glyphicon-chevron-right"> </span></button>
+    	<button type="submit" class="btn btn-default">Start upgrade <span class="fa fa-chevron-right"> </span></button>
     </div>
 </form>
 {/block}

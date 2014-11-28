@@ -55,10 +55,10 @@ final class System {
 	 */
 	private static function buildNavigation() {
 		if(self::getUser() != NULL) {
-			Navigation::addElement(new NavigationElement(System::getLanguage()->_('Files'), 'BrowserController', 'index', true, 'hdd'));
+			Navigation::addElement(new NavigationElement(System::getLanguage()->_('Files'), 'BrowserController', 'index', true, 'hdd-o'));
 			
 			if(self::getUser()->isAdmin) {
-				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Users'), 'UsersController', 'index', true, 'user'));
+				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Users'), 'UsersController', 'index', true, 'users'));
                 Navigation::addElement(new NavigationElement(System::getLanguage()->_('Log'), 'LogController', 'index', true, 'bullhorn'));
 				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Admin'), 'AdminController', 'index', true, 'th-large'));                
 			}

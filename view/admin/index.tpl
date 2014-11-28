@@ -8,7 +8,7 @@
 	            <h4>{'Users'|@lang}</h3>
                 <span class="counter">{$num_users}</span>
                 <p>
-                	<a href="{Router->build p1='UsersController' p2='index'}" class="btn btn-primary" role="button">{'AllUsers'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
+                	<a href="{Router->build p1='UsersController' p2='index'}" class="btn btn-primary" role="button">{'AllUsers'|@lang} <i class="fa fa-chevron-right"></i></a>
                 </p>
             </div>
         </div>
@@ -40,12 +40,12 @@
 	            <h4>{'SharecloudVersion'|@lang}</h3>
                 <span class="counter">{$version}</span>
                 <p>
-                	<a href="#" class="btn btn-primary check-for-updates" role="button" data-loading-text="{'CheckingForUpdates'|@lang}">{'CheckForUpdates'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
-                    <a href="https://github.com/sharecloud/sharecloud/blob/master/docs/upgrade/upgrade.md" data-noajax="true" class="btn btn-danger update-system hidden" role="button">{'UpdateAvailable'|@lang} <span class="glyphicon glyphicon-chevron-right"> </span></a>
+                	<a href="#" class="btn btn-primary check-for-updates" role="button" data-loading-text="{'CheckingForUpdates'|@lang}">{'CheckForUpdates'|@lang} <i class="fa fa-chevron-right"></i></a>
+                    <a href="https://github.com/sharecloud/sharecloud/blob/master/docs/upgrade/upgrade.md" data-noajax="true" class="btn btn-danger update-system hidden" role="button">{'UpdateAvailable'|@lang} <i class="fa fa-chevron-right"></i></a>
                     
                     <span class="check-for-update-error hidden">{'ErrorWhileCheckingForUpdates'|@lang}</span>
                 </p>
-                <p class="no-update-available hidden"><span class="glyphicon glyphicon-ok"> </span> {'UpToDate'|@lang}</p>
+                <p class="no-update-available hidden"><i class="fa fa-check"></i> {'UpToDate'|@lang}</p>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
                             {$user->username} ({$user->getFullName()})
                         {/if}
                     </span>
-                    <span class="glyphicon glyphicon-chevron-right pull-right"> </span>
+                    <i class="fa fa-chevron-right pull-right"></i>
                 </a>
 {/foreach}
             </div>
@@ -145,11 +145,11 @@
                 </li>
                 <li class="list-group-item">
                 	<span class="str-truncated">{'Extension'|@lang} "imagick"</span>
-                    <span class="pull-right">{if $imagick}<span class="glyphicon glyphicon-ok" title="{'Installed'|@lang}"> </span>{else}<span class="glyphicon glyphicon-remove" title="{'NotInstalled'|@lang}"> </span>{/if}</span>
+                    <span class="pull-right">{if $imagick}<i class="fa fa-check" title="{'Installed'|@lang}"></i>{else}<i class="fa fa-remove" title="{'NotInstalled'|@lang}"></i>{/if}</span>
                 </li>
                 <li class="list-group-item">
                 	<span class="str-truncated">{'Extension'|@lang} "rar"</span>
-                    <span class="pull-right">{if $rar}<span class="glyphicon glyphicon-ok" title="{'Installed'|@lang}"> </span>{else}<span class="glyphicon glyphicon-remove" title="{'NotInstalled'|@lang}"> </span>{/if}</span>
+                    <span class="pull-right">{if $rar}<i class="fa fa-check" title="{'Installed'|@lang}"></i>{else}<i class="fa fa-remove" title="{'NotInstalled'|@lang}"></i>{/if}</span>
                 </li>
             </ul>
         </div>

@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{$title}</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css" />
 <link rel="stylesheet" href="../css/main.css" type="text/css" />
 <style type="text/css">
 .nav .ul li.done a {

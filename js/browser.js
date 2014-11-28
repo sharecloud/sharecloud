@@ -587,20 +587,20 @@ var Browser = {
 				var target = $(this).data('id');
 				Browser.Selection.moveSelected(target == "" ? null : target);
 				
-				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
-				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
-				
+				$(this).find('.fa').first().addClass("fa-folder-o");
+				$(this).find('.fa').first().removeClass("fa-folder-open-o");
+
 				return false;
 			},
 			over: function(event, ui) {
-				$(this).find('.glyphicon').removeClass("glyphicon-folder-close");
-				$(this).find('.glyphicon').addClass("glyphicon-folder-open");
-				
+				$(this).find('.fa').first().removeClass("fa-folder-o");
+				$(this).find('.fa').first().addClass("fa-folder-open-o");
+
 			}, 
 			out: function(event, ui) {
-				$(this).find('.glyphicon').removeClass("glyphicon-folder-open");
-				$(this).find('.glyphicon').addClass("glyphicon-folder-close");
-				
+				$(this).find('.fa').first().addClass("fa-folder-o");
+				$(this).find('.fa').first().removeClass("fa-folder-open-o");
+
 			}
 		});
 		

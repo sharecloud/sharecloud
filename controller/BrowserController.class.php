@@ -62,7 +62,7 @@ final class BrowserController extends ControllerBase {
 		$smarty->assign('folders', $folder->folders);		
 		$smarty->assign('title', System::getLanguage()->_('Files'));
 		
-		$smarty->assign('folder', $folder);
+		$smarty->assign('currentFolder', $folder);
 		$smarty->assign('breadcrumb', $breadcrumb);
 		$smarty->assign('AvailableFolders', Folder::getAll());
 		
@@ -132,7 +132,7 @@ final class BrowserController extends ControllerBase {
 		$fieldset = new Fieldset(System::getLanguage()->_('PermissionSetting'));
 		
 		$permission = new Select('permission', System::getLanguage()->_('Permission'), FilePermissions::getAll());
-		$permission->selected_value = $file->permission->level;
+		$permission->selected_value = $file->permission;
 		
 		$password = new Password('password', System::getLanguage()->_('Password'));
 		

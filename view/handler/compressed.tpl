@@ -23,7 +23,7 @@
      <tbody>
 {foreach $files as $f}
 	<tr>
-    	<td>{if $f.Encrypted eq true}<span class="glyphicon glyphicon-lock"> </span> {/if}{$f@key}</td>
+    	<td>{if $f.Encrypted eq true}<i class="fa fa-lock"></i> {/if}{$f@key}</td>
     	<td>{$f.UncompressedSize}</td>
     	<td>{$f.CompressedSize}</td></tr>
 {/foreach}
