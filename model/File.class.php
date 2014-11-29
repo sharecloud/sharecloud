@@ -474,6 +474,8 @@ final class File extends ModelBase {
 			throw new Exception();	
 		}
 		
+		$filesize = $_SERVER["CONTENT_LENGTH"];
+		
 		$this->file = File::createFilename();
 		$this->time = time();
 		$this->uid	= System::getUser()->uid;
@@ -491,10 +493,19 @@ final class File extends ModelBase {
 		$this->mime = File::determineMime($this->file, $this->filename);
 		$this->size = filesize($this->getAbsPath());
 		
+		if($this->size != $filesize) {
+			// downloads was aborted
+			@unlink($this->getAbsPath());
+			
+			return false;
+		}
+		
 		// Generate hashes
 		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
 			$this->hashes[$value] = hash_file(trim($value), SYSTEM_ROOT . File::FILEDIR . $this->file);
 		}
+		
+		return true;
 	}
 	
 	public function remote($source) {

@@ -145,11 +145,11 @@ final class ApiController extends ControllerBase {
 			$file->filename = $filename;
 			$file->folder = $folder;
 			
-			$file->put();			
-			$file->save();
-						
+			if($file->put()) {
+				$file->save();				
+				$response->data = $file->toJSON();
+			}
 			$response->success = true;
-			$response->data = $file->toJSON();
 		} catch(QuotaExceededException $e) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorQuotaExceeded');
