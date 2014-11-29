@@ -134,22 +134,25 @@ final class ApiController extends ControllerBase {
 		
 		$response = new AjaxResponse();
 		
-		try {			
+		try {
 			$folder = Folder::find('_id', $folder);
-			
-			if($folder == NULL) {
-				throw new FolderNotFoundException();	
+
+			if ($folder == NULL) {
+				throw new FolderNotFoundException();
 			}
-			
+
 			$file = new File();
 			$file->filename = $filename;
 			$file->folder = $folder;
-			
-			if($file->put()) {
-				$file->save();				
-				$response->data = $file->toJSON();
-			}
+
+			$file->put();
+			$file->save();
+			$response->data = $file->toJSON();
+
 			$response->success = true;
+		} catch(InvalidFilesizeException $e) {
+			$response->success = false;
+			$response->message = System::getLanguage()->_('UploadAborted');
 		} catch(QuotaExceededException $e) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorQuotaExceeded');

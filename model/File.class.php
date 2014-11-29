@@ -496,16 +496,15 @@ final class File extends ModelBase {
 		if($this->size != $filesize) {
 			// downloads was aborted
 			@unlink($this->getAbsPath());
-			
-			return false;
+
+			throw new InvalidFilesizeException();
 		}
 		
 		// Generate hashes
 		foreach (explode(',', SUPPORTED_FILE_HASHES) as $value) {
 			$this->hashes[$value] = hash_file(trim($value), SYSTEM_ROOT . File::FILEDIR . $this->file);
 		}
-		
-		return true;
+
 	}
 	
 	public function remote($source) {
