@@ -18,7 +18,7 @@ final class ApiController extends ControllerBase {
 			
 			$this->request = json_decode(file_get_contents('php://input'));
 		} else if($this->method != 'put') {
-			System::displayError(System::getLanguage()->_('ErrorInvalidParamter'), '405 Method Not Allowed');
+			System::displayError(System::getLanguage()->_('ErrorInvalidParameter'), '405 Method Not Allowed');
 		}
 		
 		if($action != 'login') {
@@ -93,7 +93,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('ErrorFolderNotFound');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -159,7 +159,7 @@ final class ApiController extends ControllerBase {
 		} catch(Exception $e) {
 			Log::sysLog('ApiController::upload', 'Upload Error! Folder was not set or file is invalid');
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -209,7 +209,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('ErrorQuotaExceeded');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -262,7 +262,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('PermissionDenied');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -301,12 +301,12 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('PermissionDenied');
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 				$response->data = get_class($e) . ': ' .$e->getMessage();
 			}
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -340,11 +340,11 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('PermissionDenied');
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 			}
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -376,14 +376,14 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('ErrorFolderAlreadyExists'); 
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 			}
 		} else if(empty($name)) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorEmptyFolderName');
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -418,7 +418,7 @@ final class ApiController extends ControllerBase {
 			$response->success = true;
 		} catch(InvalidArgumentException $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		} catch(InvalidPasswordException $e) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorInvalidPassword');
@@ -427,7 +427,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('PermissionDenied');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
   
         $response->send();

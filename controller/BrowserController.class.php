@@ -107,7 +107,7 @@ final class BrowserController extends ControllerBase {
 				} catch(FolderAlreadyExistsException $e) {
 					$name->error = System::getLanguage()->_('ErrorFolderAlreadyExists'); 
 				} catch(Exception $e) {
-					$name->error = System::getLanguage()->_('ErrorInvalidParamter');
+					$name->error = System::getLanguage()->_('ErrorInvalidParameter');
 				}
 			}
 		}
