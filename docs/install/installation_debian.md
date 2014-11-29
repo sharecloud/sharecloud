@@ -102,6 +102,6 @@ Additional add following lines to you `php.ini`:
 	extension=rar.so
 	extension=imagick.so
 	
-Now you have to restart httpd with following lines:
+Now you have to restart Apache with following lines:
 	
-	systemctl restart httpd.service
+	service apache2 restart
