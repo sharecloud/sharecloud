@@ -40,7 +40,7 @@
 {foreach $files as $file}
 	<div class="row file clearfix" data-alias="{$file->alias}" data-id="{$file->id}">
     	<div class="column filename">
-        	<i class="fa fa-file-o"></i>
+        	<i class="fa {if isset($fafileicons[$file->ext])}{$fafileicons[$file->ext]}{else}fa-file-o{/if}"></i>
             {assign "splittedFilename" $file->getSplittedFilename()}
             {if is_array($splittedFilename)}
                 <a class="file" href="{Router->build p1='DownloadController' p2='show' p3=$file}"><span class="filename">{$splittedFilename.0}</span><span class="ext">.{$splittedFilename.1}</span></a>

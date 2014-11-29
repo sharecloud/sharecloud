@@ -1,5 +1,93 @@
 <?php
 final class BrowserController extends ControllerBase {
+
+	private static $fontawesomeFileicons = array(
+		'jpg' => 'fa-file-image-o',
+		'jpeg' => 'fa-file-image-o',
+		'gif' => 'fa-file-image-o',
+		'png' => 'fa-file-image-o',
+		'svg' => 'fa-file-image-o',
+
+		// Videos
+		'mp4' => 'fa-file-video-o',
+		'mv4' => 'fa-file-video-o',
+		'webm' => 'fa-file-video-o',
+		'ogg' => 'fa-file-video-o',
+		'flv' => 'fa-file-video-o',
+
+		// Music
+		'm4a' => 'fa-file-audio-o',
+		'mp3' => 'fa-file-audio-o',
+
+		// PDF
+		'pdf' => 'fa-file-pdf-o',
+
+		'htm' => 'fa-file-code-o',
+		'html' => 'fa-file-code-o', // HTML
+		'css' => 'fa-file-code-o', // CSS
+		'java' => 'fa-file-code-o', // Java
+		'c' => 'fa-file-code-o', // C
+		'cpp' => 'fa-file-code-o', // C++
+		'h' => 'fa-file-code-o',
+		'm' => 'fa-file-code-o', // Objective C
+		'cs' => 'fa-file-code-o', // C#
+		'xaml' => 'fa-file-code-o', // K.A.
+		'xml' => 'fa-file-code-o', // XML
+		'mobileconfig' => 'fa-file-code-o', // Apple mobileconfig
+		'patch' => 'fa-file-code-o',
+		'diff' => 'fa-file-code-o', // git
+		'vb' => 'fa-file-code-o', // VisualBasic
+		'csv' => 'fa-file-code-o', // CSV
+		'py' => 'fa-file-code-o', // Python
+		'rb' => 'fa-file-code-o', // Ruby
+		'pl' => 'fa-file-code-o', // Perl
+		'php' => 'fa-file-code-o', // PHP
+		'scala' => 'fa-file-code-o', // Scala
+		'go' => 'fa-file-code-o', // Go
+		'markdown' => 'fa-file-code-o',
+		'mdown' => 'fa-file-code-o',
+		'mkdn' => 'fa-file-code-o',
+		'mkd' => 'fa-file-code-o',
+		'md' => 'fa-file-code-o', // Markdown
+		'json' => 'fa-file-code-o', // JSON
+		'js' => 'fa-file-code-o', // JavaScript
+		'coffee' => 'fa-file-code-o', // Coffeescript
+		'actionscript' => 'fa-file-code-o',
+		'as' => 'fa-file-code-o', // ActionScript
+		'http' => 'fa-file-code-o', // HTTP
+		'lua' => 'fa-file-code-o', // LUA Script
+		'scpt' => 'fa-file-code-o',
+		'applescript' => 'fa-file-code-o', // AppleScript
+		'sql' => 'fa-file-code-o',
+		'p' => 'fa-file-code-o',
+		'pp' => 'fa-file-code-o',
+		'pas' => 'fa-file-code-o', // Delphi / Pascal
+		'vala' => 'fa-file-code-o', // Vala
+		'd' => 'fa-file-code-o', // D
+		'shader' => 'fa-file-code-o',
+		'sl' => 'fa-file-code-o',
+		'rib' => 'fa-file-code-o', // RenderMan RSL / RenderMan RIB
+		'mel' => 'fa-file-code-o', // Maya Embedded Language
+		'glslv' => 'fa-file-code-o',
+		'glsl' => 'fa-file-code-o',
+		'vert' => 'fa-file-code-o', // GLSL
+		'st' => 'fa-file-code-o', // SmallTalk
+		'lisp' => 'fa-file-code-o', // LISP
+		'ini' => 'fa-file-code-o', // INI
+		'bat' => 'fa-file-code-o', // Batch
+		'sh' => 'fa-file-code-o', // Shell
+		'cmake' => 'fa-file-code-o', // CMAKE
+		'b' => 'fa-file-code-o', // BrainFuck
+		'hs' => 'fa-file-code-o', // Haskell
+
+		'txt' => 'fa-file-text-o',
+
+		'zip' => 'fa-file-archive-o',
+		'rar' => 'fa-file-archive-o'
+
+
+	);
+
 	protected function onBefore($action = '') {
 		parent::checkAuthentification();	
 	}
@@ -56,7 +144,7 @@ final class BrowserController extends ControllerBase {
 		}
 		
 		$breadcrumb = array_reverse($breadcrumb);
-		
+
 		$smarty = new Template();
 		$smarty->assign('files', $folder->files);
 		$smarty->assign('folders', $folder->folders);		
@@ -65,7 +153,8 @@ final class BrowserController extends ControllerBase {
 		$smarty->assign('currentFolder', $folder);
 		$smarty->assign('breadcrumb', $breadcrumb);
 		$smarty->assign('AvailableFolders', Folder::getAll());
-		
+		$smarty->assign('fafileicons', BrowserController::$fontawesomeFileicons);
+
 		$smarty->assign('remoteDownloadSetting', DOWNLOAD_VIA_SERVER);
 		
         $smarty->requireResource('browser');
