@@ -1,15 +1,13 @@
 var Admin = {
 	bindEvents: function() {
-		$('.check-for-updates').click(function(e) {
+		$('.check-for-updates').unbind('click').click(function(e) {
             $('.check-for-updates').button('loading');
 			$('.check-for-update-error').addClass('hidden');	
 			
-			$.get(System.getHostname() + 'admin/updateCheck', function(data) {
+			$.get(System.getHostname() + 'admin/updateCheck', function(response) {
 				$('.check-for-updates').button('reset');
 				
 				try {
-					var response = $.parseJSON(data);
-					
 					if(response.success == true) {
 						if(response.data.isUpdateAvailable) {
 							$('.check-for-updates').addClass('hidden');
@@ -24,7 +22,6 @@ var Admin = {
 					}
 				} catch (e) {
 					
-					
 				}
 			});
 			
@@ -33,7 +30,7 @@ var Admin = {
 	},
 	
 	unbindEvents: function() {
-			
+		$('.check-for-updates').unbind();
 	}
 };
 
