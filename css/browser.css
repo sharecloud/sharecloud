@@ -73,6 +73,19 @@
 	float:right;
 }
 
+.browser .file .column.num-downloads > span {
+	width: 25%;
+	display: inline-block;
+}
+
+.browser .file .column.num-downloads > span:last-of-type {
+	text-align: right;
+	width:33%;
+}
+
+.browser .folder .column.num-downloads {
+	text-align: right;
+}
 .browser .column.size {
 	width:120px;
 	float:right;	

@@ -31,6 +31,10 @@ $autoload->addDirectory(
 );
 spl_autoload_register(array($autoload, 'invoke'));
 
+if(!is_writable(SYSTEM_ROOT . '/classes/smarty/templates_c/')) {
+	die('<b>Fatal error: </p> <code>' . SYSTEM_ROOT . '/classes/smarty/templates_c/</code> is not writable. Please make this directory writable');
+}
+
 final class Install {
 	public static function run($action) {
 		ConfigurationChecks::loadChecks();

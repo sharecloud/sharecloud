@@ -25,6 +25,12 @@ final class AuthController extends ControllerBase{
 		$smarty	= new Template();
 		$smarty->assign('title', System::getLanguage()->_('LogIn'));
 		
+		if($_SERVER['SERVER_NAME'] == 'localhost' && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false) {
+			$smarty->assign('showChromeInfo', true);	
+		} else {
+			$smarty->assign('showChromeInfo', false);	
+		}
+		
 		$smarty->requireResource('auth');
 		
 		$smarty->display('auth/login.tpl');

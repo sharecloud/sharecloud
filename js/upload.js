@@ -77,6 +77,12 @@ var Uploads = {
 		fileObj.id = id;
 		fileObj.filename = file.name;
 		fileObj.size = file.size;
+
+		if(fileObj.size > System.config.maxUploadSize) {
+			System.showError(System.l10n._('ErrorFileTooBig'));
+			Uploads.currentUploads[id] = null;
+			return;
+		}
 		
 		// Check quota and then upload
 		$.getJSON(System.getHostname() + 'api/quota', { }, function(response) {
@@ -124,9 +130,9 @@ var Uploads = {
 					
 					var html = $('.cloneable .row.file').clone().removeClass('cloneable').attr('data-alias', data.alias).attr('data-id', data.id);
 					if(data.ext != '.') {
-						html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename.substring(0, data.filename.lastIndexOf('.')) + '</span><span class="ext">.' + data.ext + '</span></a>');
+						html.find('.' + Browser.Settings.File.NameClass).html('<i class="fa fa-file-o"></i> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename.substring(0, data.filename.lastIndexOf('.')) + '</span><span class="ext">.' + data.ext + '</span></a>');
 					} else {
-						html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename + '</span></a>');
+						html.find('.' + Browser.Settings.File.NameClass).html('<i class="fa fa-file-o"></i> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename + '</span></a>');
 					}
 					html.find('.' + Browser.Settings.File.SizeClass).html(System.formatBytes(data.size));
 					html.find('.' + Browser.Settings.File.NumDownloadsClass).html(data.downloads);
@@ -193,7 +199,7 @@ var Uploads = {
 			
 			if(!file.inDOM) {
 				// Insert Upload
-				var html = $('#upload-progress .clonable.entry').clone().removeClass('clonable').show();
+				var html = $('#upload-progress .cloneable.entry').clone().removeClass('cloneable').show();
 				html.attr('data-upload-id', id);			
 				html.appendTo($('#upload-progress')).show();
 				

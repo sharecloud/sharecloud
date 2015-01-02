@@ -22,7 +22,7 @@
 {foreach $users as $user}
     	<tr>
         	<td>
-            	<span class="glyphicon glyphicon-user"> </span>
+            	<i class="fa fa-user"></i>
             	<a href="{Router->build p1='UsersController' p2='edit' p3=$user}">{$user->username} ({$user})</a>
             </td>
             <td>{if $user->quota eq 0}{'Unlimited'|@lang}{else}{$user->quota|@filesize}{/if}</td>
@@ -35,7 +35,7 @@
 
 <div class="buttons">
 	<a href="{Router->build p1='UsersController' p2='add'}" class="btn btn-default btn-sm" role="button">
-    	<span class="glyphicon glyphicon-plus"> </span> {'AddUser'|@lang}
+    	<i class="fa fa-plus"></i> {'AddUser'|@lang}
     </a>
 </div>
 

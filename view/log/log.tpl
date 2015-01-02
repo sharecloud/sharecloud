@@ -67,7 +67,7 @@
 
 <div class="buttons">
 	<a href="{Router->build p1='LogController' p2='clear'}" class="btn btn-default btn-sm" role="button">
-    	<span class="glyphicon glyphicon-trash"> </span> {'ClearLog'|@lang}
+    	<i class="fa fa-trash"></i> {'ClearLog'|@lang}
     </a>
 {if $showPHPEntries}
 	<a href="{Router->build p1='LogController' p2='index'}" class="btn btn-default btn-sm" role="button">{'SystemEntries'|@lang}</a>

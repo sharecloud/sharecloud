@@ -51,7 +51,8 @@ var System = {
 	 */
 	config: {
 		httpHost: '',
-		modRewrite: true
+		modRewrite: true,
+		maxUploadSize: 0
 	},
 	
 	/**
@@ -147,7 +148,7 @@ var System = {
 		}
 
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-danger').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-danger').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
@@ -158,7 +159,7 @@ var System = {
 		}
 		
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-success').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-success').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
@@ -245,6 +246,11 @@ var System = {
 					for(var i = 0; i < files.length; i++) {
 						Uploads.uploadFile(files[i]);
 					}
+
+					// Visual feedback while uploading file
+					if(!$('.button-status').parent().is('.open')) {
+						$('.button-status').dropdown('toggle');
+					}
 				}
 			}
 			
@@ -298,6 +304,7 @@ var System = {
 
 		// Tooltips
 		$('a[title]').tooltip();
+		$('i[title]').tooltip();
 		
 		// Autofocus
 		$('input[data-autofocus]').focus();
