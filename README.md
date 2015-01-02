@@ -17,6 +17,9 @@ Optional
 # Installation
 We provide some installation guides [here](docs/install/installation.md).
 
+# Upgrade
+When we release a new version of our software, make sure you follow our upgrade guides [here](docs/upgrade/upgrade.md)
+
 # Unofficial guides
 We also provide guides for those who want to use different software (like nginx) [here](docs/recipes/recipes.md)
 
