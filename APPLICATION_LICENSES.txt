@@ -6,3 +6,4 @@ ZeroClipboard - MIT License
 highlight.js - BSD License
 mediaelementjs - MIT License
 bootstrap - MIT License
+parsedown - MIT License

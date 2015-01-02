@@ -81,11 +81,14 @@ require_once SYSTEM_ROOT . '/classes/3rdparty/getid3/module.misc.iso.php';
 
 require_once SYSTEM_ROOT . '/classes/3rdparty/JSRMS/JSRMS.php';
 
+require_once SYSTEM_ROOT . '/classes/3rdparty/parsedown/Parsedown.php';
+
 /**
  * Include all handler
  */
 require_once SYSTEM_ROOT . '/handler/HandlerBase.class.php';
 require_once SYSTEM_ROOT . '/handler/SourceCodeHandler.class.php';
+require_once SYSTEM_ROOT . '/handler/MarkdownHandler.class.php';
 require_once SYSTEM_ROOT . '/handler/ImageHandler.class.php';
 require_once SYSTEM_ROOT . '/handler/PDFHandler.class.php';
 require_once SYSTEM_ROOT . '/handler/MediaHandler.class.php';
