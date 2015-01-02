@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 System.config.httpHost = "{$HTTP_BASEDIR}";
-System.config.modRewrite = {$MOD_REWRITE};
+System.config.modRewrite = {if $MOD_REWRITE}true{else}false{/if};
 System.config.maxUploadSize = {$MAX_UPLOAD_SIZE};
 </script>
 <script type="text/javascript">
