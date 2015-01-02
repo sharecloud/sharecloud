@@ -65,7 +65,7 @@ Run:
 
 ### Setup Smarty
 
-	$ sudo -u www-data -H chmod 700 /var/www/sharecloud/classes/smarty/templates_c
+	$ sudo -u www-data -H chmod 700 classes/smarty/templates_c
 	
 ### Setup config.php
 

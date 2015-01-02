@@ -67,7 +67,7 @@ Run:
 
 ### Setup Smarty
 
-	$ sudo -u http -H chmod 700 /srv/http/sharecloud/classes/smarty/templates_c
+	$ sudo -u http -H chmod 700 classes/smarty/templates_c
 	
 ### Setup config.php
 
