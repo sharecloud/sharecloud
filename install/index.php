@@ -138,20 +138,24 @@ final class Install {
 				exit;	
 			}
 			
-			$error = '';
+			$errorUsername = '';
+			$errorPassword = '';
+			
+			$username = Utils::getPOST('username', '');
+			$password = Utils::getPOST('password', '');
 			
 			if(Utils::getPOST('submit', false) != false) {
-				$password = $_POST['password'];
-				
-				if(empty($password)) {
-					$error = 'Password must not be empty.';
+				if(empty($username)) {
+					$errorUsername = 'Username must not be empty.';
+				} else if(empty($password)) {
+					$errorPassword = 'Password must not be empty.';
 				} else {
 				
 					$sql = $db->prepare('INSERT INTO users (username, password, salt, last_login, lang, admin) VALUES (:username, :password, :salt, :lastlogin, :language, :admin)');
 					
 					$salt = Utils::createPasswordSalt();
 					$sql->execute(array(
-						':username' => 'admin',
+						':username' => $username,
 						':password' => Utils::createPasswordHash($password, $salt),
 						':salt'		=> $salt,
 						':lastlogin'	=> time(),
@@ -166,7 +170,9 @@ final class Install {
 			}
 			
 			$smarty->assign('heading', 'Create user account');
-			$smarty->assign('error', $error);
+			$smarty->assign('username', $username);
+			$smarty->assign('errorUsername', $errorUsername);
+			$smarty->assign('errorPassword', $errorPassword);
 			$smarty->assign('curStep', 3);
 			
 			$smarty->display('form.tpl');
