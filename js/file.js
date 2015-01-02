@@ -21,7 +21,13 @@ var File = {
 			AndroidUseNativeControls: true
 		 
 		});
-		
+
+		hljs.tabReplace='    ';
+		// hljs.lineNodes=true; // has no effect with hljs.highlightBlock() :(
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
+
 		$('#modal-permissions select').change(function(e) {
 			if($(this).val() == "2") {
 				$('#modal-permissions #password').slideDown(500);

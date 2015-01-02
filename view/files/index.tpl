@@ -17,7 +17,7 @@
     
     <div class="row create-folder clearfix">
     	<div class="column input">
-        	<input type="text" name="foldername" placeholder="{'FolderName'|@lang}" class="form-control input-sm" value="" id="create-folder-input" data-parent="{$currentFolder->id|@lang}" />
+        	<input type="text" name="foldername" placeholder="{'FolderName'|@lang}" class="form-control input-sm" value="" id="create-folder-input" data-parent="{$currentFolder->id}" />
         </div>
     </div>
     
