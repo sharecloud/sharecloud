@@ -17,5 +17,8 @@ Optional
 # Installation
 We provide some installation guides [here](docs/install/installation.md).
 
+# Unofficial guides
+We also provide guides for those who want to use different software (like nginx) [here](docs/recipes/recipes.md)
+
 # Contribution
 Feel free to contribute to this project by creating pull-requests and opening issues.
