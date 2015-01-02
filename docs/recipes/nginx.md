@@ -25,7 +25,7 @@ In this file, modify the `location ~ \.php$` section as follow:
 			# With php5-cgi alone:
 			# fastcgi_pass 127.0.0.1:9000;
 			# With php5-fpm:
-			fastcgi_pass php;
+			fastcgi_pass unix:/var/run/php5-fpm.sock;
 			fastcgi_index index.php;
 			include fastcgi_params;
 	}
