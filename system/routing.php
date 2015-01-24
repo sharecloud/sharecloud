@@ -41,6 +41,10 @@ $router->addRoute('/users/add', 'UsersController', 'add');
 $router->addRoute('/users/edit/:uid:', 'UsersController', 'edit');
 $router->addRoute('/users/delete/:uid:', 'UsersController', 'delete');
 
+// Admin panel
+$router->addRoute('/admin', 'AdminController', 'index');
+$router->addRoute('/admin/updateCheck', 'AdminController', 'updateCheck');
+
 //Ajax
 $router->addRoute('/api', 'ApiController', 'index');
 
@@ -56,7 +60,8 @@ $router->addRoute('/api/browser/delete', 'ApiController', 'delete');
 $router->addRoute('/api/browser/move', 'ApiController', 'move');
 $router->addRoute('/api/browser/rename', 'ApiController', 'rename');
 
-$router->addRoute('/api/upload', 'ApiController', 'upload');
+$router->addRoute('/api/upload/:filename:', 'ApiController', 'upload');
+$router->addRoute('/api/upload/:folder:/:filename:', 'ApiController', 'upload');
 $router->addRoute('/api/remote', 'ApiController', 'remote');
 
 $router->addRoute('/api/auth', 'ApiController', 'login');

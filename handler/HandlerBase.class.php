@@ -102,7 +102,7 @@ abstract class HandlerBase {
 		$this->smarty->requireResource('file');
         
 		$select = new Select('permission', '', FilePermissions::getAll());
-		$select->selected_value = $this->file->permission->level;
+		$select->selected_value = $this->file->permission;
 		$this->smarty->assign('permission', $select->render());
 	}
 	

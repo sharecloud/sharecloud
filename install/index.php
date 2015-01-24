@@ -2,12 +2,17 @@
 error_reporting(E_ALL);
 define('SYSTEM_ROOT', realpath(dirname(__FILE__) . '/../'));
 
-if(!empty(ini_get('date.timezone'))) {
-	date_default_timezone_set(ini_get("date.timezone"));
+if(defined('SERVER_TIMEZONE')) {
+	date_default_timezone_set(SERVER_TIMEZONE);	
 } else {
-	date_default_timezone_set("Europe/Berlin");
+	$timezone = ini_get('date.timezone');
+	
+	if(!empty($timezone)) {
+		date_default_timezone_set($timezone);
+	} else {
+		date_default_timezone_set('UTC');	
+	}
 }
-
 
 require_once SYSTEM_ROOT . '/classes/smarty/Smarty.class.php';
 require_once SYSTEM_ROOT . '/classes/AutoloadHelper.class.php';
@@ -25,6 +30,10 @@ $autoload->addDirectory(
 	SYSTEM_ROOT . '/model'
 );
 spl_autoload_register(array($autoload, 'invoke'));
+
+if(!is_writable(SYSTEM_ROOT . '/classes/smarty/templates_c/')) {
+	die('<b>Fatal error: </p> <code>' . SYSTEM_ROOT . '/classes/smarty/templates_c/</code> is not writable. Please make this directory writable');
+}
 
 final class Install {
 	public static function run($action) {
@@ -129,26 +138,31 @@ final class Install {
 				exit;	
 			}
 			
-			$error = '';
+			$errorUsername = '';
+			$errorPassword = '';
+			
+			$username = Utils::getPOST('username', '');
+			$password = Utils::getPOST('password', '');
 			
 			if(Utils::getPOST('submit', false) != false) {
-				$password = $_POST['password'];
-				
-				if(empty($password)) {
-					$error = 'Password must not be empty.';
+				if(empty($username)) {
+					$errorUsername = 'Username must not be empty.';
+				} else if(empty($password)) {
+					$errorPassword = 'Password must not be empty.';
 				} else {
-					$salt = md5(uniqid() . microtime());
 				
 					$sql = $db->prepare('INSERT INTO users (username, password, salt, last_login, lang, admin) VALUES (:username, :password, :salt, :lastlogin, :language, :admin)');
 					
+					$salt = Utils::createPasswordSalt();
 					$sql->execute(array(
-						':username' => 'admin',
-						':password' => Utils::createPasswordhash($password, $salt),
+						':username' => $username,
+						':password' => Utils::createPasswordHash($password, $salt),
 						':salt'		=> $salt,
 						':lastlogin'	=> time(),
 						':admin' => '1',
 						':language'	=> LANGUAGE
 					));
+					unset($salt);
 					
 					header('Location: index.php?action=success');
 					exit;
@@ -156,7 +170,9 @@ final class Install {
 			}
 			
 			$smarty->assign('heading', 'Create user account');
-			$smarty->assign('error', $error);
+			$smarty->assign('username', $username);
+			$smarty->assign('errorUsername', $errorUsername);
+			$smarty->assign('errorPassword', $errorPassword);
 			$smarty->assign('curStep', 3);
 			
 			$smarty->display('form.tpl');

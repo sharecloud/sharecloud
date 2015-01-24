@@ -23,9 +23,7 @@ System.config.modRewrite = {$MOD_REWRITE};
 <div class="page">
     <header>
         <div class="container-fluid">
-            <h1>
-            	sharecloud
-            </h1>
+            <img src="{$HTTP_BASEDIR}/images/logo.svg" alt="sharecloud" width="100" />
         </div>
     </header>
     
@@ -50,7 +48,7 @@ System.config.modRewrite = {$MOD_REWRITE};
             {$errorMsg}
         </div>
 {/if}
-		<div class="clonable alert alert-dismissable">
+		<div class="cloneable alert alert-dismissable">
         	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <p class="msg"> </p>
         </div>

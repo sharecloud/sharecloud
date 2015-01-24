@@ -168,11 +168,11 @@ class Form extends ElementCollection {
 		$html[] = '<div class="buttons">';
 		
 		if($this->submit instanceof Button) {
-			$html[] = '	<button class="btn btn-primary btn-sm" type="submit">' . ($this->submit->class != '' ? '<span class="glyphicon glyphicon-'.$this->submit->class.'"> </span> ' : '') . $this->submit->caption . '</button>';
+			$html[] = '	<button class="btn btn-primary btn-sm" type="submit">' . ($this->submit->class != '' ? '<span class="fa fa-'.$this->submit->class.'"> </span> ' : '') . $this->submit->caption . '</button>';
 		}
 		
 		foreach($this->buttons as $button) {
-			$html[] = '	<a class="btn btn-default btn-sm" role="button" href="'.$button->url.'">' . ($button->class != '' ? '<span class="glyphicon glyphicon-'.$button->class.'"> </span> ' : '') . $button->caption . '</a>';
+			$html[] = '	<a class="btn btn-default btn-sm" role="button" href="'.$button->url.'">' . ($button->class != '' ? '<span class="fa fa-'.$button->class.'"> </span> ' : '') . $button->caption . '</a>';
 		}
 		
 		$html[] = '</div>';

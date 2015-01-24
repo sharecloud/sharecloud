@@ -31,18 +31,17 @@ img {
 	border:none;	
 }
 
+.no-padding {
+	padding:0px !important;	
+}
+
 /**
  * Header
  */
-header {
-	display:block;
-	background:#f5f5f5;
-	min-height:70px;
-	padding:10px 0px;
-}
-
-nav.navbar #mainbar {
-	padding-left:0px;	
+nav .navbar-brand {
+	background:url('../images/logo.svg') 15px 50% no-repeat;
+	background-size:40px 40px;
+	padding-left:60px;	
 }
 
 /**
@@ -107,7 +106,7 @@ footer p {
 	margin:10px 0px;	
 }
 
-.clonable {
+.cloneable {
 	display:none;
 }
 

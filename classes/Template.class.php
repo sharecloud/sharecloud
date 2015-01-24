@@ -34,6 +34,7 @@ final class Template extends Smarty {
 		// Configuration
 		$this->assign('HTTP_BASEDIR', System::getBaseURL());
 		$this->assign('MOD_REWRITE', MOD_REWRITE);
+		$this->assign('MAX_UPLOAD_SIZE', Utils::maxUploadSize());
 		
 		if(System::getSession()->getData('successMsg', '') != '') {
 			$this->assign('successMsg', System::getSession()->getData('successMsg', ''));

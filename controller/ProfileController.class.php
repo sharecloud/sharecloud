@@ -31,10 +31,10 @@ final class ProfileController extends ControllerBase {
 		
 		$fieldset = new Fieldset(System::getLanguage()->_('General'));
 		
-		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'), true);
+		$firstname = new Text('firstname', System::getLanguage()->_('Firstname'));
 		$firstname->binding = new Databinding('firstname');
 		
-		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'), true);
+		$lastname = new Text('lastname', System::getLanguage()->_('Lastname'));
 		$lastname->binding = new Databinding('lastname');
 		
 		$email = new Text('email', System::getLanguage()->_('EMail'), true);

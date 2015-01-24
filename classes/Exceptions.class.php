@@ -14,6 +14,7 @@ class UploadException extends Exception {
 		parent::__construct(System::getLanguage()->_($message), $code, $previous);
 	}
 }
+class InvalidFilesizeException extends Exception { }
 
 // Folders
 class FolderNotFoundException extends Exception { }
@@ -41,4 +42,6 @@ class MailFailureException extends Exception { }
 
 // Lost PW
 class HashNotFoundException extends Exception { }
+
+class RequestException extends Exception { }
 ?>

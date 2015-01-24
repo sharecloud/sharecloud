@@ -65,7 +65,7 @@ Run:
 
 ### Setup Smarty
 
-	$ sudo -u www-data -H chmod 700 /var/www/sharecloud/classes/smarty/templates_c
+	$ sudo -u www-data -H chmod 700 classes/smarty/templates_c
 	
 ### Setup config.php
 
@@ -85,7 +85,23 @@ For security reasons, you should remove the `install` and `upgrade` folders:
 
 ### Install optional dependencies
 
-For best experience, you should install `imagick` and PHP's rar-extension:
+For best experience you should install `imagick`, the PHP-RAR-Extension, and the PHP-exif-Extension.
 
-	$ apt-get install php5-imagick php5-dev
+	$ apt-get install php5-imagick php5-dev librsvg2-2
 	$ pecl -v install rar
+
+Now ensure following extensions are enabled (=uncommented (=without ';')) in your `php.ini`
+
+	extension=exif.so
+	extension=zip.so
+	extension=pdo_mysql.so
+
+if not already done.
+Additional add following lines to you `php.ini`:
+
+	extension=rar.so
+	extension=imagick.so
+	
+Now you have to restart Apache with following lines:
+	
+	service apache2 restart

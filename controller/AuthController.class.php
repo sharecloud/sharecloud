@@ -25,6 +25,12 @@ final class AuthController extends ControllerBase{
 		$smarty	= new Template();
 		$smarty->assign('title', System::getLanguage()->_('LogIn'));
 		
+		if($_SERVER['SERVER_NAME'] == 'localhost' && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false) {
+			$smarty->assign('showChromeInfo', true);	
+		} else {
+			$smarty->assign('showChromeInfo', false);	
+		}
+		
 		$smarty->requireResource('auth');
 		
 		$smarty->display('auth/login.tpl');
@@ -50,7 +56,7 @@ final class AuthController extends ControllerBase{
 		$errorMsg = '';
         
         if(Utils::getPOST('submit', false) != false) {
-			if($file->permission->verify($password)) {
+			if($file->verifyPassword($password)) {
 				System::getSession()->setData('authenticatedFiles',
 					array_merge(
 						array($file->alias), 

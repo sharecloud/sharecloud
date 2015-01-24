@@ -5,17 +5,17 @@
 	<div class="container-fluid">
         {if $LoggedIn}
         <a href="{Router->build p1='BrowserController' p2='permissions' p3=$file}" class="btn btn-default btn-sm navbar-btn button-filepermissions" role="button"  data-noajax="true">
-            <span class="glyphicon glyphicon-share"> </span> {'PermissionSetting'|@lang}
+            <i class="fa fa-share"></i> {'PermissionSetting'|@lang}
         </a>	
     	{/if}
     	<a href="{Router->build p1='DownloadController' p2='force' p3=$file}" class="btn btn-danger btn-sm navbar-btn" role="button" data-noajax="true">
-            <span class="glyphicon glyphicon-save"> </span> {'LinkDownload'|@lang}
+            <i class="fa fa-cloud-download"></i> {'LinkDownload'|@lang}
         </a>
         <a href="{Router->build p1='DownloadController' p2='raw' p3=$file}" class="btn btn-danger btn-sm navbar-btn" role="button" data-noajax="true">
-            <span class="glyphicon glyphicon-save"> </span> {'LinkRAW'|@lang}
+            <i class="fa fa-cloud-download"></i> {'LinkRAW'|@lang}
         </a>   
     	<a href="#" class="btn btn-default btn-sm navbar-btn pull-right more-info">
-    		<span class="glyphicon glyphicon-more"> </span> {'MoreInfo'|@lang} &nbsp;
+    		{'MoreInfo'|@lang} &nbsp;
 			<span class="caret"></span>
     	</a>
 	</div>
@@ -23,7 +23,7 @@
 
 <div class="information">
 	{if $LoggedIn}
-    <div class="share-link" style="{if $file->permission->level lte 2}display:block;{else}display:none;{/if}">
+    <div class="share-link" style="{if $file->permission lte 2}display:block;{else}display:none;{/if}">
         <h3>{'ShareLink'|@lang}</h3>
         <input class="form-control" style="width: 99%;" type="text" value="{Router->build p1='DownloadController' p2='show' p3=$file}" readonly="readonly" />
     </div>
@@ -35,28 +35,28 @@
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Size'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->size|@filesize}</p>
                 </div>
             </div>
                 
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Mime'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->mime}</p>
                 </div>
             </div>
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'NumDownloads'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->downloads}</p>
                 </div>
             </div>
             
             <div class="form-group clearfix">
                 <label class="col-sm-4 control-label">{'Date'|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <p class="form-control-static">{$file->time|@dateformat}</p>
                 </div>
             </div>
@@ -68,13 +68,13 @@
             {foreach $file->hashes as $algo => $hash}
             <div class="form-group clearfix">
             	<label class="col-sm-4 control-label">{$algo|@lang}:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 no-padding">
                     <div class="input-group">
                         <input type="text" class="form-control" value="{$hash}" readonly="readonly">
                         
                         <span class="input-group-btn">
                         	<button class="btn btn-default copy" type="button" data-clipboard-text="{$hash}" id="{$algo}">
-                            	<span class="glyphicon glyphicon-paperclip"> </span>
+                            	<i class="fa fa-paperclip"></i>
                             </button>
                         </span>
                     </div>
@@ -114,7 +114,7 @@
                     
                     <input id="filealias" type="hidden" value="{$file->alias}" />
                     
-                    <div id="password" class="form-group" style="{if $file->permission->level eq 2}display:block{else}display:none;{/if}">
+                    <div id="password" class="form-group" style="{if $file->permission eq 2}display:block{else}display:none;{/if}">
                         <label for="input-password" class="control-label">{'Password'|@lang}:</label>
                         <input type="password" class="form-control" id="input-password" />
                     </div>

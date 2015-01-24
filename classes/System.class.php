@@ -45,7 +45,7 @@ final class System {
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
 		self::$session = new Session();
-		self::$user = (System::getSession()->getUID() > 0 ? User::find('_id', System::getSession()->getUID()) : NULL);		
+		self::$user = (System::getSession()->getUID() != NULL ? User::find('_id', System::getSession()->getUID()) : NULL);
 		self::$language = new L10N(System::getUser() != NULL ? System::getUser()->lang : LANGUAGE);
 		self::buildNavigation();
 	}
@@ -55,15 +55,13 @@ final class System {
 	 */
 	private static function buildNavigation() {
 		if(self::getUser() != NULL) {
-			Navigation::addElement(new NavigationElement(System::getLanguage()->_('Files'), 'BrowserController', 'index'));
+			Navigation::addElement(new NavigationElement(System::getLanguage()->_('Files'), 'BrowserController', 'index', true, 'hdd-o'));
 			
 			if(self::getUser()->isAdmin) {
-				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Users'), 'UsersController', 'index'));
-                Navigation::addElement(new NavigationElement(System::getLanguage()->_('Log'), 'LogController', 'index'));
-                
+				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Users'), 'UsersController', 'index', true, 'users'));
+                Navigation::addElement(new NavigationElement(System::getLanguage()->_('Log'), 'LogController', 'index', true, 'bullhorn'));
+				Navigation::addElement(new NavigationElement(System::getLanguage()->_('Admin'), 'AdminController', 'index', true, 'th-large'));                
 			}
-		} else {
-			Navigation::addElement(new NavigationElement(System::getLanguage()->_('LogIn'), 'AuthController', 'login', false));	
 		}
 	}
 	

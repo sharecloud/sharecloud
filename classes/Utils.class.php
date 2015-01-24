@@ -120,8 +120,20 @@ final class Utils {
 	 * @param string Salt
 	 * @return string Hash
 	 */
-	public static function createPasswordhash($clearPswd, $salt) {
-		return hash(User::HASH_ALGO, sprintf("%s%s", $clearPswd, $salt));
+	public static function createPasswordHash($clearPswd, $salt) {
+		return crypt($clearPswd, '$6$' . $salt); // '$6$' is the sha512 trigger
+	}
+	
+	/**
+	 * Creates a salt
+	 * @static
+	 * @return string salt with length of 64 hex digits
+	 */
+	 
+	public static function createPasswordSalt() {
+		
+		return hash("sha512", mt_rand().microtime(true).mt_rand());
+		
 	}
 	
 	/**
@@ -148,7 +160,7 @@ final class Utils {
 	/**
 	 * Parses PHP style integer values like 1M, 2G, ...
 	 * @static
-	 * @param int PHP style integer
+	 * @param mixed PHP style integer
 	 * @return int Integer value in Bytes
 	 */
 	public static function parseInteger($input) {
@@ -167,7 +179,7 @@ final class Utils {
 				$value *= 1024;
 				
 			case 'K':
-				$value *= 1024;				
+				$value *= 1024;
 		}
 		
 		return $value;
@@ -195,6 +207,53 @@ final class Utils {
 		}
 		
 		return false;
+	}
+
+	/**
+	 * @return int the maximal upload size in bytes
+	 */
+	public static function maxUploadSize() {
+		return min(Utils::parseInteger(ini_get('post_max_size')), Utils::parseInteger(ini_get('upload_max_filesize')));
+	}
+
+	/**
+	 * Performs an HTTP GET request to
+	 * a given URL
+	 * @param string URL
+	 * @return string Result
+	 */
+	public static function getRequest($url) {
+		if(!function_exists('curl_init')) {
+			// Very simple fallback
+			$result = @file_get_contents($url);
+			
+			if($result === false) {
+				throw new RequestException();
+			}
+			
+			return $result;
+		} else {
+			$curl = curl_init($url);
+			
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER , true);
+			
+			/**
+			 * Ignore all SSL security - we cannot care
+			 * about MITM attacks here or we have to ship
+			 * certs for curl :/
+			 */
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+			
+			$result = curl_exec($curl);
+			
+			if($result === false) {
+				throw new RequestException(curl_error($curl), curl_errno($curl));
+			}
+			
+			return $result;
+		}
 	}
 }
 

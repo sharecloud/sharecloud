@@ -24,7 +24,7 @@ class SourceCodeHandler extends HandlerBase {
         'php' => 'php', // PHP
         'scala' => 'scala', // Scala
         'go' => 'go', // Go
-        'markdown' => 'markdown', 'mdown' => 'markdown', 'mkdn' => 'markdown', 'mkd' => 'markdown', 'md' => 'markdown', // Markdown
+        //'markdown' => 'markdown', 'mdown' => 'markdown', 'mkdn' => 'markdown', 'mkd' => 'markdown', 'md' => 'markdown', // Markdown
         'json' => 'json', // JSON
         'js' => 'javascript', // JavaScript
         'coffee' => 'coffeescript', // Coffeescript
@@ -101,7 +101,6 @@ class SourceCodeHandler extends HandlerBase {
         
 		$this->smarty->assign('extension', $htmlClass);
         $this->smarty->assign('content', htmlentities($this->content));
-        $this->smarty->requireResource('highlight');
         
         $this->smarty->display('handler/sourcecode.tpl');
 	}

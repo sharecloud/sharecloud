@@ -6,9 +6,9 @@ var File = {
 			});
 			clip.on('complete', function(client, args) {
 				$(".copy span").each(function(index, value) {
-					$(value).removeClass("glyphicon-ok").addClass("glyphicon-paperclip");
+					$(value).removeClass("fa-check").addClass("fa-paperclip");
 				});
-				$("#"+$(this).attr("id")+" span").removeClass("glyphicon-paperclip").addClass("glyphicon-ok");
+				$("#"+$(this).attr("id")+" i").removeClass("fa-paperclip").addClass("fa-check");
 			});
 		});
 		
@@ -21,7 +21,13 @@ var File = {
 			AndroidUseNativeControls: true
 		 
 		});
-		
+
+		hljs.tabReplace='    ';
+		// hljs.lineNodes=true; // has no effect with hljs.highlightBlock() :(
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
+
 		$('#modal-permissions select').change(function(e) {
 			if($(this).val() == "2") {
 				$('#modal-permissions #password').slideDown(500);
@@ -45,19 +51,17 @@ var File = {
 				var password = $('#modal-permissions #password input').val();
 				var file_alias = $('#modal-permissions #filealias').val();
 				
-				$.post(
-					System.getHostname() + 'api/file/permission',
+				System.api(
+					'api/file/permission',
 					{
 						'file_alias': file_alias,
 						'permission': permission,
 						'password' : password
 					},
-					function(data) {
+					function(response) {
 						$button.button('reset');
 						$('#modal-permissions').modal('hide'),
 						System.escStack.remove('modal');
-						
-						var response = $.parseJSON(data);
 						
 						if(response.success == true) {
 							if(permission == "3") {
@@ -89,6 +93,8 @@ var File = {
 				$(".information").slideDown();
 				$(this).parent().addClass("dropup");				
 			}
+			
+			return false;
 		});
 			
 	},

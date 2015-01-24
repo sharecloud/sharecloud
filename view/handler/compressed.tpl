@@ -2,8 +2,8 @@
 {block name=specific}
 {foreach $specific as $info}
 <div class="form-group clearfix">
-    <label class="col-sm-4 control-label">{$info@key}:</label>
-    <div class="col-sm-8">
+    <label class="col-sm-4 control-label">{$info@key|@lang}:</label>
+    <div class="col-sm-8 no-padding">
         <p class="form-control-static">{$info|@lang}</p>
     </div>
 </div>
@@ -23,7 +23,7 @@
      <tbody>
 {foreach $files as $f}
 	<tr>
-    	<td>{if $f.Encrypted eq true}<span class="glyphicon glyphicon-lock"> </span> {/if}{$f@key}</td>
+    	<td>{if $f.Encrypted eq true}<i class="fa fa-lock"></i> {/if}{$f@key}</td>
     	<td>{$f.UncompressedSize}</td>
     	<td>{$f.CompressedSize}</td></tr>
 {/foreach}

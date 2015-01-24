@@ -51,7 +51,8 @@ var System = {
 	 */
 	config: {
 		httpHost: '',
-		modRewrite: true
+		modRewrite: true,
+		maxUploadSize: 0
 	},
 	
 	/**
@@ -147,7 +148,7 @@ var System = {
 		}
 
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-danger').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-danger').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
@@ -158,7 +159,7 @@ var System = {
 		}
 		
 		if(message.length > 0) {
-			$alert = $('.clonable.alert').clone().removeClass('clonable').addClass('alert-success').appendTo($('.alerts'));
+			$alert = $('.cloneable.alert').clone().removeClass('cloneable').addClass('alert-success').appendTo($('.alerts'));
 			$alert.find('p').html(message);
 		}
 	},
@@ -245,6 +246,11 @@ var System = {
 					for(var i = 0; i < files.length; i++) {
 						Uploads.uploadFile(files[i]);
 					}
+
+					// Visual feedback while uploading file
+					if(!$('.button-status').parent().is('.open')) {
+						$('.button-status').dropdown('toggle');
+					}
 				}
 			}
 			
@@ -298,6 +304,7 @@ var System = {
 
 		// Tooltips
 		$('a[title]').tooltip();
+		$('i[title]').tooltip();
 		
 		// Autofocus
 		$('input[data-autofocus]').focus();
@@ -337,9 +344,12 @@ var System = {
 		System.unbindEvents();
 		
 		var html = $(data);
-		
+
+		// Load content
+		$('.main').html(html.find('.main').html());
+
 		$('title').html(html.filter('title').html());
-		
+
 		html.filter('script').each(function(index, element) {
 			// Test if script file must be loaded
 			var src = $(this).attr('src');
@@ -357,10 +367,13 @@ var System = {
 				$('head').append($(this));	
 			}
 		});
-		
-		// Load content
-		$('.main').html(html.find('.main').html());
-		
+
+		// bind File events on every preview and check if File is "our" Object
+		if(typeof (File) !== 'undefinied' && File.unbindEvents === 'function' && File.bindEvents === 'function') {
+			File.unbindEvents();
+			File.bindEvents();
+		}
+
 		// Load navigation
 		$('.nav.navbar-nav:first()').html(html.find('.nav.navbar-nav:first()').html());
 		
@@ -370,7 +383,28 @@ var System = {
 		$('body').css('cursor', 'auto');
 		
 		System.bindEvents();
-	}	
+	},
+	
+	api: function(endpoint, data, success) {
+		if(typeof(data) === 'undefined') {
+			data = { };	
+		}
+		
+		if(typeof(success) !== 'function') {
+			success = function() { };
+		}
+		
+		$.ajax({
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			url: System.getHostname() + endpoint,
+			data: JSON.stringify(data),
+			success: function(data) {
+				success(data);
+			}
+		});
+	}
 };
 
 $(document).ready(function(e) {

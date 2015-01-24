@@ -1,10 +1,50 @@
 <?php
 final class ApiController extends ControllerBase {
+	private $method = 'get';
+	
+	private $request = NULL;
+	
+	protected function onBefore($action = '') {
+		System::$isXHR = true;
+		
+		// First: check method
+		$this->method = strtolower($_SERVER['REQUEST_METHOD']);
+		
+		if($this->method == 'get' || $this->method == 'post') {	
+			// Check content-type
+			if($this->method == 'post' && $_SERVER['CONTENT_TYPE'] != 'application/json') {
+				System::displayError('Content type must be set to "application/json"', '400 Bad Request');
+			}
+			
+			$this->request = json_decode(file_get_contents('php://input'));
+		} else if($this->method != 'put') {
+			System::displayError(System::getLanguage()->_('ErrorInvalidParameter'), '405 Method Not Allowed');
+		}
+		
+		if($action != 'login') {
+			parent::checkAuthentification();
+		}
+	}
+	
+	/**
+	 * Returns an input value from
+	 * the JSON request object
+	 * @param string Name of the property
+	 * @param mixed Default value if the property is not available
+	 */
+	private function getRequestParam($property, $default = NULL) {
+		if($this->request != NULL && property_exists($this->request, $property)) {
+			return $this->request->$property;
+		}
+		
+		return $default;
+	}
+	
 	public function index() { }
 	
 	public function login() {
-		$username = Utils::getPOST('username', '');
-		$password = Utils::getPOST('password', '');
+		$username = $this->getRequestParam('username', '');
+		$password = $this->getRequestParam('password', '');
 		
 		$response = new AjaxResponse();
 		
@@ -32,23 +72,15 @@ final class ApiController extends ControllerBase {
 		$response->send();
 	}
 	
-	public function onBefore($action = '') {
-		System::$isXHR = true;
-		
-		if($action != 'login') {
-			parent::checkAuthentification();
-		}
-	}
-	
 	public function listDirectory() {
-		$folder = Utils::getPOST('folder_id', -1);
+		$folder = $this->getRequestParam('folder_id', NULL);
 		
 		$response = new AjaxResponse();
 		
 		$response->data = $folder;
 		
 		try {
-			$folder = Folder::find('_id', intval($folder)); // do not remove intval() here!
+			$folder = Folder::find('_id', $folder);
 			
 			if($folder == NULL) {
 				throw new FolderNotFoundException();	
@@ -61,7 +93,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('ErrorFolderNotFound');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -73,7 +105,7 @@ final class ApiController extends ControllerBase {
 		
 		$response = new AjaxResponse();
 		
-		$file = File::find('_id', Utils::getPOST('file_id', -1));
+		$file = File::find('_id', $this->getRequestParam('file_id', NULL));
 		
 		if($file != NULL) {
 			$response->success = true;
@@ -97,36 +129,30 @@ final class ApiController extends ControllerBase {
 	}
 	
 	public function upload() {
-		$fileInput = new FileUpload('file', '', true);
-		$folder = Utils::getPOST('folder', false);
+		$filename = $this->getParam('filename', '');
+		$folder = $this->getParam('folder', NULL);
 		
 		$response = new AjaxResponse();
 		
 		try {
-			if($fileInput->validate('') && $folder !== false) {
-				$permission = FilePermission::getDefault();
-				$permission->save();
-				
-				$folder = Folder::find('_id', intval($folder));
-				
-				if($folder == NULL) {
-					throw new FolderNotFoundException();	
-				}
-				
-				$file = new File();
-				$file->filename = $fileInput->filename;
-				$file->folder = $folder;
-				$file->permission = $permission;
-				
-				$file->upload($fileInput->uploaded_file);
-				
-				$file->save();
-							
-				$response->success = true;
-				$response->data = $file->toJSON();
-			} else {
-				throw new Exception();
+			$folder = Folder::find('_id', $folder);
+
+			if ($folder == NULL) {
+				throw new FolderNotFoundException();
 			}
+
+			$file = new File();
+			$file->filename = $filename;
+			$file->folder = $folder;
+
+			$file->put();
+			$file->save();
+			$response->data = $file->toJSON();
+
+			$response->success = true;
+		} catch(InvalidFilesizeException $e) {
+			$response->success = false;
+			$response->message = System::getLanguage()->_('UploadAborted');
 		} catch(QuotaExceededException $e) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorQuotaExceeded');
@@ -134,18 +160,18 @@ final class ApiController extends ControllerBase {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorFolderNotFound');
 		} catch(Exception $e) {
+			Log::sysLog('ApiController::upload', 'Upload Error! Folder was not set or file is invalid');
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
 	}
 	
 	public function remote() {
-		$url = Utils::getPOST('url', '');
-		$filename = Utils::getPOST('filename', '');
-		
-		$folder = Utils::getPOST('folder', false);
+		$url = $this->getRequestParam('url', '');
+		$filename = $this->getRequestParam('filename', '');
+		$folder = $this->getRequestParam('folder', NULL);
 		
 		$response = new AjaxResponse();
 		
@@ -158,11 +184,8 @@ final class ApiController extends ControllerBase {
 		}
 		
 		try {
-			if(!empty($url) && !empty($filename) && $folder !== false) {
-				$permission = FilePermission::getDefault();
-				$permission->save();
-				
-				$folder = Folder::find('_id', intval($folder));
+			if(!empty($url) && !empty($filename)) {
+				$folder = Folder::find('_id', $folder);
 				
 				if($folder == NULL) {
 					throw new FolderNotFoundException();	
@@ -171,7 +194,6 @@ final class ApiController extends ControllerBase {
 				$file = new File();
 				$file->filename = $filename;
 				$file->folder = $folder;
-				$file->permission = $permission;
 				
 				$file->remote($url);
 				
@@ -190,7 +212,7 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('ErrorQuotaExceeded');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
@@ -199,28 +221,28 @@ final class ApiController extends ControllerBase {
 	public function rename() {
 		$response = new AjaxResponse();
 		
-		$folder = Utils::getPOST('folder_id', 0);
-		$file	= Utils::getPOST('file_id', 0);
-		$name	= Utils::getPOST('name', '');		
+		$folder = $this->getRequestParam('folder_id', NULL);
+		$file	= $this->getRequestParam('file_id', NULL);
+		$name	= $this->getRequestParam('name', '');
 		
 		try {
-			if($folder > 0) {
-				$folder = Folder::find('_id', intval($folder));
+			if(!is_null($folder)) {
+				$folderObj = Folder::find('_id', $folder);
 				
-				if($folder != NULL) {
-					$folder->name = $name;
-					$folder->save();
+				if(!is_null($folderObj)) {
+					$folderObj->name = $name;
+					$folderObj->save();
 					
 					$response->success = true;
 				} else {
 					throw new Exception();	
 				}
-			} else if($file > 0) {
-				$file = File::find('_id', intval($file));
+			} else if(!is_null($file)) {
+				$fileObj = File::find('_id', $file);
 				
-				if($file != NULL) {
-					$file->filename = $name;
-					$file->save();	
+				if(!is_null($fileObj)) {
+					$fileObj->filename = $name;
+					$fileObj->save();	
 					
 					$response->success = true;
 				} else {
@@ -243,34 +265,33 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('PermissionDenied');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
 	}
 	
 	public function move() {
-		$folders = Utils::getPOST('folders', '');
-		$files = Utils::getPOST('files', '');
-		
-		$target = Utils::getPOST('target', false);
+		$folders = $this->getRequestParam('folders', array());
+		$files = $this->getRequestParam('files', array());
+		$target = $this->getRequestParam('target', '');
 		
 		$response = new AjaxResponse();
 		
-		if($target !== false && ($folders != '' || $files != '')) {
+		if(is_array($folders) || is_array($files)) {
 			try {
-				$target = Folder::find('_id', intval($target)); // do not remove intval() here!
+				$target = Folder::find('_id', $target);
 				
-				if($folders != '') {
-					foreach(explode(',', $folders) as $folder) {
+				if(is_array($folders) && count($folders) > 0) {
+					foreach($folders as $folder) {
 						$f = Folder::find('_id', $folder);
 						$f->move($target);
 						$f->save();
 					}
 				}
 				
-				if($files != '') {
-					foreach(explode(',', $files) as $file) {
+				if(is_array($files) && count($files) > 0) {
+					foreach($files as $file) {
 						$f = File::find('_id', $file);
 						$f->move($target);
 						$f->save();
@@ -283,34 +304,34 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('PermissionDenied');
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 				$response->data = get_class($e) . ': ' .$e->getMessage();
 			}
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
 	}
 	
 	public function delete() {
-		$folders = Utils::getPOST('folders', '');
-		$files = Utils::getPOST('files', '');
+		$folders = $this->getRequestParam('folders', array());
+		$files = $this->getRequestParam('files', array());
 		
 		$response = new AjaxResponse();
 		
-		if($folders != '' || $files != '') {
+		if(is_array($folders) || is_array($files)) {
 			try {
-				if($folders != '') {
-					foreach(explode(',', $folders) as $folder) {
+				if(is_array($folders) && count($folders) > 0) {
+					foreach($folders as $folder) {
 						$f = Folder::find('_id', $folder);
 						$f->delete();
 					} 
 				}
 				
-				if($files != '') {
-					foreach(explode(',', $files) as $file) {
+				if(is_array($files) && count($files) > 0) {
+					foreach($files as $file) {
 						$f = File::find('_id', $file);
 						$f->delete();
 					}
@@ -322,19 +343,19 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('PermissionDenied');
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 			}
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');	
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
 	}
 	
 	public function addFolder() {
-		$parent = Utils::getPOST('parent_id', -1);
-		$name = Utils::getPOST('name', '');
+		$parent = $this->getRequestParam('parent_id', NULL);
+		$name = $this->getRequestParam('name', '');
 		
 		$response = new AjaxResponse();
 		
@@ -342,7 +363,7 @@ final class ApiController extends ControllerBase {
 			try {
 				$folder = new Folder();
 				$folder->name = $name;
-				$folder->parent = Folder::find('_id', intval($parent)); // do not remove intval() here!
+				$folder->parent = Folder::find('_id', $parent);
 				
 				$folder->save();
 				
@@ -358,45 +379,49 @@ final class ApiController extends ControllerBase {
 				$response->message = System::getLanguage()->_('ErrorFolderAlreadyExists'); 
 			} catch(Exception $e) {
 				$response->success = false;
-				$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+				$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 			}
 		} else if(empty($name)) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorEmptyFolderName');
 		} else {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
 		
 		$response->send();
 	}
 	
     public function permission() {
-        $permission = Utils::getPOST('permission', false);
-        $password = Utils::getPOST('password', '');
-        $file_alias = Utils::getPOST('file_alias', false);
-		$file_id = Utils::getPOST('file_id', false);
+        $permission = $this->getRequestParam('permission', NULL);
+        $password = $this->getRequestParam('password', '');
+        $file_alias = $this->getRequestParam('file_alias', NULL);
+		$file_id = $this->getRequestParam('file_id', NULL);
 
         $response = new AjaxResponse();
 		
 		try {
-			if($file_alias != false) {
+			if($permission == NULL || !FilePermissions::tryParse($permission)) {
+				throw new Exception();	
+			}
+			
+			if($file_alias != NULL) {
 				$file = File::find('alias', $file_alias);
-			} else if($file_id != false) {
-				$file = File::find('_id', $file_id);	
+			} else if($file_id != NULL) {
+				$file = File::find('_id', $file_id);
 			} else {
 				throw new Exception();	
 			}
 			
-			$file->permission->level = $permission;
-			$file->permission->password = $password;
+			$file->permission = $permission;
+			$file->password = $password;
 			
-			$file->permission->save();
+			$file->save();
 			
 			$response->success = true;
 		} catch(InvalidArgumentException $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		} catch(InvalidPasswordException $e) {
 			$response->success = false;
 			$response->message = System::getLanguage()->_('ErrorInvalidPassword');
@@ -405,21 +430,21 @@ final class ApiController extends ControllerBase {
 			$response->message = System::getLanguage()->_('PermissionDenied');
 		} catch(Exception $e) {
 			$response->success = false;
-			$response->message = System::getLanguage()->_('ErrorInvalidParamter');
+			$response->message = System::getLanguage()->_('ErrorInvalidParameter');
 		}
   
         $response->send();
     }
 	
 	public function download() {
-		$file_alias = Utils::getPOST('file_alias', false);
-		$file_id = Utils::getPOST('file_id', false);
-		
+		$file_alias = $this->getRequestParam('file_alias', NULL);
+		$file_id = $this->getRequestParam('file_id', NULL);
+				
 		$fileObj = NULL;
 		
-		if($file_alias != false) {
+		if($file_alias != NULL) {
 			$fileObj  = File::find('alias', $file_alias);
-		} else if($file_id != false) {
+		} else if($file_id != NULL) {
 			$fileObj = File::find('_id', $file_id);	
 		} 
 		
@@ -431,21 +456,15 @@ final class ApiController extends ControllerBase {
 	}
 	
 	public function getFolderSize() {
-		
-		$folder_id = Utils::getPOST('folder_id', false);
-		
-		if($folder_id != false) {
-			$folder  = Folder::find('_id', $folder_id);
-		}
+		$folder_id = $this->getRequestParam('folder_id', NULL);
+		$folder  = Folder::find('_id', $folder_id);
 		
 		$response = new AjaxResponse();
 		
 		if($folder != NULL) {
-			
 			$folder_size = $folder->getContentSize();
 			$response->success = true;
 			$response->message = Utils::formatBytes($folder_size);
-			
 		}
 		
 		$response->send();

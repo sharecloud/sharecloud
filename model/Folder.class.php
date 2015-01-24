@@ -7,13 +7,13 @@ final class Folder extends ModelBase {
 	 * ID
 	 * @var int
 	 */
-	private $id = 0;
+	private $id = NULL;
 	
 	/**
 	 * Parent folder ID
 	 * @var int
 	 */
-	private $pid = 0;
+	private $pid = NULL;
 	
 	/**
 	 * Name
@@ -104,7 +104,7 @@ final class Folder extends ModelBase {
 		
 		$f = $this;
         
-		while($f != NULL && $f->id != 0) {
+		while($f != NULL && $f->id != NULL) {
 			if($f->name != '') {
 				$path[] = Folder::nameToURL($f->name);
 			}
@@ -281,7 +281,7 @@ final class Folder extends ModelBase {
 	 * @return bool Result
 	 */
 	private function isSubfolderOf(Folder $folder) {
-		if($this->id == 0) {
+		if($this->id == NULL) {
 			return false;	
 		}
         
@@ -360,16 +360,12 @@ final class Folder extends ModelBase {
 	 * Gets a list of folders incl. subfolders
 	 * @return object[]
 	 */
-	public static function getAll($parent = 0, $keys = true, $exclude = array(), $prefix = ' / ') {	
+	public static function getAll($parent = NULL, $keys = true, $exclude = array(), $prefix = ' / ') {	
 		$list = array();
 		
 		// Add root folder if necessary
-		if($parent == 0) {
-			if($keys == true) {
-				$list[0] = $prefix;	
-			} else {
-				$list[] = $prefix;	
-			}
+		if($parent == NULL) {
+			$list[] = $prefix;
 		}
 		
 		$folders = Folder::find('parent', $parent);
@@ -398,19 +394,26 @@ final class Folder extends ModelBase {
 	}
 	
 	public static function find($column = '*', $value = NULL, array $options = array()) {
+		if($column == '_id' && $value === NULL) {
+			return new Folder();
+		}		
+		
 		$query = 'SELECT * FROM folders';
 		$params = array(':uid' => System::getUser()->uid);
 
-		if($column != '*' && strlen($column) > 0 && $value !== NULL) {
-			$query .= ' WHERE '.$column.' = :value AND user_ID = :uid';
-			$params[':value'] = $value;
+		if($column != '*' && strlen($column) > 0) {
+			if($value == NULL) {
+				$query .= ' WHERE '.Database::makeTableOrColumnName($column).' IS NULL AND user_ID = :uid';
+			} else {
+				$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value AND user_ID = :uid';
+				$params[':value'] = $value;
+			}
 		} else {
 			$query .= ' WHERE user_ID = :uid';	
 		}
 
 		if(isset($options['orderby']) && isset($options['sort'])) {
-			$query .= ' ORDER BY :column ' . strtoupper($options['sort']);
-			$params[':column'] = $options['orderby'];
+			$query .= ' ORDER BY '.Database::makeTableOrColumnName($options['orderby']).' ' . strtoupper($options['sort']);
 		}
 		
 		if(isset($options['limit'])) {
@@ -420,11 +423,7 @@ final class Folder extends ModelBase {
 		$sql = System::getDatabase()->prepare($query);
 		$sql->execute($params);
 		
-		if($sql->rowCount() == 0) {
-			if($column == '_id' && $value === 0) {
-				return new Folder();
-			}
-			
+		if($sql->rowCount() == 0) {			
 			return NULL;
 		} else if($sql->rowCount() == 1) {
 			$folder = new Folder();

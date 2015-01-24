@@ -120,13 +120,12 @@ final class LogEntry extends ModelBase {
 		$params = array();
 		
 		if($column != '*' && strlen($column) > 0 && $value != NULL) {
-			$query .= ' WHERE '.$column.' = :value';
+			$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value';
 			$params[':value'] = $value;
 		}
 		
 		if(isset($options['orderby']) && isset($options['sort'])) {
-			$query .= ' ORDER BY :column ' . strtoupper($options['sort']);
-			$params[':column'] = $options['orderby'];
+			$query .= ' ORDER BY '.Database::makeTableOrColumnName($options['orderby']).' ' . strtoupper($options['sort']);
 		}
 		
 		if(isset($options['limit'])) {

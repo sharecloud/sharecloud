@@ -64,7 +64,7 @@ var Uploads = {
 		fileObj.xhr = $.post(System.getHostname() + 'api/remote', {
 			'url': url,
 			'filename': filename,
-			'folder': (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : 0)
+			'folder': (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null)
 		}, function(response) {
 			Uploads.uploadCompleted(id, response);
 		});
@@ -77,6 +77,12 @@ var Uploads = {
 		fileObj.id = id;
 		fileObj.filename = file.name;
 		fileObj.size = file.size;
+
+		if(fileObj.size > System.config.maxUploadSize) {
+			System.showError(System.l10n._('ErrorFileTooBig'));
+			Uploads.currentUploads[id] = null;
+			return;
+		}
 		
 		// Check quota and then upload
 		$.getJSON(System.getHostname() + 'api/quota', { }, function(response) {
@@ -84,9 +90,7 @@ var Uploads = {
 				System.showError(System.l10n._('ErrorQuotaExceeded'));
 				Uploads.currentUploads[id] = null;
 			} else {
-				var form = new FormData();
-				form.append('file', file);
-				form.append('folder', (typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : 0));
+				var folder  =(typeof(Browser) != "undefined" ? Browser.CurrentFolderId() : null);
 				
 				fileObj.xhr = new XMLHttpRequest();
 				
@@ -101,8 +105,11 @@ var Uploads = {
 					}
 				};
 				
-				fileObj.xhr.open('POST', System.getHostname() + 'api/upload', true);
-				fileObj.xhr.send(form);
+				var endpoint = 'api/upload' + (folder != null ? '/' + folder  : '') + '/' + file.name;
+				
+				fileObj.xhr.open('PUT', System.getHostname() + endpoint, true);
+				fileObj.xhr.setRequestHeader('Content-Type', file.type);
+				fileObj.xhr.send(file);				
 				
 				Uploads.currentUploads[id] = fileObj;
 				
@@ -116,47 +123,42 @@ var Uploads = {
 			var data = $.parseJSON(data);
 			
 			if(data.success == true) {
-				// Page reload?
-				if(typeof(Browser) != null && $('.browser').attr('data-id') == data.data.folderid) {
+				if(typeof(Browser) != null) {
 					data = data.data;
 					
 					var file = Uploads.currentUploads[id];
 					
 					var html = $('.cloneable .row.file').clone().removeClass('cloneable').attr('data-alias', data.alias).attr('data-id', data.id);
-					html.find('.' + Browser.Settings.File.NameClass).html('<span class="glyphicon glyphicon-file"> </span> <a href="' + data.url + '">' + data.filename + '</a>');
+					if(data.ext != '.') {
+						html.find('.' + Browser.Settings.File.NameClass).html('<i class="fa fa-file-o"></i> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename.substring(0, data.filename.lastIndexOf('.')) + '</span><span class="ext">.' + data.ext + '</span></a>');
+					} else {
+						html.find('.' + Browser.Settings.File.NameClass).html('<i class="fa fa-file-o"></i> <a class="file" href="' + data.url + '"><span class="filename">' + data.filename + '</span></a>');
+					}
 					html.find('.' + Browser.Settings.File.SizeClass).html(System.formatBytes(data.size));
 					html.find('.' + Browser.Settings.File.NumDownloadsClass).html(data.downloads);
 					
+					var folderid = (data.folderid == null ? '' : data.folderid);
+					
 					// Insert new entry
-					if($('.browser').data('id') == data.folderid) {
-						if($('.browser .row.file:not(.upload)').length == 0) {
-							html.insertAfter('.browser .create-folder').hide().show('highlight', 1000);
-						} else {
-							var insert = null;
-							
-							if($('.browser .row.folder').length == 0) {
-								insert = $('.browser .create-folder');
-							} else {
-								insert = $('.browser .row.folder').last();	
-							}
-										
-							$('.browser .row.file:not(.upload)').each(function(index, element) {
-								if($(this).find('.' + Browser.Settings.File.NameClass + ' a').html() <= data.filename) {
-									insert = $(this);
-								}
-							});
-							
-							$('.browser .no-files').remove();
-							html.insertAfter(insert).hide().show('highlight', 1000);
-						}
+					var insert = null;
+					
+					if($('.browser[data-id=' + folderid + '] .row.folder').length == 0) {
+						insert = $('.browser[data-id=' + folderid + '] .create-folder');
+					} else {
+						insert = $('.browser[data-id=' + folderid + '] .row.folder').last();	
 					}
+								
+					$('.browser[data-id=' + folderid + '] .row.file:not(.upload)').each(function(index, element) {
+						if($(this).find('.' + Browser.Settings.File.NameClass + ' a').html() <= data.filename) {
+							insert = $(this);
+						}
+					});
+					
+					$('.browser[data-id=' + folderid + '] .no-files').remove();
+					html.insertAfter(insert).hide().show('highlight', 1000);
 					
 					System.unbindEvents();
 					System.bindEvents();
-					
-					$('.browser .no-files').hide('blind', 400, function() {
-						$(this).remove();
-					});
 				}
 			} else {
 				System.showError(data.message);	
@@ -197,7 +199,7 @@ var Uploads = {
 			
 			if(!file.inDOM) {
 				// Insert Upload
-				var html = $('#upload-progress .clonable.entry').clone().removeClass('clonable').show();
+				var html = $('#upload-progress .cloneable.entry').clone().removeClass('cloneable').show();
 				html.attr('data-upload-id', id);			
 				html.appendTo($('#upload-progress')).show();
 				

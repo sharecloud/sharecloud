@@ -10,9 +10,10 @@ final class AjaxResponse {
 	}
 	
 	public function send() {
+		header('Content-Type: application/json');
+		echo $this;
 		
-		exit($this);
-		
+		exit();
 	}
 }
 ?>

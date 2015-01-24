@@ -1,14 +1,6 @@
 <?php
 final class User extends ModelBase {
     
-    
-    /**
-     * DO NOT CHANGE ON A RUNNING SYSTEM!
-     * If you really want to change TRANCATE ALL tables before.
-     * Available algorithms you can see in your PHP configuration.
-     */
-    const HASH_ALGO = 'sha512';
-    
 	/**
 	 * User ID
 	 * @var int
@@ -120,7 +112,7 @@ final class User extends ModelBase {
 	 * @return bool Success
 	 */
 	public function login($clearPswd) {
-		if(Utils::createPasswordhash($clearPswd, $this->salt) == $this->curPassword) {
+		if(Utils::createPasswordHash($clearPswd, $this->salt) == $this->curPassword) {
 			System::getSession()->setUID($this->uid);
 				
 			$this->last_login = time();
@@ -151,8 +143,9 @@ final class User extends ModelBase {
 		if($this->isNewRecord) {
 			// TODO: Check Password!	
 			$data[':pswd'] = $this->password;
+			$data[':salt'] = $this->salt;
 			
-			$sql = System::getDatabase()->prepare('INSERT INTO users (username, firstname, lastname, email, admin, lang, quota, password, last_login, design) VALUES(:username, :firstname, :lastname, :email, :admin, :lang, :quota, :pswd, :last_login, :design)');
+			$sql = System::getDatabase()->prepare('INSERT INTO users (username, firstname, lastname, email, admin, lang, quota, password, salt, last_login, design) VALUES(:username, :firstname, :lastname, :email, :admin, :lang, :quota, :pswd, :salt, :last_login, :design)');
 			$sql->execute($data);
 			
 			$this->uid = System::getDatabase()->lastInsertId();
@@ -160,8 +153,9 @@ final class User extends ModelBase {
 			$data[':uid']	= $this->uid;
 			
 			if($this->password != NULL) {
-				$data[':pswd'] = $this->password;	
-				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, password = :pswd, last_login = :last_login, design = :design WHERE _id = :uid');
+				$data[':pswd'] = $this->password;
+				$data[':salt'] = $this->salt;	
+				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, password = :pswd, salt = :salt, last_login = :last_login, design = :design WHERE _id = :uid');
 			} else {
 				$sql = System::getDatabase()->prepare('UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, email = :email, admin = :admin, lang = :lang, quota = :quota, last_login = :last_login, design = :design WHERE _id = :uid');
 			}
@@ -199,7 +193,8 @@ final class User extends ModelBase {
 		}
 		
 		if($property == 'password' && !empty($value)) {
-			$value = Utils::createPasswordhash($value, $this->salt);
+			$this->salt = Utils::createPasswordSalt();
+			$value = Utils::createPasswordHash($value, $this->salt);
 		}
 		
 		if(property_exists($this, $property)) {
@@ -226,6 +221,13 @@ final class User extends ModelBase {
 	 * @return string Fullname
 	 */
 	public function getFullname() {
+		if(empty($this->lastname)) {
+			if(empty($this->firstname)) {
+				return '';
+			} else {
+				return trim($this->firstname);
+			}
+		}
 		return trim($this->firstname . ' ' . $this->lastname);	
 	}
 	
@@ -282,13 +284,12 @@ final class User extends ModelBase {
 		$params = array();
 		
 		if($column != '*' && strlen($column) > 0 && $value != NULL) {
-			$query .= ' WHERE '.$column.' = :value';
+			$query .= ' WHERE '.Database::makeTableOrColumnName($column).' = :value';
 			$params[':value'] = $value;
 		}
 		
 		if(isset($options['orderby']) && isset($options['sort'])) {
-			$query .= ' ORDER BY :column ' . strtoupper($options['sort']);
-			$params[':column'] = $options['orderby'];
+			$query .= ' ORDER BY '.Database::makeTableOrColumnName($options['orderby']).' ' . strtoupper($options['sort']);
 		}
 		
 		if(isset($options['limit'])) {
@@ -309,12 +310,12 @@ final class User extends ModelBase {
 			$list = array();
 			
 			while($row = $sql->fetch()) {
+
 				$user = new User();
 				$user->assign($row);
 				
 				$list[] = $user;	
 			}
-			
 			return $list;
 		}
 	}

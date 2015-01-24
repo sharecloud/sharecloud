@@ -16,7 +16,7 @@
 }
 
 .browser .row:not(.header):hover {
-	background-color: #f5f5f5 !important;	
+	background-color: #f5f5f5;	
 }
 
 .browser .row.header {
@@ -45,11 +45,47 @@
 	overflow:hidden;
 }
 
+.browser .column.filename a {
+	padding-left: 8px;
+	color: black;
+}
+
+.browser .column.filename a.file {
+	text-decoration:none;
+}
+
+.browser .column.filename a.file:hover span.filename {
+	text-decoration: underline;
+}
+
+.browser .column.filename a.file .ext {
+	color: #888;
+	padding-left: 2px;
+	font-style: italic;
+}
+
+.browser .column.filename a.folder {
+	color: #505050;
+}
+
 .browser .column.num-downloads {
 	width:100px;
 	float:right;
 }
 
+.browser .file .column.num-downloads > span {
+	width: 25%;
+	display: inline-block;
+}
+
+.browser .file .column.num-downloads > span:last-of-type {
+	text-align: right;
+	width:33%;
+}
+
+.browser .folder .column.num-downloads {
+	text-align: right;
+}
 .browser .column.size {
 	width:120px;
 	float:right;	
@@ -73,7 +109,7 @@
 }
 
 .browser .row.selected {
-	background:rgb(240, 240, 240) !important;	
+	background:rgb(235, 235, 235) !important;	
 }
 
 .browser .row .form-rename input {
@@ -89,6 +125,11 @@
 	background:url('../images/ajax-loader.gif') 2px 50% no-repeat;
 }
 
+.browser .row.folder.drop-hover {
+	font-weight:bold;
+	background:#ffff99;	
+}
+
 .browser p.no-files {
 	padding:7px;
 	margin:0px;	
@@ -97,13 +138,8 @@
 .dragHelper {
 	padding:10px;
 	border:1px solid #ccc;
-	background:#fff;	
-}
-
-
-.drop-hover {
-	font-weight:bold;
-	background:#ffff99;	
+	background:#fff;
+	z-index:9999;
 }
 
 .breadcrumb {
@@ -111,6 +147,16 @@
 	margin: 0;
 	background-color:inherit;
 	border-radius: 0;
+}
+
+.breadcrumb li a {
+	padding: .1em .3em .15em;
+}
+
+.breadcrumb li.drop-hover a {
+	color: #fff;
+	border-radius: .25em;
+	background-color: #428bca;
 }
 
 .cloneable {
