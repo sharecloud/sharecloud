@@ -10,35 +10,14 @@ This guide was successfully tested on Ubuntu 14.04 LTS.
 	
 ## Configure nginx to use PHP FPM
 
-We need to tell nginx to use PHP FPM.
+We need to tell nginx to use PHP FPM. Instead of `sharecloud-ssl` you can also use `sharecloud` which disables HTTPS support (this is highly discouraged).
 
-	$ sudo nano /etc/nginx/sites-available/default`
+	$ sudo cp support/nginx/sharecloud-ssl /etc/nginx/sites-available/sharecloud-ssl
+	$ sudo ln -s /etc/nginx/sites-available/sharecloud-ssl /etc/nginx/sites-enabled/sharecloud-ssl
 
-In this file, modify the `location ~ \.php$` section as follow:
-	
-	location ~ [^/]\.php(/|$) {
-			fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-			if (!-f $document_root$fastcgi_script_name) {
-					return 404;
-			}
-			
-			# With php5-cgi alone:
-			# fastcgi_pass 127.0.0.1:9000;
-			# With php5-fpm:
-			fastcgi_pass unix:/var/run/php5-fpm.sock;
-			fastcgi_index index.php;
-			include fastcgi_params;
-	}
-	
-Source: [http://wiki.nginx.org/PHPFcgiExample](http://wiki.nginx.org/PHPFcgiExample)
+Then modify the configuration file to feed your needs:
 
-Note: in our configuration `cgi.fix_pathinfo` was not set (which means its value is set to 1) in our `php.ini`.
-
-For security reasons, you should uncomment (or add) the following section:
-
-	location ~ /\.ht {
-		deny all;
-	}
+	$ sudo nano /etc/nginx/sites-available/sharecloud-ssl
 	
 ## Restart nginx and PHP FPM
 
