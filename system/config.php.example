@@ -57,6 +57,14 @@ define('DATABASE_USER', '');
 define('DATABASE_PASS', '');
 define('DATABASE_NAME', '');
 
+/**
+ * If you want to use a socket
+ * connection, pass the path
+ * to the socket in here
+ * otherwise leave this field empty
+ */
+define('DATABASE_SOCKET', '');
+
 // sry we do not support this at this time :/
 // define('DATABASE_PREFIX', '');
 
