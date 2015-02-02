@@ -1,0 +1,38 @@
+server {
+	listen 80;
+	listen [::]:80 ipv6only=on;
+
+	server_name YOUR_FQDN; <- modify this
+
+	root /var/www/sharecloud/; <- modify this
+	index index.php;
+
+	location / {
+		try_files $uri $uri/ index.php;
+	}
+
+	location ~ ^(.+?\.php)(/.*)?$ {
+		try_files $1 = 404;
+
+		include fastcgi_params;
+		fastcgi_param   PATH_INFO         $2;
+		fastcgi_param   SCRIPT_FILENAME   $document_root$1;
+		fastcgi_param HTTPS on;
+		
+		# With php5-cgi alone:
+		# fastcgi_pass 127.0.0.1:9000;
+		# With php5-fpm:
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
+	}
+
+	# deny access to .htaccess files
+	location ~ /\.ht {
+		deny all;
+	}
+
+	# deny access to upload directory
+	location ~ /uploads {
+		deny all;
+		return 404;
+	}
+}
