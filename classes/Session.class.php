@@ -101,7 +101,7 @@ final class Session {
 			':data'	=> serialize($this->data)
 		));
 		
-		setcookie(SESSION_NAME, $this->sid, 0, '/', $_SERVER['HTTP_HOST'], false, true); 
+		setcookie(SESSION_NAME, $this->sid, 0, HOST_PATH, HOST_NAME, HTTPS, true); 
 	}
 	
 	/**
