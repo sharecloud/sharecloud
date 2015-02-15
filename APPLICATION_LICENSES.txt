@@ -7,3 +7,4 @@ highlight.js - BSD License
 mediaelementjs - MIT License
 bootstrap - MIT License
 parsedown - MIT License
+Font Awesome by Dave Gandy - http://fontawesome.io
