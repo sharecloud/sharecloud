@@ -8,7 +8,7 @@ Currently we support all webspace servers, virtual servers (vServer) and all roo
 
 * PHP 5.3.2+
 * MySQL 5+ (or MariaDB)
-* Apache 2 Webserver (other servers are not officially supported but should work with some tweaks)
+* Apache 2.x or nginx (other servers are not officially supported but should work with some tweaks)
 
 Optional
 * php-imagick
