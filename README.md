@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/sharecloud/sharecloud/badges/gpa.svg)](https://codeclimate.com/github/sharecloud/sharecloud)
+
 # sharecloud
 
 sharecloud is a PHP project to provide filehosting features for private users and their friends.
