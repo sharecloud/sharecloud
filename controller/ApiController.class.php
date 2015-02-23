@@ -12,7 +12,8 @@ final class ApiController extends ControllerBase {
 		
 		if($this->method == 'get' || $this->method == 'post') {	
 			// Check content-type
-			if($this->method == 'post' && $_SERVER['CONTENT_TYPE'] != 'application/json') {
+			$content_type = explode(';', $_SERVER['CONTENT_TYPE']);
+			if($this->method == 'post' && $content_type[0] != 'application/json') {
 				System::displayError('Content type must be set to "application/json"', '400 Bad Request');
 			}
 			
