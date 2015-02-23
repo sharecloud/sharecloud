@@ -3,7 +3,7 @@
 
 <nav class="navbar navbar-default filenav">
 	<div class="container-fluid">
-        {if $LoggedIn}
+        {if $LoggedIn && $file->uid == $User->uid}
         <a href="{Router->build p1='BrowserController' p2='permissions' p3=$file}" class="btn btn-default btn-sm navbar-btn button-filepermissions" role="button"  data-noajax="true">
             <i class="fa fa-share"></i> {'PermissionSetting'|@lang}
         </a>	
