@@ -721,7 +721,7 @@ final class File extends ModelBase {
 				$params[':value'] = $value;
 			}
 			
-			if(System::getUser() != NULL && $column != 'user_ID') {
+			if(!isset($options['get_all_files']) && System::getUser() != NULL && $column != 'user_ID') {
 				$query .= ' AND user_ID = :uid';
 				$params[':uid'] = System::getUser()->uid;	
 			}

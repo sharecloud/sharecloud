@@ -7,7 +7,7 @@ final class DownloadController extends ControllerBase {
 			return;	
 		}
 		
-		$this->file = File::find('alias', $this->getParam('alias', ''));
+		$this->file = File::find('alias', $this->getParam('alias', ''), array('get_all_files' => true));
 		
 		if($this->file == NULL) {
 			System::displayError(System::getLanguage()->_('ErrorFileNotFound') , '404 Not Found');
@@ -35,7 +35,6 @@ final class DownloadController extends ControllerBase {
                 }
             }
         }
-        
 	}
 	
 	public function show() {
