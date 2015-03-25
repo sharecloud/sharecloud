@@ -166,7 +166,7 @@ final class File extends ModelBase {
 	}
 	
 	public function save() {
-		if($this->readonly == true) {
+		if($this->readonly == true && !System::getUser()->isAdmin) {
 			throw new NotAuthorisedException();
 		}
 		
@@ -221,7 +221,7 @@ final class File extends ModelBase {
 	 * Deletes a file
 	 */
 	public function delete() {
-		if($this->readonly) {
+		if($this->readonly && !System::getUser()->isAdmin) {
 			throw new NotAuthorisedException();
 		}
 		
@@ -233,6 +233,10 @@ final class File extends ModelBase {
 		} else {
 			throw new FilesystemException();
 		}
+	}
+
+	public function verifyPassword($password){
+		return Utils::createPasswordHash($password, $this->salt) == $this->password;
 	}
 	
 	/**
@@ -717,7 +721,7 @@ final class File extends ModelBase {
 				$params[':value'] = $value;
 			}
 			
-			if(System::getUser() != NULL) {
+			if(!isset($options['get_all_files']) && System::getUser() != NULL && $column != 'user_ID') {
 				$query .= ' AND user_ID = :uid';
 				$params[':uid'] = System::getUser()->uid;	
 			}

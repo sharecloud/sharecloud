@@ -5,14 +5,14 @@ final class DatabaseCheck extends Check {
 	}
 	
 	public function performCheck() {
-		if(!defined('DATABASE_HOST') || !defined('DATABASE_USER') || !defined('DATABASE_PASS') || !defined('DATABASE_NAME')) {
+		if((!defined('DATABASE_HOST') && !defined('DATABASE_SOCKET')) || !defined('DATABASE_USER') || !defined('DATABASE_PASS') || !defined('DATABASE_NAME')) {
 			$this->result = CheckResult::FAIL;
 			return;	
 		}
 		
-		if(DATABASE_HOST == '') {
+		if(DATABASE_HOST == '' && DATABASE_SOCKET == '') {
 			$this->result = CheckResult::FAIL;	
-			$this->message = '<p>Please specify a database host</p>';
+			$this->message = '<p>Please specify a database host or socket</p>';
 			return;
 		}
 		
@@ -23,7 +23,11 @@ final class DatabaseCheck extends Check {
 		}
 		
 		try {
-			$db = new Database('mysql:host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
+			if(defined('DATABASE_SOCKET') && !empty(DATABASE_SOCKET)) {
+				$db = new Database('mysql:unix_socket='.DATABASE_SOCKET, DATABASE_USER, DATABASE_PASS);
+			} else {
+				$db = new Database('mysql:host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
+			}
 			
 			// Does the database already exist?
 			$sql = $db->prepare('SHOW DATABASES LIKE \''.DATABASE_NAME.'\'');

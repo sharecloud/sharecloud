@@ -43,7 +43,13 @@ final class System {
 	public static function init() {
 		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
-		self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
+		
+		if(defined('DATABASE_SOCKET') && DATABASE_SOCKET != '') {
+			self::$database = new Database('mysql:dbname='.DATABASE_NAME.';unix_socket='.DATABASE_SOCKET, DATABASE_USER, DATABASE_PASS);
+		} else {
+			self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
+		}
+		
 		self::$session = new Session();
 		self::$user = (System::getSession()->getUID() != NULL ? User::find('_id', System::getSession()->getUID()) : NULL);
 		self::$language = new L10N(System::getUser() != NULL ? System::getUser()->lang : LANGUAGE);
