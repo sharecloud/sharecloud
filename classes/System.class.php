@@ -44,7 +44,7 @@ final class System {
 		self::redirectHTTPS();		
 		Router::getInstance()->init(HOST_PATH, MOD_REWRITE);
 		
-		if(defined('DATABASE_SOCKET') && !empty(DATABASE_SOCKET)) {
+		if(defined('DATABASE_SOCKET') && DATABASE_SOCKET != '') {
 			self::$database = new Database('mysql:dbname='.DATABASE_NAME.';unix_socket='.DATABASE_SOCKET, DATABASE_USER, DATABASE_PASS);
 		} else {
 			self::$database = new Database('mysql:dbname='.DATABASE_NAME.';host='.DATABASE_HOST, DATABASE_USER, DATABASE_PASS);
